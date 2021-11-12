@@ -23,7 +23,6 @@ class MyGridLayout(GridLayout):
         self.tony = Label(text='I naa hee')
 
     def press(self, instance):
-        # self.daeng.text = 'I naa hee'
         if self.bool is False:
             self.bool = True
         else:
@@ -38,5 +37,6 @@ class PongApp(App):
         return MyGridLayout()
 
 if __name__ == '__main__':
+    name = 'Wanwai'
     app = PongApp()
     app.run()
