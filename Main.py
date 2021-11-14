@@ -1,6 +1,5 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.uix.gridlayout import GridLayout
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
 from kivy.uix.button import Button
@@ -9,7 +8,6 @@ Builder.load_file('main.kv')
 #Load Song
 soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
 sound = SoundLoader.load(soundpath)
-sound.play()
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
