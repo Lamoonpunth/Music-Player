@@ -1,19 +1,25 @@
-from operator import truediv
+from sys import setprofile
+from typing import Text
 from kivy.app import App
-from kivy.core import text
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.core.audio import SoundLoader
-from kivy.lib.gstplayer import GstPlayer, get_gst_version
+from kivy.properties import ObjectProperty
+from kivy.lang import Builder
 soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
-
 sound = SoundLoader.load(soundpath)
+sound.play()
+#Load KV file
+Builder.load_file('Pong.kv')
 
 class MainWidget(Widget):
-    pass
- 
+    def slide_it(self, *args):
+        self.slide_text.text = str(int(args[1]))
+        self.slide_text.font_size = str(int(args[1]))
+        sound.volume = float(args[1])/100
+
 class MyGridLayout(GridLayout):
     def __init__(self, **kwargs):
         super(MyGridLayout, self).__init__(**kwargs)
@@ -37,15 +43,14 @@ class MyGridLayout(GridLayout):
         else:
             self.bool = False
             sound.stop()
-            print(sound.get_pos())
-        if self.bool is True:
-            self.add_widget(self.tony)
-        elif self.bool is False:
-            self.remove_widget(self.tony)
+        # if self.bool is True:
+        #     self.add_widget(self.tony)
+        # elif self.bool is False:
+        #     self.remove_widget(self.tony)    
 
 class PongApp(App):
     def build(self):
-        return MyGridLayout()
+        return MainWidget()
 
 if __name__ == '__main__':
     app = PongApp()

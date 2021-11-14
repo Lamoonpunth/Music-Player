@@ -1,5 +1,21 @@
-#:kivy 2.0.0
-MainWidget:
+# :kivy 2.0.0
 <MainWidget>
-    Label:
-        text:'555555'
+    slide_text: slider_label
+    BoxLayout:
+
+        orientation: "vertical"
+        size: root.width,root.height
+
+        Label:
+
+            id: slider_label
+            text: ""
+            font_size: 32
+
+        Slider:
+
+            min: 0
+            max: 100
+            step: 1
+            orientation:"horizontal"            
+            on_value: root.slide_it(*args)
