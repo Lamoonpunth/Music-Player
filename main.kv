@@ -1,7 +1,45 @@
-#:kivy 2.0.0
-MainWidget:
-<MainWidget>
-    Button:
-        text:'Hello'
-        size: "400dp","200dp"
-        
+# :kivy 2.0.0
+<MainGridLayout>
+    submit:submit
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width,root.height
+        # spacing: 20
+        BoxLayout:
+            size: root.width,3*root.height/4
+            orientation: 'horizontal'
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: (0.3,1)
+                Button:
+                    text:'Playlist'
+            BoxLayout:
+                orientation: 'horizontal'
+                Button:
+                    text:'Song List'                  
+        BoxLayout:
+            size_hint: (1,0.2)
+            orientation: 'vertical'
+            size: root.width,root.height/4
+            BoxLayout:
+                orientation: 'horizontal'
+                BoxLayout:
+                    Button:
+                        text: 'Name'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Button:
+                            id:submit
+                            text: 'Start/Stop'
+                        Slider:
+                            min: 0
+                            max: 100
+                            step: 1
+                            orientation:"horizontal"            
+                            on_value: root.seek(*args)
+                    Slider:
+                        min: 0
+                        max: 100
+                        step: 1
+                        orientation:"horizontal"            
+                        on_value: root.slide_it(*args)

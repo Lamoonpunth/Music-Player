@@ -1,13 +1,11 @@
-from sys import setprofile
-from typing import Text
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.core.audio import SoundLoader
-from kivy.properties import ObjectProperty
 from kivy.lang import Builder
+
 soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
 sound = SoundLoader.load(soundpath)
 sound.play()
@@ -33,6 +31,7 @@ class MyGridLayout(GridLayout):
         self.add_widget(self.submit)
         self.bool = False
         self.tony = Label(text='now playing : '+soundpath)
+        self.add_widget(MainWidget())
 
     def press(self, instance):
         # self.daeng.text = 'I naa hee'
@@ -51,7 +50,7 @@ class MyGridLayout(GridLayout):
 
 class PongApp(App):
     def build(self):
-        return MainWidget()
+        return MyGridLayout()
 
 if __name__ == '__main__':
     app = PongApp()
