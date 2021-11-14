@@ -1,5 +1,6 @@
 # :kivy 2.0.0
 <MainGridLayout>
+    submit:submit
     BoxLayout:
         orientation: 'vertical'
         size: root.width,root.height
@@ -28,6 +29,7 @@
                     BoxLayout:
                         orientation: 'vertical'
                         Button:
+                            id:submit
                             text: 'Start/Stop'
                         Slider:
                             min: 0

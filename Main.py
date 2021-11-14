@@ -15,6 +15,7 @@ class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.start_stop.bind(on_press=self.press)
+        self.submit.bind(on_press=self.press)
         self.bool = False
 
     def slide_it(self, *args):
@@ -22,13 +23,6 @@ class MainGridLayout(Widget):
 
     def seek(self, *args):
         pass
-
-class MainWidget(Widget):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.submit = Button(text='Play/Stop')
-        self.submit.bind(on_press=self.press)
-        self.bool = False
 
     def press(self, instance):
             if self.bool is False:
@@ -41,6 +35,10 @@ class MainWidget(Widget):
                 self.submit = Button(text='Stop')
                 self.bool = False
                 sound.stop()
+
+class MainWidget(Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 class MainApp(App):
     def build(self):
