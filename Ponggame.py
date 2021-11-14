@@ -6,7 +6,10 @@ from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.core.audio import SoundLoader
-sound = SoundLoader.load('Arizona Zervas - ROXANNE (Official Video).mp3')
+from kivy.lib.gstplayer import GstPlayer, get_gst_version
+soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
+
+sound = SoundLoader.load(soundpath)
 
 class MainWidget(Widget):
     pass
@@ -22,16 +25,19 @@ class MyGridLayout(GridLayout):
         self.submit.bind(on_press=self.press)
         self.add_widget(self.submit)
         self.bool = False
-        self.tony = Label(text='I naa hee')
+        self.tony = Label(text='now playing : '+soundpath)
 
     def press(self, instance):
         # self.daeng.text = 'I naa hee'
         if self.bool is False:
             self.bool = True
             sound.play()
+            sound.seek(10)
+            print(sound.length)
         else:
             self.bool = False
             sound.stop()
+            print(sound.get_pos())
         if self.bool is True:
             self.add_widget(self.tony)
         elif self.bool is False:
