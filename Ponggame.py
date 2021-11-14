@@ -22,6 +22,7 @@ class MainWidget(Widget):
 
 class MyGridLayout(GridLayout):
     def __init__(self, **kwargs):
+        MainWidget
         super(MyGridLayout, self).__init__(**kwargs)
         self.rows = 2
         self.cols = 2
