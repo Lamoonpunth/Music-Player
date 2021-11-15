@@ -7,8 +7,26 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.clock import Clock
+from threading import Thread
+from playlist import playlist
+from playingqueue import playingqueue
+fullpath=[]
+f = open("yoursongpath.txt", "r+")
+for x in f:
+    if x[-1:] == "\n":
+        x=x[:-1]
+    fullpath.append(x)
+print(fullpath)
+f.close()
+
+yoursong = playlist(fullpath)
+queue = playingqueue()
+print (yoursong)
+
+
 #Load KV File
 Builder.load_file('main.kv')
+
 #Load Song
 soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
 sound = SoundLoader.load(soundpath)
@@ -27,11 +45,16 @@ class MainGridLayout(Widget):
     def seek(self, *args):
         print (sound.state)
         print (sound.length)
+        if float(args[1])-self.ids.playtime.value<5:
+            pass
         if (sound.state=='play'):
             print(args[1])
-            sound.seek(float(args[1])*sound.length/1000)
+            sound.seek(float(args[1])*sound.length/10000)
         else:
-            pass
+            print(args[1])
+            sound.play()
+            sound.seek(float(args[1])*sound.length/10000)
+            sound.stop()
 
     def press(self, instance):
             if self.bool is False:
@@ -44,7 +67,7 @@ class MainGridLayout(Widget):
                 sound.stop()
 
     def playtimeUpdate(self):
-        value=int(sound.get_pos()*1000/sound.length)
+        value=int(sound.get_pos()*10000/sound.length)
         self.ids.playtime.value=value
 
 class MainWidget(Widget):
