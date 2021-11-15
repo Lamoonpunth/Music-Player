@@ -6,6 +6,7 @@ from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
+from kivy.uix.textinput import TextInput
 from kivy.clock import Clock
 from threading import Thread
 from playlist import playlist
