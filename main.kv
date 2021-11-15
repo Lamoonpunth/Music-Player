@@ -1,10 +1,12 @@
-# :kivy 2.0.0
+#:kivy 2.0.0
 <MainGridLayout>
     submit:submit
+    
     BoxLayout:
         orientation: 'vertical'
         size: root.width,root.height
         # spacing: 20
+
         BoxLayout:
             size: root.width,3*root.height/4
             orientation: 'horizontal'
@@ -12,7 +14,11 @@
                 orientation: 'horizontal'
                 size_hint: (0.3,1)
                 Button:
-                    text:'Playlist'
+                    pos_hint: {"center_x" : 0.5}            
+                    text:'Playlist'   
+                TextInput:
+                    size_hint:(1,0.2)
+         
             BoxLayout:
                 orientation: 'horizontal'
                 Button:
@@ -34,7 +40,7 @@
                         Slider:
                             id: playtime
                             min: 0
-                            max: 1000
+                            max: 10000
                             step: 1
                             value: 0
                             orientation:"horizontal"            
