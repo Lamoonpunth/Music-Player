@@ -22,13 +22,13 @@ f.close()
 yoursong = playlist(fullpath)
 queue = playingqueue()
 print (yoursong)
-
-
+queue.chooseplaylist(yoursong)
+queue.addfromqueue()
 #Load KV File
 Builder.load_file('main.kv')
 
 #Load Song
-soundpath = "Arizona Zervas - ROXANNE (Official Video).mp3"
+soundpath = queue.nowplaying
 sound = SoundLoader.load(soundpath)
 
 class MainGridLayout(Widget):
