@@ -20,55 +20,72 @@ print(fullpath)
 f.close()
 
 yoursong = playlist(fullpath)
-queue = playingqueue()
-print (yoursong)
-queue.chooseplaylist(yoursong)
-queue.addfromqueue()
 #Load KV File
 Builder.load_file('main.kv')
 
-#Load Song
-soundpath = queue.nowplaying
-sound = SoundLoader.load(soundpath)
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.start_stop.bind(on_press=self.press)
         self.submit.bind(on_press=self.press)
+        self.next.bind(on_press=self.nextpress)
+        self.prev.bind(on_press=self.prevpress)
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 1)
-
+        self.queue = playingqueue()
+        print(yoursong)
+        self.queue.chooseplaylist(yoursong)
+        self.queue.addfromqueue()
+        #Load Song
+        self.soundpath = self.queue.nowplaying
+        print(self.queue.nowplaying)
+        self.sound = SoundLoader.load(self.soundpath)
+        self.ids.song_name.text=self.soundpath
     def slide_it(self, *args):
-        sound.volume = float(args[1])/100
+        self.sound.volume = float(args[1])/100
 
     def seek(self, *args):
         #print (sound.state)
         #print (sound.length)
-        if float(args[1])*sound.length/10000-sound.get_pos()<5 and float(args[1])*sound.length/10000-sound.get_pos()>-5:
+        if float(args[1]>=9990):
+            self.nextpress("instance")
+            return
+        if float(args[1])*self.sound.length/10000-self.sound.get_pos()<5 and float(args[1])*self.sound.length/10000-self.sound.get_pos()>-5:
             return
         else:
-            if (sound.state=='play'):
-                print(args[1])
-                sound.seek(float(args[1])*sound.length/10000)
+            if (self.sound.state=='play'):
+                self.sound.seek(float(args[1])*self.sound.length/10000)
             else:
-                print(args[1])
-                sound.play()
-                sound.seek(float(args[1])*sound.length/10000)
-                sound.stop()
+                self.sound.play()
+                self.sound.seek(float(args[1])*self.sound.length/10000)
+                self.sound.stop()
 
     def press(self, instance):
             if self.bool is False:
                 self.submit = Button(text='Play')
                 self.bool = True
-                sound.play()
+                self.sound.play()
             else:
                 self.submit = Button(text='Stop')
                 self.bool = False
-                sound.stop()
+                self.sound.stop()
+    def nextpress(self,instance):
+        if self.queue.isEmpty():
+            print("QueueIsEmpty")
+            return
+        self.sound.stop()
+        self.queue.addfromqueue()
+        self.soundpath = self.queue.nowplaying
+        self.sound = SoundLoader.load(self.soundpath)
+        self.ids.song_name.text=self.soundpath
+        self.sound.play()
+        self.playtimeUpdate()
+    def prevpress(self,instance):
+        pass
 
     def playtimeUpdate(self):
-        value=int(sound.get_pos()*10000/sound.length)
+        value=int(self.sound.get_pos()*10000/self.sound.length)
         self.ids.playtime.value=value
 
 class MainWidget(Widget):

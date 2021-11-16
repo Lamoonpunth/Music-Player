@@ -4,8 +4,10 @@ class playingqueue(list):
         self.musicqueue=[]
         self.nowplaying=""
     def dequeue(self):
+        if self.isEmpty():
+            return ""
         temp=self.musicqueue[0]
-        self.musicqueue.pop()
+        self.musicqueue.pop(0)
         return temp
     def enqueue(self,path):
         self.musicqueue.append(path)
@@ -13,6 +15,8 @@ class playingqueue(list):
         self.nowplaying=self.dequeue()
     def chooseplaylist(self,playlist):
         self.musicqueue=playlist.playlist.copy()
+    def isEmpty(self):
+        return len(self.musicqueue)==0
     def __str__(self):
         str=""
         for i in self.musicqueue:
