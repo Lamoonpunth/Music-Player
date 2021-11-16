@@ -36,9 +36,17 @@
                     BoxLayout:
                         size_hint: (1.5,1)
                         orientation: 'vertical'
-                        Button:
-                            id:submit
-                            text: 'Start/Stop'
+                        BoxLayout:
+                            orientation:'horizontal'
+                            Button:
+                                id:prev
+                                text:'Previous'
+                            Button:
+                                id:submit
+                                text: 'Start/Stop'
+                            Button:
+                                id:next
+                                text:'Next'
                         Slider:
                             id: playtime
                             min: 0
