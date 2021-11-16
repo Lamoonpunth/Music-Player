@@ -30,9 +30,11 @@
             BoxLayout:
                 orientation: 'horizontal'
                 BoxLayout:
-                    Button:
-                        text: 'Name'
+                    Label:
+                        id:song_name
+                        text:'Song name'
                     BoxLayout:
+                        size_hint: (1.5,1)
                         orientation: 'vertical'
                         Button:
                             id:submit

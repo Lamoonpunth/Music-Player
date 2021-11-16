@@ -11,7 +11,7 @@ from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 fullpath=[]
-f = open("yoursongpath.txt", "r+")
+f = open("yoursongpath.txt", "r+") 
 for x in f:
     if x[-1:] == "\n":
         x=x[:-1]
