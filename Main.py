@@ -10,6 +10,9 @@ from kivy.clock import Clock
 from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
+#Load KV File
+Builder.load_file('main.kv')
+
 fullpath=[]
 f = open("yoursongpath.txt", "r+") 
 for x in f:
@@ -20,8 +23,7 @@ print(fullpath)
 f.close()
 
 yoursong = playlist(fullpath)
-#Load KV File
-Builder.load_file('main.kv')
+
 
 
 class MainGridLayout(Widget):
@@ -42,6 +44,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.soundpath
+
     def slide_it(self, *args):
         self.sound.volume = float(args[1])/100
 
@@ -94,6 +97,8 @@ class MainWidget(Widget):
 
 class MainApp(App):
     def build(self):
+        self.title = 'Wanwai Player'
+        self.icon = '5555555.png'
         return MainGridLayout()
 
 

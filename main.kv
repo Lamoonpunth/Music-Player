@@ -1,6 +1,7 @@
 #:kivy 2.0.0
 <MainGridLayout>
     submit:submit
+    slide_volume:slide_volume
     prev:prev
     next:next
     BoxLayout:
@@ -33,7 +34,7 @@
                 BoxLayout:
                     Label:
                         id:song_name
-                        text:'Song name'
+                        text:''
                     BoxLayout:
                         size_hint: (1.5,1)
                         orientation: 'vertical'
@@ -57,9 +58,10 @@
                             orientation:"horizontal"            
                             on_value: root.seek(*args)
                     Slider:
+                        id: slide_volume
                         min: 0
                         max: 100
                         step: 1
-                        value:100
+                        value: 100
                         orientation:"horizontal"            
                         on_value: root.slide_it(*args)
