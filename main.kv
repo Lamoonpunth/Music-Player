@@ -4,6 +4,10 @@
     slide_volume:slide_volume
     prev:prev
     next:next
+    canvas:
+        Rectangle:
+            size:self.size
+            pos:self.pos
     BoxLayout:
         orientation: 'vertical'
         size: root.width,root.height
@@ -34,7 +38,8 @@
                 BoxLayout:
                     Label:
                         id:song_name
-                        text:''
+                        text:'Song name'
+                        color:0,0,0,1
                     BoxLayout:
                         size_hint: (1.5,1)
                         orientation: 'vertical'

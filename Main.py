@@ -88,6 +88,7 @@ class MainGridLayout(Widget):
         pass
 
     def playtimeUpdate(self):
+        print(self.ids.playtime.value_pos)
         value=int(self.sound.get_pos()*10000/self.sound.length)
         self.ids.playtime.value=value
 
