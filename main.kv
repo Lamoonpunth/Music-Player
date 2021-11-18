@@ -1,7 +1,13 @@
 #:kivy 2.0.0
 <MainGridLayout>
     submit:submit
-    
+    slide_volume:slide_volume
+    prev:prev
+    next:next
+    canvas:
+        Rectangle:
+            size:self.size
+            pos:self.pos
     BoxLayout:
         orientation: 'vertical'
         size: root.width,root.height
@@ -30,13 +36,24 @@
             BoxLayout:
                 orientation: 'horizontal'
                 BoxLayout:
-                    Button:
-                        text: 'Name'
+                    Label:
+                        id:song_name
+                        text:'Song name'
+                        color:0,0,0,1
                     BoxLayout:
+                        size_hint: (1.5,1)
                         orientation: 'vertical'
-                        Button:
-                            id:submit
-                            text: 'Start/Stop'
+                        BoxLayout:
+                            orientation:'horizontal'
+                            Button:
+                                id:prev
+                                text:'Previous'
+                            Button:
+                                id:submit
+                                text: 'Start/Stop'
+                            Button:
+                                id:next
+                                text:'Next'
                         Slider:
                             id: playtime
                             min: 0
@@ -46,9 +63,10 @@
                             orientation:"horizontal"            
                             on_value: root.seek(*args)
                     Slider:
+                        id: slide_volume
                         min: 0
                         max: 100
                         step: 1
-                        value:100
+                        value: 100
                         orientation:"horizontal"            
                         on_value: root.slide_it(*args)
