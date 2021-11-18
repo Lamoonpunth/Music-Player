@@ -24,8 +24,6 @@ f.close()
 
 yoursong = playlist(fullpath)
 
-
-
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -65,14 +63,14 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
-            if self.bool is False:
-                self.submit = Button(text='Play')
-                self.bool = True
-                self.sound.play()
-            else:
-                self.submit = Button(text='Stop')
-                self.bool = False
-                self.sound.stop()
+        if self.bool is False:
+            self.submit = Button(text='Play')
+            self.bool = True
+            self.sound.play()
+        else:
+            self.submit = Button(text='Stop')
+            self.bool = False
+            self.sound.stop()
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
@@ -99,9 +97,8 @@ class MainWidget(Widget):
 class MainApp(App):
     def build(self):
         self.title = 'Wanwai Player'
-        self.icon = '5555555.png'
+        self.icon = 'Icon/title.png'
         return MainGridLayout()
-
 
 if __name__ == "__main__":
     MainApp().run()
