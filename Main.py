@@ -90,6 +90,7 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume
         self.playtimeUpdate()
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
@@ -102,6 +103,7 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
