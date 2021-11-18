@@ -46,7 +46,8 @@ class MainGridLayout(Widget):
         self.volume = 0.25
 
     def slide_it(self, *args):
-        self.sound.volume = float(args[1])/100
+        self.volume = float(args[1]/100)
+        self.sound.volume = self.volume
 
     def seek(self, *args):
         #print (sound.state)
