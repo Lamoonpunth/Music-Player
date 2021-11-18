@@ -11,6 +11,9 @@ from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
+from kivy.core.text import LabelBase
+#Add Font
+LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
 Builder.load_file('main.kv')
 
@@ -43,7 +46,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
+        self.ids.song_name.font_name = 'sf'
         self.volume = 0.25
 
     def slide_it(self, *args):
