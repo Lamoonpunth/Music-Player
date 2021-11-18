@@ -25,7 +25,6 @@ f.close()
 yoursong = playlist(fullpath)
 
 
-
 class MainGridLayout(Widget):    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
