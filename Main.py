@@ -10,6 +10,7 @@ from kivy.clock import Clock
 import threading
 from playlist import playlist
 from playingqueue import playingqueue
+
 #Load KV File
 Builder.load_file('main.kv')
 
@@ -83,6 +84,7 @@ class MainGridLayout(Widget):
         self.ids.song_name.text=self.soundpath
         self.sound.play()
         self.playtimeUpdate()
+        
     def prevpress(self,instance):
         pass
 
