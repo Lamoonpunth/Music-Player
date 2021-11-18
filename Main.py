@@ -53,17 +53,18 @@ class MainGridLayout(Widget):
     def seek(self, *args):
         #print (sound.state)
         #print (sound.length)
-        if float(args[1]>=9990):
+        if args[1]>=9990:
             self.nextpress("instance")
             return
-        if float(args[1])*self.sound.length/10000-self.sound.get_pos()<5 and float(args[1])*self.sound.length/10000-self.sound.get_pos()>-5:
+        if args[1]*self.sound.length/10000-self.sound.get_pos()<5 and args[1]*self.sound.length/10000-self.sound.get_pos()>-5:
             return
         else:
             if (self.sound.state=='play'):
-                self.sound.seek(float(args[1])*self.sound.length/10000)
+                print(args[1])
+                self.sound.seek(args[1]*self.sound.length/10000)
             else:
                 self.sound.play()
-                self.sound.seek(float(args[1])*self.sound.length/10000)
+                self.sound.seek(args[1]*self.sound.length/10000)
                 self.sound.stop()
 
     def press(self, instance):
