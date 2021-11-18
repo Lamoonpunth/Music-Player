@@ -23,11 +23,50 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint: (0.3,1)
+                
+                Label:
+                    text:''
+                    size_hint: 1,0.05
+
                 TextInput:
+                    size_hint:(1,0.1)
+                    text: 'Search'
+                Label:
+                    text: ''
+                    size_hint:(1,0.05)
+                BoxLayout:
+                    orientation: 'vertical'
+                    #  playlist
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1,0.1
+                        Label:
+                            pos_hint: {"center_x" : .5}            
+                            text:'Playlist'
+                            size_hint: .1,0.55
+                            color: 0,0,0,1
+                        Label:
+                            text:''
+                            size_hint: .15,0.55
+                        Button:
+                            text:''
+                            size_hint: .035,0.55
+                            background_color: 0,0,0,0
+                            Image:
+                                source: 'archive/icon/playlist.png'
+                                pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                                size: self.parent.width,self.parent.height
+                        
+                    Label:
+                        text:''
+                        size_hint: 1,.8
+
+                Label:
+                    text:''
+                    size_hint: 1,1
+                
+                
                     size_hint:(1,0.2)
-                Button:
-                    pos_hint: {"center_x" : 0.5}            
-                    text:'Playlist'   
 
             # ช่องของ Song list
             BoxLayout:
