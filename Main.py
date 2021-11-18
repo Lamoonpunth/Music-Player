@@ -10,19 +10,21 @@ from kivy.clock import Clock
 from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
+from song import song
 #Load KV File
 Builder.load_file('main.kv')
 
 fullpath=[]
-f = open("yoursongpath.txt", "r+") 
+f = open("yoursongpath.txt", "r+")
 for x in f:
     if x[-1:] == "\n":
-        x=x[:-1]
-    fullpath.append(x)
-print(fullpath)
+        s=song(x[:-1])
+        print(s)
+        fullpath.append(s)
 f.close()
-
 yoursong = playlist(fullpath)
+print(yoursong)
+
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
@@ -34,18 +36,19 @@ class MainGridLayout(Widget):
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 1)
         self.queue = playingqueue()
-        print(yoursong)
         self.queue.chooseplaylist(yoursong)
-        self.queue.addfromqueue()
+        self.queue.addfromqueuefirstsong()
         #Load Song
-        self.soundpath = self.queue.nowplaying
+        self.soundpath = self.queue.nowplaying.getpath()
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
-        self.ids.song_name.text=self.soundpath
+        self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'SF-UI-Display-Regular.ttf'
+        self.volume = 0.25
 
     def slide_it(self, *args):
-        self.sound.volume = float(args[1])/100
+        self.volume = float(args[1]/100)
+        self.sound.volume = self.volume
 
     def seek(self, *args):
         #print (sound.state)
@@ -64,27 +67,38 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
-        if self.bool is False:
-            self.submit = Button(text='Play')
-            self.bool = True
-            self.sound.play()
-        else:
-            self.submit = Button(text='Stop')
-            self.bool = False
-            self.sound.stop()
+            if self.bool is False:
+                self.submit = Button(text='Play')
+                self.bool = True
+                self.sound.play()
+                self.sound.volume = float(self.volume)
+            else:
+                self.submit = Button(text='Stop')
+                self.bool = False
+                self.sound.stop()
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
             return
         self.sound.stop()
         self.queue.addfromqueue()
-        self.soundpath = self.queue.nowplaying
+        self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
-        self.ids.song_name.text=self.soundpath
+        self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
         self.playtimeUpdate()
     def prevpress(self,instance):
-        pass
+        print(self.queue.isStackEmpty())
+        if self.queue.isStackEmpty():
+            print("StackIsEmpty")
+            return
+        self.sound.stop()
+        self.queue.addfromstack()
+        self.soundpath = self.queue.nowplaying.getpath()
+        self.sound = SoundLoader.load(self.soundpath)
+        self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.play()
+        self.playtimeUpdate()
 
     def playtimeUpdate(self):
         print(self.ids.playtime.value_pos)
