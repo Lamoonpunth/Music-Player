@@ -6,5 +6,5 @@ class playlist(list):
     def __str__(self):
         str = ""
         for i in self.playlist:
-            str+= i +"\n"
+            str+= i.getname() +"\n"
         return str
