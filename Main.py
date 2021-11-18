@@ -43,6 +43,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.volume = 0.25
 
     def slide_it(self, *args):
         self.sound.volume = float(args[1])/100
@@ -68,6 +69,7 @@ class MainGridLayout(Widget):
                 self.submit = Button(text='Play')
                 self.bool = True
                 self.sound.play()
+                self.sound.volume = float(self.volume)
             else:
                 self.submit = Button(text='Stop')
                 self.bool = False
