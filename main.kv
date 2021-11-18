@@ -80,9 +80,17 @@
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
                     Button:
+                        id:shuffle
+                        text:''
+                        # background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/shuffle.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    Button:
                         id:prev
                         text:''
-                        background_color: 0,0,0,0
+                        # background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/backward_btn.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -98,9 +106,17 @@
                     Button:
                         id:next
                         text:''
-                        background_color: 0,0,0,0
+                        # background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/forward_btn.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    Button:
+                        id:repeat
+                        text:''
+                        # background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/repeat.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                 Slider:
