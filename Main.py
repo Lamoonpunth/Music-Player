@@ -42,6 +42,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.soundpath
+        self.ids.song_name.font_name = 'SF-UI-Display-Regular.ttf'
 
     def slide_it(self, *args):
         self.sound.volume = float(args[1])/100
