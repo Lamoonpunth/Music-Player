@@ -8,6 +8,7 @@
         Rectangle:
             size:self.size
             pos:self.pos
+        
     # ส่วนของโปรแกรมทั้งหมด(กล่องใหญ่สุด)
     BoxLayout:
         orientation: 'vertical'
@@ -18,8 +19,6 @@
         BoxLayout:
             size: root.width,3*root.height/4
             orientation: 'horizontal'
-            
-
             # ช่อง Playlist
             BoxLayout:
                 orientation: 'vertical'
@@ -27,20 +26,16 @@
                 
                 Label:
                     text:''
-                    size_hint: 1,0.3
+                    size_hint: 1,0.05
 
                 TextInput:
-                    size_hint:(1,0.15)
+                    size_hint:(1,0.1)
                     text: 'Search'
                 Label:
                     text: ''
-                    size_hint:(1,0.1)
-                #Label:
-                #    text:''
-                #    size_hint: 1,0.1
+                    size_hint:(1,0.05)
                 BoxLayout:
                     orientation: 'vertical'
-                    
                     #  playlist
                     BoxLayout:
                         orientation: 'horizontal'
@@ -49,8 +44,6 @@
                             pos_hint: {"center_x" : .5}            
                             text:'Playlist'
                             size_hint: .1,0.55
-                            
-                            #background_color: 0,0,0,0
                             color: 0,0,0,1
                         Label:
                             text:''
@@ -58,6 +51,7 @@
                         Button:
                             text:''
                             size_hint: .035,0.55
+                            background_color: 0,0,0,0
                             Image:
                                 source: 'archive/icon/playlist.png'
                                 pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -72,6 +66,8 @@
                     size_hint: 1,1
                 
                 
+                    size_hint:(1,0.2)
+
             # ช่องของ Song list
             BoxLayout:
                 orientation: 'vertical'
@@ -80,9 +76,11 @@
                     orientation:'horizontal' 
                     size_hint: 1,0.2
                     Label:
+                        id:playlist_name
                         text:'Playlist Name'
                         color: 0 , 0 , 0 , 1
-                        font_name: 'archive/SF-UI-Display-Regular.ttf'
+                        font_size: 36
+                        font_name: 'sf'
                     BoxLayout:
                         orientation:'vertical'
                 # รายละเอียดเพลงใน Playlist
@@ -92,17 +90,31 @@
                     Label:
                         text:'Song'
                         color: 0 , 0 , 0 , 1
-                        font_name: 'archive/SF-UI-Display-Regular.ttf'
+                        font_name: 'sf'
                     Label:
                         text:''
                     Label:
                         text:'Time'
                         color: 0 , 0 , 0 , 1
-                        font_name: 'archive/SF-UI-Display-Regular.ttf'
-                BoxLayout:
-                    orientation:'vertical'
-                    size_hint: 1,0.7
-                    color: 0 , 0 , 0 , 1
+                        font_name: 'sf'
+                # BoxLayout:
+                #     orientation:'vertical'
+                #     size_hint: 1,0.7
+                    
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    bar_width: 15
+                    Label:
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                        padding: 10, 10
+                        text:
+                            'Song Name\n' * 100
+                        font_name:'sf'
+                        font_size:18
+                        color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:
@@ -114,7 +126,7 @@
                     id:song_name
                     text:'Song name'
                     color:0,0,0,1
-                    font_name: 'archive/SF-UI-Display-Regular.ttf'
+                    font_name: 'sf'
             BoxLayout:
                 size_hint: (1.5,1)
                 orientation: 'vertical'
@@ -125,7 +137,7 @@
                     Button:
                         id:shuffle
                         text:''
-                        # background_color: 0,0,0,0
+                        background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/shuffle.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -133,7 +145,7 @@
                     Button:
                         id:prev
                         text:''
-                        # background_color: 0,0,0,0
+                        background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/backward_btn.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -141,7 +153,7 @@
                     Button:
                         id:submit
                         text: ' '
-                        # background_color: 0,0,0,0
+                        background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/start-stop_btn.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -149,7 +161,7 @@
                     Button:
                         id:next
                         text:''
-                        # background_color: 0,0,0,0
+                        background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/forward_btn.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -157,7 +169,7 @@
                     Button:
                         id:repeat
                         text:''
-                        # background_color: 0,0,0,0
+                        background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/repeat.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
