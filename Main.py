@@ -38,7 +38,7 @@ class MainGridLayout(Widget):
         self.queue = playingqueue()
         print(yoursong)
         self.queue.chooseplaylist(yoursong)
-        self.queue.addfromqueue()
+        self.queue.addfromqueuefirstsong()
         #Load Song
         self.soundpath = self.queue.nowplaying
         print(self.queue.nowplaying)
@@ -85,7 +85,17 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.playtimeUpdate()
     def prevpress(self,instance):
-        pass
+        print(self.queue.isStackEmpty())
+        if self.queue.isStackEmpty():
+            print("StackIsEmpty")
+            return
+        self.sound.stop()
+        self.queue.addfromstack()
+        self.soundpath = self.queue.nowplaying
+        self.sound = SoundLoader.load(self.soundpath)
+        self.ids.song_name.text=self.soundpath
+        self.sound.play()
+        self.playtimeUpdate()
 
     def playtimeUpdate(self):
         print(self.ids.playtime.value_pos)
