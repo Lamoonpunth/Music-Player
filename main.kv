@@ -39,7 +39,7 @@
                         text:'Playlist Name'
                         color: 0 , 0 , 0 , 1
                         font_size: 36
-                        font_name: 'SF-UI-Display-Regular.ttf'
+                        font_name: 'archive/SF-UI-Display-Regular.ttf'
                     BoxLayout:
                         orientation:'vertical'
                 # รายละเอียดเพลงใน Playlist
@@ -49,13 +49,13 @@
                     Label:
                         text:'Song'
                         color: 0 , 0 , 0 , 1
-                        font_name: 'SF-UI-Display-Regular.ttf'
+                        font_name: 'archive/SF-UI-Display-Regular.ttf'
                     Label:
                         text:''
                     Label:
                         text:'Time'
                         color: 0 , 0 , 0 , 1
-                        font_name: 'SF-UI-Display-Regular.ttf'
+                        font_name: 'archive/SF-UI-Display-Regular.ttf'
                 BoxLayout:
                     orientation:'vertical'
                     size_hint: 1,0.7
@@ -71,7 +71,7 @@
                     id:song_name
                     text:'Song name'
                     color:0,0,0,1
-                    font_name: 'SF-UI-Display-Regular.ttf'
+                    font_name: 'archive/SF-UI-Display-Regular.ttf'
             BoxLayout:
                 size_hint: (1.5,1)
                 orientation: 'vertical'
@@ -98,7 +98,7 @@
                     Button:
                         id:submit
                         text: ' '
-                        background_color: 0,0,0,0
+                        # background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/start-stop_btn.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
