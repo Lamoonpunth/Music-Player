@@ -46,7 +46,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.ids.song_name.font_name = 'sf'
+        self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
         self.volume = 0.25
 
     def slide_it(self, *args):
@@ -56,18 +56,17 @@ class MainGridLayout(Widget):
     def seek(self, *args):
         #print (sound.state)
         #print (sound.length)
-        if args[1]>=9990:
+        if float(args[1]>=9990):
             self.nextpress("instance")
             return
-        if args[1]*self.sound.length/10000-self.sound.get_pos()<5 and args[1]*self.sound.length/10000-self.sound.get_pos()>-5:
+        if float(args[1])*self.sound.length/10000-self.sound.get_pos()<5 and float(args[1])*self.sound.length/10000-self.sound.get_pos()>-5:
             return
         else:
             if (self.sound.state=='play'):
-                print(args[1])
-                self.sound.seek(args[1]*self.sound.length/10000)
+                self.sound.seek(float(args[1])*self.sound.length/10000)
             else:
                 self.sound.play()
-                self.sound.seek(args[1]*self.sound.length/10000)
+                self.sound.seek(float(args[1])*self.sound.length/10000)
                 self.sound.stop()
 
     def press(self, instance):
@@ -90,7 +89,6 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
-        self.sound.volume = self.volume
         self.playtimeUpdate()
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
@@ -103,7 +101,6 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
-        self.sound.volume = self.volume
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
