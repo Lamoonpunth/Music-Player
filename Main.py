@@ -80,7 +80,7 @@ class MainGridLayout(Widget):
                 self.submit = Button(text='Play')
                 self.bool = True
                 self.sound.play()
-                self.sound.volume = float(self.volume)
+                self.sound.volume = self.volume
             else:
                 self.submit = Button(text='Stop')
                 self.bool = False
@@ -95,6 +95,7 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume=self.volume
         self.playtimeUpdate()
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
@@ -107,10 +108,12 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume=self.volume
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
         print(self.playtimeUpdateBool)
+        self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
