@@ -13,21 +13,68 @@
     BoxLayout:
         orientation: 'vertical'
         size: root.width,root.height
+
         # spacing: 20
 
         # ส่วนของ Playlist และ Song name
         BoxLayout:
             size: root.width,3*root.height/4
             orientation: 'horizontal'
+            
             # ช่อง Playlist
             BoxLayout:
                 orientation: 'vertical'
                 size_hint: (0.3,1)
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.7)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Label:
+                    text:''
+                    size_hint: 1,0.05
+
                 TextInput:
+                    size_hint:(1,0.1)
+                    text: 'Search'
+                Label:
+                    text: ''
+                    size_hint:(1,0.05)
+                BoxLayout:
+                    orientation: 'vertical'
+                    #  playlist
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1,0.1
+                        Label:
+                            pos_hint: {"center_x" : .5}            
+                            text:'Playlist'
+                            size_hint: .1,0.55
+                            color: 0,0,0,1
+                        Label:
+                            text:''
+                            size_hint: .15,0.55
+                        Button:
+                            id:add_playlist_btn
+                            text:''
+                            size_hint: .035,0.55
+                            background_color: 0,0,0,0
+                            Image:
+                                source: 'archive/icon/playlist.png'
+                                pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                                size: self.parent.width,self.parent.height
+                        
+                    Label:
+                        text:''
+                        size_hint: 1,.8
+
+                Label:
+                    text:''
+                    size_hint: 1,1
+                
+                
                     size_hint:(1,0.2)
-                Button:
-                    pos_hint: {"center_x" : 0.5}            
-                    text:'Playlist'   
 
             # ช่องของ Song list
             BoxLayout:
@@ -36,6 +83,13 @@
                 BoxLayout:
                     orientation:'horizontal' 
                     size_hint: 1,0.2
+                    
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.7)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
                     Label:
                         id:playlist_name
                         text:'Playlist Name'
@@ -48,6 +102,12 @@
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: 1,0.1
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
                     Label:
                         text:'Song'
                         color: 0 , 0 , 0 , 1
@@ -58,24 +118,30 @@
                         text:'Time'
                         color: 0 , 0 , 0 , 1
                         font_name: 'sf'
-                # BoxLayout:
-                #     orientation:'vertical'
-                #     size_hint: 1,0.7
-                    
-                ScrollView:
-                    do_scroll_x: False
-                    do_scroll_y: True
-                    bar_width: 15
-                    Label:
-                        size_hint_y: None
-                        height: self.texture_size[1]
-                        text_size: self.width, None
-                        padding: 10, 10
-                        text:
-                            'Song Name\n' * 100
-                        font_name:'sf'
-                        font_size:18
-                        color:0,0,0,1
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint: 1,0.7     
+                        
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        bar_width: 15
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                'Song Name\n' * 100
+                            font_name:'sf'
+                            font_size:18
+                            color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:
@@ -83,18 +149,33 @@
             orientation: 'horizontal'
             size: root.width,root.height/4 
             BoxLayout:
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                # song name
                 Label:
                     id:song_name
                     text:'Song name'
-                    color:0,0,0,1
+                    color:1,1,1,1
                     font_name: 'sf'
+                # ปุ่มข้างล่าง    
             BoxLayout:
                 size_hint: (1.5,1)
                 orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 BoxLayout:
                     orientation:'horizontal'
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
+                    
                     Button:
                         id:shuffle
                         text:''
@@ -153,3 +234,9 @@
                 value: 25
                 orientation:"horizontal"            
                 on_value: root.slide_it(*args)
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size

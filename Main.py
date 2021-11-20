@@ -46,7 +46,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.ids.song_name.font_name = 'sf'
+        self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
         self.volume = 0.25
     
         #seek
@@ -95,7 +95,6 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
-        self.sound.volume = self.volume
         self.playtimeUpdate()
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
@@ -108,7 +107,6 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
-        self.sound.volume = self.volume
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
