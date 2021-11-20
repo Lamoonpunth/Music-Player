@@ -37,7 +37,7 @@ class MainGridLayout(Widget):
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.bool = False
-        Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 1)
+        Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
         self.queue.chooseplaylist(yoursong)
         self.queue.addfromqueuefirstsong()
@@ -48,26 +48,31 @@ class MainGridLayout(Widget):
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'sf'
         self.volume = 0.25
+    
+        #seek
+        self.seekvalue = 0
+        self.playtimeUpdateBool = True
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
         self.sound.volume = self.volume
-
+    def valuechange(self,*args):
+        self.seekvalue=args[1]
+    def notupdate(self,*args):
+        print("ontouchdown")
+        self.playtimeUpdateBool=False
     def seek(self, *args):
-        #print (sound.state)
-        #print (sound.length)
-        if args[1]>=9990:
-            self.nextpress("instance")
-            return
-        if args[1]*self.sound.length/10000-self.sound.get_pos()<5 and args[1]*self.sound.length/10000-self.sound.get_pos()>-5:
-            return
-        else:
+        if self.playtimeUpdateBool is False:
+            self.playtimeUpdateBool = True
+            print("ontouchup")
+            #print (sound.state)
+            #print (sound.length)
             if (self.sound.state=='play'):
-                print(args[1])
-                self.sound.seek(args[1]*self.sound.length/10000)
+                print(self.seekvalue)
+                self.sound.seek(self.seekvalue*self.sound.length/10000)
             else:
                 self.sound.play()
-                self.sound.seek(args[1]*self.sound.length/10000)
+                self.sound.seek(self.seekvalue*self.sound.length/10000)
                 self.sound.stop()
 
     def press(self, instance):
@@ -107,10 +112,14 @@ class MainGridLayout(Widget):
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
-        print(self.ids.playtime.value_pos)
-        value=int(self.sound.get_pos()*10000/self.sound.length)
-        self.ids.playtime.value=value
-
+        print(self.playtimeUpdateBool)
+        if self.playtimeUpdateBool is True:
+            #print(self.ids.playtime.value_pos)
+            value=int(self.sound.get_pos()*10000/self.sound.length)
+            if value>=9990:
+                self.nextpress("instance")
+                value=0
+            self.ids.playtime.value=value
 class MainWidget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
