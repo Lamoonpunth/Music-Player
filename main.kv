@@ -1,6 +1,6 @@
 #:kivy 2.0.0
 <MainGridLayout>
-    submit:submit
+    play:play
     slide_volume:slide_volume
     prev:prev
     next:next
@@ -108,9 +108,17 @@
                             pos: self.pos
                             size: self.size
                     Label:
+                        text:'No.'
+                        color: 0 , 0 , 0 , 1
+                        size_hint:  0.4,1
+                        font_name: 'sf'
+                    Label:
                         text:'Song'
                         color: 0 , 0 , 0 , 1
+                        size_hint: 0.4,1
                         font_name: 'sf'
+                    Label:
+                        text:''
                     Label:
                         text:''
                     Label:
@@ -135,9 +143,9 @@
                             size_hint_y: None
                             height: self.texture_size[1]
                             text_size: self.width, None
-                            padding: 10, 10
+                            padding: 25, 10
                             text:
-                                'Song Name\n' * 100
+                                ' 1      Song Name\n' * 100
                             font_name:'sf'
                             font_size:18
                             color:0,0,0,1
@@ -192,7 +200,7 @@
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     HoverButton:
-                        id:submit
+                        id:play
                         text: ' '
                         background_color: 0,0,0,0
                         Image:
