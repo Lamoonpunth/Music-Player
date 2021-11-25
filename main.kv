@@ -44,26 +44,30 @@
                 BoxLayout:
                     orientation: 'vertical'
                     #  playlist
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        size_hint: 1,0.1
-                        Label:
-                            pos_hint: {"center_x" : .5}            
-                            text:'Playlist'
-                            size_hint: .1,0.55
-                            color: 0,0,0,1
-                        Label:
-                            text:''
-                            size_hint: .15,0.55
-                        Button:
-                            id:add_playlist_btn
-                            text:''
-                            size_hint: .035,0.55
-                            background_color: 0,0,0,0
-                            Image:
-                                source: 'archive/icon/playlist.png'
-                                pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                                size: self.parent.width,self.parent.height
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        bar_width: 15
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            size_hint: 1,0.1
+                            Label:
+                                pos_hint: {"center_x" : .5}            
+                                text:'Playlist'
+                                size_hint: .1,0.55
+                                color: 0,0,0,1
+                            Label:
+                                text:''
+                                size_hint: .15,0.55
+                            Button:
+                                id:add_playlist_btn
+                                text:''
+                                size_hint: .035,0.55
+                                background_color: 0,0,0,0
+                                Image:
+                                    source: 'archive/icon/playlist.png'
+                                    pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                                    size: self.parent.width,self.parent.height
                         
                     Label:
                         text:''
@@ -175,47 +179,46 @@
                     orientation:'horizontal'
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
-                    
                     Button:
                         id:shuffle
                         text:''
                         background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/shuffle.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                            pos: self.parent.center_x - (self.parent.width*0.75/2),self.parent.center_y - (self.parent.height*0.75/2)
+                            size: self.parent.width*0.75,self.parent.height*0.75
                     Button:
                         id:prev
                         text:''
                         background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/backward_btn.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                            pos: self.parent.center_x - (self.parent.width*0.75/2),self.parent.center_y - (self.parent.height*0.75/2)
+                            size: self.parent.width*0.75,self.parent.height*0.75
                     Button:
                         id:submit
                         text: ' '
                         background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/start-stop_btn.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                            pos: self.parent.center_x - (self.parent.width*0.75/2),self.parent.center_y - (self.parent.height*0.75/2)
+                            size: self.parent.width*0.75,self.parent.height*0.75
                     Button:
                         id:next
                         text:''
                         background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/forward_btn.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                            pos: self.parent.center_x - (self.parent.width*0.75/2),self.parent.center_y - (self.parent.height*0.75/2)
+                            size: self.parent.width*0.75,self.parent.height*0.75
                     Button:
                         id:repeat
                         text:''
                         background_color: 0,0,0,0
                         Image:
                             source: 'archive/icon/repeat.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                            pos: self.parent.center_x - (self.parent.width*0.75/2),self.parent.center_y - (self.parent.height*0.75/2)
+                            size: self.parent.width*0.75,self.parent.height*0.75
                 Slider:
                     id: playtime
                     min: 0
