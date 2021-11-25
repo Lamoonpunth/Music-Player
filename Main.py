@@ -14,6 +14,7 @@ from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
 from HoverButton import HoverButton
+from SlideNorn import SlideNorn
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -35,7 +36,7 @@ class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.start_stop.bind(on_press=self.press)
-        self.submit.bind(on_press=self.press)
+        self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.bool = False
@@ -79,12 +80,12 @@ class MainGridLayout(Widget):
 
     def press(self, instance):
             if self.bool is False:
-                self.submit = Button(text='Play')
+                self.play = Button(text='Play')
                 self.bool = True
                 self.sound.play()
                 self.sound.volume = self.volume
             else:
-                self.submit = Button(text='Stop')
+                self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
     def hoverplay(self,*args):
