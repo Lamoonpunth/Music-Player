@@ -30,12 +30,10 @@ class HoverButton(Button):
              Clock.schedule_once(self.mouse_leave_css, 0)
  
      def mouse_leave_css(self, *args):
-         print("leave")
          # Reset background and mouse style
          self.background_normal = './imgs/button_normal.png'
          Window.set_system_cursor('arrow')
  
      def mouse_enter_css(self, *args):   
-         print("enter")
          self.background_normal = './imgs/button_down.png'
          Window.set_system_cursor('hand')
