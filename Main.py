@@ -6,12 +6,14 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
 from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
+from HoverButton import HoverButton
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -85,6 +87,8 @@ class MainGridLayout(Widget):
                 self.submit = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
+    def hoverplay(self,*args):
+        print("hover")
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
@@ -112,7 +116,6 @@ class MainGridLayout(Widget):
         self.playtimeUpdate()
 
     def playtimeUpdate(self):
-        print(self.playtimeUpdateBool)
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
