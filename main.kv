@@ -100,6 +100,7 @@
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
+                    padding:25,10
                     size_hint: 1,0.1
                     canvas.before:
                         Color:
@@ -109,22 +110,31 @@
                             size: self.size
                     Label:
                         text:'No.'
+                        # size:self.parent.width*0.1,self.parent.height
+                        size_hint:0.1,1
+                        text_size:self.width,self.height
+                        halign:'left'
                         color: 0 , 0 , 0 , 1
-                        size_hint:  0.4,1
                         font_name: 'sf'
+                        font_size:16
                     Label:
                         text:'Song'
+                        # size:self.parent.width*0.8,self.parent.height
+                        size_hint:0.7,1
+                        text_size:self.width,self.height
+                        halign:'left'
                         color: 0 , 0 , 0 , 1
-                        size_hint: 0.4,1
                         font_name: 'sf'
-                    Label:
-                        text:''
-                    Label:
-                        text:''
+                        font_size:16
                     Label:
                         text:'Time'
+                        # size:self.parent.width*0.1,self.parent.height
+                        size_hint:0.2,1
+                        text_size:self.width,self.height
+                        halign:'left'
                         color: 0 , 0 , 0 , 1
                         font_name: 'sf'
+                        font_size:16
                 BoxLayout:
                     orientation:'vertical'
                     size_hint: 1,0.7     
@@ -136,6 +146,7 @@
                             pos: self.pos
                             size: self.size
                     ScrollView:
+                        size:self.parent.width,self.parent.height
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
@@ -213,8 +224,8 @@
                         id:prev
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
+                        # normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
+                        # hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
                         Image:
                             source: 'archive/icon/icon_state_2/previous_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -223,8 +234,8 @@
                         id:play
                         text: ' '
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/play_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
+                        # normalImage:'archive/icon/icon_state_1/play_btn_1.png'
+                        # hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
                         Image:
                             source: 'archive/icon/icon_state_2/play_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -233,8 +244,8 @@
                         id:next
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/next_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
+                        # normalImage:'archive/icon/icon_state_1/next_btn_1.png'
+                        # hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
                         Image:
                             source: 'archive/icon/icon_state_2/next_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)

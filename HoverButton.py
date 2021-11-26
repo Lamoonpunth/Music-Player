@@ -23,19 +23,19 @@ class HoverButton(Button):
              return
          # Get mouse position data
          pos = args[1]
-         # Check whether the mouse position is in the control
-         if self.collide_point(*pos):
-             # If on a control, the style method entered by the mouse is called
-             Clock.schedule_once(self.mouse_enter_css, 0)
-         else:
-             # If on a control, the style method of mouse out is called
-             Clock.schedule_once(self.mouse_leave_css, 0)
+    #      # Check whether the mouse position is in the control
+    #      if self.collide_point(*pos):
+    #          # If on a control, the style method entered by the mouse is called
+    #          Clock.schedule_once(self.mouse_enter_css, 0)
+    #      else:
+    #          # If on a control, the style method of mouse out is called
+    #          Clock.schedule_once(self.mouse_leave_css, 0)
  
-     def mouse_leave_css(self, *args):
-         self.id.Image=self.normalImage
-         # Reset background and mouse style
-         Window.set_system_cursor('arrow')
+    #  def mouse_leave_css(self, *args):
+    #      self.id.Image=self.normalImage
+    #      # Reset background and mouse style
+    #      Window.set_system_cursor('arrow')
  
-     def mouse_enter_css(self, *args):
-         self.id.Image=self.hoverImage
-         Window.set_system_cursor('hand')
+    #  def mouse_enter_css(self, *args):
+    #      self.id.Image=self.hoverImage
+    #      Window.set_system_cursor('hand')
