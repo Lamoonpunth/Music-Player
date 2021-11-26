@@ -139,7 +139,7 @@
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
-                        GridLayout:
+                        SlideNorn:
                             cols: 1
                             padding: 10
                             spacing: 10
@@ -200,12 +200,11 @@
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
                     
-                    HoverButton:
+                    ToggleButton:
                         id:shuffle
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/shuffle_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/shuffle_btn_2.png'
+                        on_state: root.shuffleState(self)
                         Image:
                             source: 'archive/icon/icon_state_2/shuffle_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
@@ -240,12 +239,11 @@
                             source: 'archive/icon/icon_state_2/next_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    HoverButton:
+                    ToggleButton:
                         id:repeat
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/repeat_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/repeat_btn_2.png'
+                        on_state: root.repeatState(self)
                         Image:
                             source: 'archive/icon/icon_state_2/repeat_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
