@@ -1,3 +1,4 @@
+from os import stat
 from kivy import clock
 from kivymd.app import MDApp
 from kivy.uix.widget import Widget
@@ -12,7 +13,7 @@ from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
-from HoverButton import HoverButton
+
 
 
 #Add Font
@@ -29,14 +30,13 @@ for x in f:
         fullpath.append(s)
 f.close()
 yoursong = playlist(fullpath)
-print(yoursong)
 
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.start_stop.bind(on_press=self.press)
-        self.submit.bind(on_press=self.press)
+        self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.bool = False
@@ -51,19 +51,23 @@ class MainGridLayout(Widget):
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
         self.volume = 0.25
-    
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
+        #slidenorninit
+        self.ids.sn.spiderman(yoursong )
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
         self.sound.volume = self.volume
+
     def valuechange(self,*args):
         self.seekvalue=args[1]
+
     def notupdate(self,*args):
         print("ontouchdown")
         self.playtimeUpdateBool=False
+
     def seek(self, *args):
         if self.playtimeUpdateBool is False:
             self.playtimeUpdateBool = True
@@ -80,12 +84,12 @@ class MainGridLayout(Widget):
 
     def press(self, instance):
             if self.bool is False:
-                self.submit = Button(text='Play')
+                self.play = Button(text='Play')
                 self.bool = True
                 self.sound.play()
                 self.sound.volume = self.volume
             else:
-                self.submit = Button(text='Stop')
+                self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
     # def hoverplay(self,*args):
@@ -102,6 +106,7 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
+
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
         if self.queue.isStackEmpty():
@@ -125,6 +130,13 @@ class MainGridLayout(Widget):
                 self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
+
+    def repeatState(self, state):
+        print(f'Repeat state = {state.state}')
+
+    def shuffleState(self, state):
+        print(f'Shuffle state = {state.state}')
+
 class MainWidget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

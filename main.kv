@@ -1,7 +1,7 @@
 #:kivy 2.0.0
 
 <MainGridLayout>
-    submit:submit
+    play:play
     slide_volume:slide_volume
     prev:prev
     next:next
@@ -60,18 +60,18 @@
                         Label:
                             pos_hint: {"center_x" : .5}            
                             text:'Playlist'
-                            size_hint: .1,0.55
+                            size_hint: .1,0.65
                             color: 0,0,0,1
                         Label:
                             text:''
-                            size_hint: .15,0.55
+                            size_hint: .15,0.65
                         Button:
                             id:add_playlist_btn
                             text:''
-                            size_hint: .035,0.55
+                            size_hint: .04,0.65
                             background_color: 0,0,0,0
                             Image:
-                                source: 'archive/icon/playlist.png'
+                                source: 'archive/icon/icon_state_2/playlist_btn_2.png'
                                 pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                                 size: self.parent.width,self.parent.height
                         
@@ -93,7 +93,6 @@
                 BoxLayout:
                     orientation:'horizontal' 
                     size_hint: 1,0.2
-                    
                     canvas.before:
                         Color:
                             rgba: (0,0,0,.7)
@@ -111,6 +110,7 @@
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
+                    padding:25,10
                     size_hint: 1,0.1
                     canvas.before:
                         Color:
@@ -119,15 +119,32 @@
                             pos: self.pos
                             size: self.size
                     Label:
-                        text:'Song'
+                        text:'No.'
+                        # size:self.parent.width*0.1,self.parent.height
+                        size_hint:0.1,1
+                        text_size:self.width,self.height
+                        halign:'left'
                         color: 0 , 0 , 0 , 1
                         font_name: 'sf'
+                        font_size:16
                     Label:
-                        text:''
+                        text:'Song'
+                        # size:self.parent.width*0.8,self.parent.height
+                        size_hint:0.7,1
+                        text_size:self.width,self.height
+                        halign:'left'
+                        color: 0 , 0 , 0 , 1
+                        font_name: 'sf'
+                        font_size:16
                     Label:
                         text:'Time'
+                        # size:self.parent.width*0.1,self.parent.height
+                        size_hint:0.2,1
+                        text_size:self.width,self.height
+                        halign:'right'
                         color: 0 , 0 , 0 , 1
                         font_name: 'sf'
+                        font_size:16
                 BoxLayout:
                     orientation:'vertical'
                     size_hint: 1,0.7     
@@ -139,19 +156,38 @@
                             pos: self.pos
                             size: self.size
                     ScrollView:
+                        size:self.parent.width,self.parent.height
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
-                        Label:
-                            size_hint_y: None
-                            height: self.texture_size[1]
-                            text_size: self.width, None
-                            padding: 10, 10
-                            text:
-                                'Song Name\n' * 100
-                            font_name:'sf'
-                            font_size:18
-                            color:0,0,0,1
+                        SlideNorn:
+                            id:sn
+                            cols: 1
+                            padding: 10
+                            spacing: 10
+                            size_hint: None, None
+                            width: self.parent.width
+                            height: self.minimum_height
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 25, 10
+                            #     text:
+                            #         ' 1      Song Name\n'
+                            #     font_name:'sf'
+                            #     font_size:18
+                            #     color:0,0,0,1
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 25, 10
+                            #     text:
+                            #         ' 1      Song Name\n'
+                            #     font_name:'sf'
+                            #     font_size:18
+                            #     color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:
@@ -187,45 +223,64 @@
                     center_x:self.parent.center_x  
                     
                     Button:
+                        background_color: 0,0,0,0
+                    ToggleButton:
                         id:shuffle
                         text:''
                         background_color: 0,0,0,0
+                        on_state: root.shuffleState(self)
                         Image:
-                            source: 'archive/icon/shuffle.png'
+                            source: 'archive/icon/icon_state_1/shuffle_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     Button:
                         id:prev
                         text:''
                         background_color: 0,0,0,0
-                        Image:
-                            source: 'archive/icon/backward_btn.png'
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
+                            source: 'archive/icon/icon_state_2/previous_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    HoverButton:
-                        id:submit
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
+                    Button:
+                        id:play
                         text: ' '
                         background_color: 0,0,0,0
-                        Image:
-                            source: 'archive/icon/start-stop_btn.png'
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/play_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
+                            source: 'archive/icon/icon_state_2/play_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
                     Button:
                         id:next
                         text:''
                         background_color: 0,0,0,0
-                        Image:
-                            source: 'archive/icon/forward_btn.png'
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/next_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
+                            source: 'archive/icon/icon_state_2/next_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    Button:
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
+                    ToggleButton:
                         id:repeat
                         text:''
                         background_color: 0,0,0,0
+                        on_state: root.repeatState(self)
                         Image:
-                            source: 'archive/icon/repeat.png'
+                            source: 'archive/icon/icon_state_1/repeat_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
+
+                    Label:
+                        text: ''
                 Slider:
                     id: playtime
                     min: 0
