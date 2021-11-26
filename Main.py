@@ -13,7 +13,7 @@ from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
-
+import HoverImage
 
 
 #Add Font
