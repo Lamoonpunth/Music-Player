@@ -209,36 +209,42 @@
                             source: 'archive/icon/icon_state_2/shuffle_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    HoverButton:
+                    Button:
                         id:prev
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
-                        Image:
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
                             source: 'archive/icon/icon_state_2/previous_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    HoverButton:
+                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
+                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
+                    Button:
                         id:play
                         text: ' '
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/play_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
-                        Image:
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/play_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
                             source: 'archive/icon/icon_state_2/play_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                    HoverButton:
+                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
+                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
+                    Button:
                         id:next
                         text:''
                         background_color: 0,0,0,0
-                        normalImage:'archive/icon/icon_state_1/next_btn_1.png'
-                        hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
-                        Image:
+                        HoverImage:
+                            normalImage:'archive/icon/icon_state_1/next_btn_1.png'
+                            hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
                             source: 'archive/icon/icon_state_2/next_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
+                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
+                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
                     ToggleButton:
                         id:repeat
                         text:''

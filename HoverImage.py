@@ -4,10 +4,11 @@ from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from kivy.uix.button import Button
-class HoverButton(Button):
+from kivy.uix.image import Image
+class HoverImage(Image):
      def __init__(self, **kwargs):
          # Call the initialization function of the parent class
-         super(HoverButton, self).__init__(**kwargs)
+         super(HoverImage, self).__init__(**kwargs)
          # Set the control to fill horizontally and set the height vertically
          self.size_hint = (1, None)
          self.height = 50
@@ -32,10 +33,12 @@ class HoverButton(Button):
              Clock.schedule_once(self.mouse_leave_css, 0)
  
      def mouse_leave_css(self, *args):
-         self.id.Image=self.normalImage
-         # Reset background and mouse style
-         Window.set_system_cursor('arrow')
+         self.source=self.normalImage
  
      def mouse_enter_css(self, *args):
-         self.id.Image=self.hoverImage
-         Window.set_system_cursor('hand')
+         self.source=self.hoverImage
+
+     def on_touch_down(self, *args):
+         self.source=self.normalImage
+     def on_touch_up(self, *args):
+         self.source=self.hoverImage

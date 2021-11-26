@@ -14,7 +14,7 @@ from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
-from HoverButton import HoverButton
+from HoverImage import HoverImage
 from SlideNorn import SlideNorn
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
