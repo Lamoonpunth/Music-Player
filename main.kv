@@ -200,13 +200,15 @@
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
                     
+
+                    Button:
                     ToggleButton:
                         id:shuffle
                         text:''
                         background_color: 0,0,0,0
                         on_state: root.shuffleState(self)
                         Image:
-                            source: 'archive/icon/icon_state_2/shuffle_btn_2.png'
+                            source: 'archive/icon/icon_state_1/shuffle_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     Button:
@@ -251,9 +253,12 @@
                         background_color: 0,0,0,0
                         on_state: root.repeatState(self)
                         Image:
-                            source: 'archive/icon/icon_state_2/repeat_btn_2.png'
+                            source: 'archive/icon/icon_state_1/repeat_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
+
+                    Label:
+                        text: ''
                 Slider:
                     id: playtime
                     min: 0
