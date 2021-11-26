@@ -140,32 +140,33 @@
                         do_scroll_y: True
                         bar_width: 15
                         SlideNorn:
+                            id:sn
                             cols: 1
                             padding: 10
                             spacing: 10
                             size_hint: None, None
                             width: self.parent.width
                             height: self.minimum_height
-                            Label:
-                                size_hint_y: None
-                                height: self.texture_size[1]
-                                text_size: self.width, None
-                                padding: 25, 10
-                                text:
-                                    ' 1      Song Name\n'
-                                font_name:'sf'
-                                font_size:18
-                                color:0,0,0,1
-                            Label:
-                                size_hint_y: None
-                                height: self.texture_size[1]
-                                text_size: self.width, None
-                                padding: 25, 10
-                                text:
-                                    ' 1      Song Name\n'
-                                font_name:'sf'
-                                font_size:18
-                                color:0,0,0,1
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 25, 10
+                            #     text:
+                            #         ' 1      Song Name\n'
+                            #     font_name:'sf'
+                            #     font_size:18
+                            #     color:0,0,0,1
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 25, 10
+                            #     text:
+                            #         ' 1      Song Name\n'
+                            #     font_name:'sf'
+                            #     font_size:18
+                            #     color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:

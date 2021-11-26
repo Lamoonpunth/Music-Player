@@ -54,6 +54,8 @@ class MainGridLayout(Widget):
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
+        #slidenorninit
+        self.ids.sn.spiderman(yoursong )
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
