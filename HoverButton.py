@@ -11,6 +11,8 @@ class HoverButton(Button):
          # Set the control to fill horizontally and set the height vertically
          self.size_hint = (1, None)
          self.height = 50
+         self.normalImage=""
+         self.hoverImage=""
          # binding[subscribe]Event handling method of mouse position change
          Window.bind(mouse_pos=self.on_mouse_pos)
      
@@ -30,10 +32,10 @@ class HoverButton(Button):
              Clock.schedule_once(self.mouse_leave_css, 0)
  
      def mouse_leave_css(self, *args):
+         self.id.Image=self.normalImage
          # Reset background and mouse style
-         self.background_normal = './imgs/button_normal.png'
          Window.set_system_cursor('arrow')
  
-     def mouse_enter_css(self, *args):   
-         self.background_normal = './imgs/button_down.png'
+     def mouse_enter_css(self, *args):
+         self.id.Image=self.hoverImage
          Window.set_system_cursor('hand')
