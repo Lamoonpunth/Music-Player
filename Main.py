@@ -1,5 +1,5 @@
 from kivy import clock
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
@@ -8,12 +8,13 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
-from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
 from HoverButton import HoverButton
+
+
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -87,8 +88,8 @@ class MainGridLayout(Widget):
                 self.submit = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
-    def hoverplay(self,*args):
-        print("hover")
+    # def hoverplay(self,*args):
+    #     print("hover")
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
@@ -128,7 +129,7 @@ class MainWidget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-class MainApp(App):
+class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'

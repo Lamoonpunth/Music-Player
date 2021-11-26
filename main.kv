@@ -1,4 +1,5 @@
 #:kivy 2.0.0
+
 <MainGridLayout>
     submit:submit
     slide_volume:slide_volume
@@ -35,9 +36,18 @@
                     text:''
                     size_hint: 1,0.05
 
-                TextInput:
-                    size_hint:(1,0.1)
-                    text: 'Search'
+                MDTextField:
+                    id: SearchInput
+                    hint_text: "Search"
+                    color_mode: 'custom'                                  
+                    line_color_focus: .82, .100, .957,1
+                    helper_text: "Enter Song name"
+                    helper_text_mode: "on_focus"
+                    size: '200dp','200dp'
+
+                # TextInput:
+                #     size_hint:(1,0.1)
+                #     text: 'Search'
                 Label:
                     text: ''
                     size_hint:(1,0.05)
