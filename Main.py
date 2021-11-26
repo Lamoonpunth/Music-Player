@@ -14,7 +14,7 @@ from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
-from HoverButton import HoverButton
+from HoverImage import HoverImage
 from SlideNorn import SlideNorn
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
@@ -30,7 +30,6 @@ for x in f:
         fullpath.append(s)
 f.close()
 yoursong = playlist(fullpath)
-print(yoursong)
 
 
 class MainGridLayout(Widget):
@@ -55,6 +54,8 @@ class MainGridLayout(Widget):
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
+        #slidenorninit
+        self.ids.sn.spiderman(yoursong )
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
