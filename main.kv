@@ -200,12 +200,16 @@
                     size: self.parent.width/2,self.parent.height
                     center_x:self.parent.center_x  
                     
+                    Label:
+                        text: ''
+
+
                     Button:
                         id:shuffle
                         text:''
                         background_color: 0,0,0,0
                         Image:
-                            source: 'archive/icon/icon_state_2/shuffle_btn_2.png'
+                            source: 'archive/icon/icon_state_1/shuffle_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     Button:
@@ -213,7 +217,7 @@
                         text:''
                         background_color: 0,0,0,0
                         Image:
-                            source: 'archive/icon/icon_state_2/previous_btn_2.png'
+                            source: 'archive/icon/icon_state_1/previous_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     HoverButton:
@@ -221,7 +225,7 @@
                         text: ' '
                         background_color: 0,0,0,0
                         Image:
-                            source: 'archive/icon/icon_state_2/play_btn_2.png'
+                            source: 'archive/icon/icon_state_1/play_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     Button:
@@ -229,7 +233,7 @@
                         text:''
                         background_color: 0,0,0,0
                         Image:
-                            source: 'archive/icon/icon_state_2/next_btn_2.png'
+                            source: 'archive/icon/icon_state_1/next_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
                     Button:
@@ -237,9 +241,12 @@
                         text:''
                         background_color: 0,0,0,0
                         Image:
-                            source: 'archive/icon/icon_state_2/repeat_btn_2.png'
+                            source: 'archive/icon/icon_state_1/repeat_btn_1.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
+
+                    Label:
+                        text: ''
                 Slider:
                     id: playtime
                     min: 0
