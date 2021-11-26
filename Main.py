@@ -1,3 +1,4 @@
+from os import stat
 from kivy import clock
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -58,11 +59,14 @@ class MainGridLayout(Widget):
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
         self.sound.volume = self.volume
+
     def valuechange(self,*args):
         self.seekvalue=args[1]
+
     def notupdate(self,*args):
         print("ontouchdown")
         self.playtimeUpdateBool=False
+
     def seek(self, *args):
         if self.playtimeUpdateBool is False:
             self.playtimeUpdateBool = True
@@ -87,8 +91,10 @@ class MainGridLayout(Widget):
                 self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
+
     def hoverplay(self,*args):
         print("hover")
+
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
@@ -101,6 +107,7 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
+
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
         if self.queue.isStackEmpty():
@@ -124,6 +131,13 @@ class MainGridLayout(Widget):
                 self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
+
+    def repeatState(self, state):
+        print(f'Repeat state = {state.state}')
+
+    def shuffleState(self, state):
+        print(f'Shuffle state = {state.state}')
+
 class MainWidget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
