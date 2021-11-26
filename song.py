@@ -13,5 +13,3 @@ class song():
         return self.time
     def __str__(self):
         return str(self.getpath())+"\t"+str(self.getname())+"\t"+str(self.gettime())
-s=song("Hey Ya!.mp3")
-print(s.gettime())
