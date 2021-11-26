@@ -16,7 +16,7 @@ class SongBox(BoxLayout):
         self.orientation='horizontal'
         self.size_hint=(None,None)
         #print(width)
-        self.width=600 
+        self.width=600
         #song number
         lb=Label(size_hint_x= .1,
         text_size= (None,None),
@@ -30,7 +30,7 @@ class SongBox(BoxLayout):
         print(f'size = {self.size}')
         lb=Label(size_hint_x= .7,
         halign= 'left',
-        text_size= (None,None),
+        text_size= (0.7*self.width,None),
         padding= (25, 10),
         text=name,
         font_name='sf',
@@ -39,7 +39,7 @@ class SongBox(BoxLayout):
         self.add_widget(lb)
         #time
         lb=Label(size_hint_x= .2,
-        text_size= (None,self.height),
+        text_size= (0.2*self.width,None),
         halign='left',
         padding= (25, 10),
         text=str(time),
