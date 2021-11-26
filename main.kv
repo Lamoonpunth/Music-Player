@@ -221,8 +221,8 @@
                             source: 'archive/icon/icon_state_2/previous_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
-                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
                     Button:
                         id:play
                         text: ' '
@@ -233,8 +233,8 @@
                             source: 'archive/icon/icon_state_2/play_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
-                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
                     Button:
                         id:next
                         text:''
@@ -245,8 +245,8 @@
                             source: 'archive/icon/icon_state_2/next_btn_2.png'
                             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
                             size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.on_touch_down
-                            on_touch_up: if self.collide_point(*args[1].pos):self.on_touch_up
+                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
                     ToggleButton:
                         id:repeat
                         text:''

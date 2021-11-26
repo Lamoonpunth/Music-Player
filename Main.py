@@ -29,9 +29,7 @@ for x in f:
         print(s)
         fullpath.append(s)
 f.close()
-print(fullpath)
 yoursong = playlist(fullpath)
-print(yoursong)
 
 
 class MainGridLayout(Widget):
