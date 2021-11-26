@@ -1,7 +1,266 @@
 #:kivy 2.0.0
-MainWidget:
-<MainWidget>
-    Button:
-        text:'Hello'
-        size: "400dp","200dp"
+<MainGridLayout>
+    play:play
+    slide_volume:slide_volume
+    prev:prev
+    next:next
+    canvas:
+        Rectangle:
+            size:self.size
+            pos:self.pos
         
+    # ส่วนของโปรแกรมทั้งหมด(กล่องใหญ่สุด)
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width,root.height
+
+        # spacing: 20
+
+        # ส่วนของ Playlist และ Song name
+        BoxLayout:
+            size: root.width,3*root.height/4
+            orientation: 'horizontal'
+            
+            # ช่อง Playlist
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (0.3,1)
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.7)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Label:
+                    text:''
+                    size_hint: 1,0.05
+
+                TextInput:
+                    size_hint:(1,0.1)
+                    text: 'Search'
+                Label:
+                    text: ''
+                    size_hint:(1,0.05)
+                BoxLayout:
+                    orientation: 'vertical'
+                    #  playlist
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1,0.1
+                        Label:
+                            pos_hint: {"center_x" : .5}            
+                            text:'Playlist'
+                            size_hint: .1,0.55
+                            color: 0,0,0,1
+                        Label:
+                            text:''
+                            size_hint: .15,0.55
+                        Button:
+                            id:add_playlist_btn
+                            text:''
+                            size_hint: .035,0.55
+                            background_color: 0,0,0,0
+                            Image:
+                                source: 'archive/icon/playlist.png'
+                                pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                                size: self.parent.width,self.parent.height
+                        
+                    Label:
+                        text:''
+                        size_hint: 1,.8
+
+                Label:
+                    text:''
+                    size_hint: 1,1
+                
+                
+                    size_hint:(1,0.2)
+
+            # ช่องของ Song list
+            BoxLayout:
+                orientation: 'vertical'
+                # ชื่อ Playlist
+                BoxLayout:
+                    orientation:'horizontal' 
+                    size_hint: 1,0.2
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.7)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        id:playlist_name
+                        text:'Playlist Name'
+                        color: 0 , 0 , 0 , 1
+                        font_size: 36
+                        font_name: 'sf'
+                    BoxLayout:
+                        orientation:'vertical'
+                # รายละเอียดเพลงใน Playlist
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: 1,0.1
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        text:'No.'
+                        color: 0 , 0 , 0 , 1
+                        size_hint:  0.4,1
+                        font_name: 'sf'
+                    Label:
+                        text:'Song'
+                        color: 0 , 0 , 0 , 1
+                        size_hint: 0.4,1
+                        font_name: 'sf'
+                    Label:
+                        text:''
+                    Label:
+                        text:''
+                    Label:
+                        text:'Time'
+                        color: 0 , 0 , 0 , 1
+                        font_name: 'sf'
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint: 1,0.7     
+                        
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    ScrollView:
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        bar_width: 15
+                        GridLayout:
+                            cols: 1
+                            padding: 10
+                            spacing: 10
+                            size_hint: None, None
+                            width: self.parent.width
+                            height: self.minimum_height
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 25, 10
+                                text:
+                                    ' 1      Song Name\n'
+                                font_name:'sf'
+                                font_size:18
+                                color:0,0,0,1
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 25, 10
+                                text:
+                                    ' 1      Song Name\n'
+                                font_name:'sf'
+                                font_size:18
+                                color:0,0,0,1
+                    
+        # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
+        BoxLayout:
+            size_hint: (1,0.2)
+            orientation: 'horizontal'
+            size: root.width,root.height/4 
+            BoxLayout:
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                # song name
+                Label:
+                    id:song_name
+                    text:'Song name'
+                    color:1,1,1,1
+                    font_name: 'sf'
+                # ปุ่มข้างล่าง    
+            BoxLayout:
+                size_hint: (1.5,1)
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                BoxLayout:
+                    orientation:'horizontal'
+                    size: self.parent.width/2,self.parent.height
+                    center_x:self.parent.center_x  
+                    
+                    Button:
+                        id:shuffle
+                        text:''
+                        background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/shuffle.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    Button:
+                        id:prev
+                        text:''
+                        background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/backward_btn.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    HoverButton:
+                        id:play
+                        text: ' '
+                        background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/start-stop_btn.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    Button:
+                        id:next
+                        text:''
+                        background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/forward_btn.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                    Button:
+                        id:repeat
+                        text:''
+                        background_color: 0,0,0,0
+                        Image:
+                            source: 'archive/icon/repeat.png'
+                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            size: self.parent.width,self.parent.height
+                Slider:
+                    id: playtime
+                    min: 0
+                    max: 10000
+                    step: 1
+                    value: 0
+                    orientation:"horizontal"
+                    on_value: root.valuechange(*args)
+                    on_touch_up: root.seek(*args)
+                    on_touch_down: if self.collide_point(*args[1].pos):root.notupdate(*args)
+            Slider:
+                id: slide_volume
+                min: 0
+                max: 100
+                step: 1
+                value: 25
+                orientation:"horizontal"            
+                on_value: root.slide_it(*args)
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
