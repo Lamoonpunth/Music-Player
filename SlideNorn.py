@@ -19,6 +19,8 @@ class SlideNorn(GridLayout):
         #     btn = Button(text=str(i), size_hint_y=None, height=40)
         #     self.add_widget(btn)
         #label
+        print(f'SlideNorn Width = {self.parent}')
+
     def spiderman(self,playlist):
         for i in range(len(playlist.playlist)):
             lb = SongBox(i+1,playlist.playlist[i].name,playlist.playlist[i].time)
