@@ -1,6 +1,7 @@
 import playlist
 class playingqueue(list):
     def __init__(self):
+        self.originalplaylist=[]
         self.musicqueue=[]
         self.nowplaying=""
         self.playedstack=[]
@@ -22,10 +23,15 @@ class playingqueue(list):
     def addfromstack(self):
         self.musicqueue.insert(0,self.nowplaying)
         self.nowplaying=self.playedstack.pop()
+    def copyOriginal(self):
+        self.musicqueue=self.originalplaylist.copy()
+        self.nowplaying=""
+        self.playedstack=[]
     def isStackEmpty(self):
         return len(self.playedstack)==0
     def chooseplaylist(self,playlist):
         self.musicqueue=playlist.playlist.copy()
+        self.originalplaylist=playlist.playlist.copy()
         self.nowplaying=""
         self.playedstack=[]
     def isEmpty(self):
