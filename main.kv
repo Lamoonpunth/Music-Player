@@ -131,7 +131,7 @@
                         # size:self.parent.width*0.1,self.parent.height
                         size_hint:0.2,1
                         text_size:self.width,self.height
-                        halign:'right'
+                        halign:'center'
                         color: 0 , 0 , 0 , 1
                         font_name: 'sf'
                         font_size:16
@@ -146,8 +146,8 @@
                             pos: self.pos
                             size: self.size
                     ScrollView:
-                        size:self.parent.width,self.parent.height
-                        do_scroll_x: False
+                        id: sc
+                        do_scroll_x: True
                         do_scroll_y: True
                         bar_width: 15
                         SlideNorn:
@@ -156,25 +156,14 @@
                             padding: 10
                             spacing: 10
                             size_hint: None, None
-                            width: self.parent.width
+                            width: self.minimum_width
                             height: self.minimum_height
                             # Label:
                             #     size_hint_y: None
                             #     height: self.texture_size[1]
                             #     text_size: self.width, None
                             #     padding: 25, 10
-                            #     text:
-                            #         ' 1      Song Name\n'
-                            #     font_name:'sf'
-                            #     font_size:18
-                            #     color:0,0,0,1
-                            # Label:
-                            #     size_hint_y: None
-                            #     height: self.texture_size[1]
-                            #     text_size: self.width, None
-                            #     padding: 25, 10
-                            #     text:
-                            #         ' 1      Song Name\n'
+                            #     text: str(sn.parent.width)
                             #     font_name:'sf'
                             #     font_size:18
                             #     color:0,0,0,1
