@@ -9,7 +9,6 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
 class SongBox(BoxLayout):
     def __init__(self,i,name,time, **kwargs):
         super(SongBox, self).__init__(**kwargs)
