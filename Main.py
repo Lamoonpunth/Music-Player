@@ -16,6 +16,7 @@ from song import song
 from kivy.core.text import LabelBase
 from HoverImage import HoverImage
 from SlideNorn import SlideNorn
+from kivymd.app import MDApp
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -55,7 +56,7 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
-        self.ids.sn.spiderman(yoursong )
+        self.ids.sn.spiderman(yoursong)
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
@@ -143,7 +144,7 @@ class MainWidget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-class MainApp(App):
+class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'
