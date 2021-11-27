@@ -9,7 +9,12 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-class SongBox(BoxLayout):
+from kivy.graphics import Color
+from kivy.graphics import Rectangle
+from kivymd.uix.behaviors import HoverBehavior
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.theming import ThemableBehavior
+class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
     def __init__(self,i,name,time, **kwargs):
         super(SongBox, self).__init__(**kwargs)
         self.orientation='horizontal'
@@ -28,7 +33,7 @@ class SongBox(BoxLayout):
         #song name
         lb=Label(size_hint_x= .7,
         halign= 'left',
-        text_size= (0.7*self.parent.width,None),
+        text_size= (0.7*self.width,None),
         padding= (25, 10),
         text=name,
         font_name='sf',
@@ -37,7 +42,7 @@ class SongBox(BoxLayout):
         self.add_widget(lb)
         #time
         lb=Label(size_hint_x= .2,
-        text_size= (0.2*self.parent.width,None),
+        text_size= (0.2*self.width,None),
         halign='center',
         padding= (25, 10),
         text=str(time),
@@ -45,3 +50,8 @@ class SongBox(BoxLayout):
         font_size=18,
         color=(0,0,0,1))
         self.add_widget(lb)
+    def on_enter(self, *args):
+        self.md_bg_color = (1, 1, 1, 1)
+
+    def on_leave(self, *args):
+        self.md_bg_color = self.theme_cls.bg_darkest
