@@ -22,7 +22,7 @@ class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
         #print(width)
         self.width=600
         #song number
-        lb=Label(size_hint_x= .2,
+        lb=Label(size_hint_x= .1,
         text_size= (None,None),
         padding= (25, 10),
         text=str(i),
@@ -31,9 +31,10 @@ class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
         color=(0,0,0,1))
         self.add_widget(lb)
         #song name
-        lb=Label(size_hint_x= .3,
+        print(f'size = {self.size}')
+        lb=Label(size_hint_x= .7,
         halign= 'left',
-        text_size= (None,None),
+        text_size= (0.7*self.width,None),
         padding= (25, 10),
         text=name,
         font_name='sf',
@@ -42,7 +43,8 @@ class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
         self.add_widget(lb)
         #time
         lb=Label(size_hint_x= .2,
-        text_size= (None,None),
+        text_size= (0.2*self.width,None),
+        halign='left',
         padding= (25, 10),
         text=str(time),
         font_name='sf',
