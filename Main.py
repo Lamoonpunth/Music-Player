@@ -1,6 +1,6 @@
 from os import stat
 from kivy import clock
-from kivymd.app import MDApp
+from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
@@ -9,13 +9,13 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
+from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
-import HoverImage
-
-
+from HoverImage import HoverImage
+from SlideNorn import SlideNorn
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -55,7 +55,8 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
-        self.ids.sn.spiderman(yoursong )
+        self.ids.sn.spiderman(yoursong)
+        
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
@@ -92,8 +93,10 @@ class MainGridLayout(Widget):
                 self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
-    # def hoverplay(self,*args):
-    #     print("hover")
+
+    def hoverplay(self,*args):
+        print("hover")
+
     def nextpress(self,instance):
         if self.queue.isEmpty():
             print("QueueIsEmpty")
@@ -137,11 +140,11 @@ class MainGridLayout(Widget):
     def shuffleState(self, state):
         print(f'Shuffle state = {state.state}')
 
-class MainWidget(Widget):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+# class MainWidget(Widget):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
 
-class MainApp(MDApp):
+class MainApp(App):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'

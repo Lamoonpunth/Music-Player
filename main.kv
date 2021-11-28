@@ -1,4 +1,5 @@
 #:kivy 2.0.0
+#:import images_path kivymd.images_path
 
 <MainGridLayout>
     play:play
@@ -36,18 +37,9 @@
                     text:''
                     size_hint: 1,0.05
 
-                MDTextField:
-                    id: SearchInput
-                    hint_text: "Search"
-                    color_mode: 'custom'                                  
-                    line_color_focus: .82, .100, .957,1
-                    helper_text: "Enter Song name"
-                    helper_text_mode: "on_focus"
-                    size: '200dp','200dp'
-
-                # TextInput:
-                #     size_hint:(1,0.1)
-                #     text: 'Search'
+                TextInput:
+                    size_hint:(1,0.1)
+                    text: 'Search'
                 Label:
                     text: ''
                     size_hint:(1,0.05)
@@ -155,11 +147,12 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
-                    ScrollView:
+                    ScrollView:                        
                         size:self.parent.width,self.parent.height
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
+                        
                         SlideNorn:
                             id:sn
                             cols: 1
