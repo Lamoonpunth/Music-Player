@@ -44,7 +44,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         color=(0,0,0,1))
         self.add_widget(lb)
         #time
-        lb=Label(size_hint_x= .2,
+        lb=Label(size_hint_x= .25,
         text_size= (0.2*self.width,None),
         halign='left',
         padding= (25, 10),
@@ -56,7 +56,6 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         print(self.index)
     def on_enter(self, *args):
         self.md_bg_color = (1, 1, 1, 1)
-
     def on_leave(self, *args):
         self.md_bg_color = self.theme_cls.bg_darkest
 

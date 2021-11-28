@@ -21,8 +21,10 @@ from kivymd.app import MDApp
 from SongBox import SongBox
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
-#Load KV File
+# Load KV File
 Builder.load_file('main.kv')
+# Adjust Window size when start
+Window.size = (1024,768)
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
@@ -34,10 +36,11 @@ for x in f:
 f.close()
 yoursong = playlist(fullpath)
 
-
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        print(f'Main width = {self.width}')
+        print(f'Main height = {self.height}')
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
@@ -164,6 +167,8 @@ class MainGridLayout(Widget):
         self.playtimeUpdate()
         self.bool=True
 
+    def Searched_Song(self, text="", search=False):
+        print(text)
 
 class MainWidget(Widget):
     def __init__(self, **kwargs):

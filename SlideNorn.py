@@ -13,13 +13,13 @@ from SongBox import SongBox
 class SlideNorn(GridLayout):
     def __init__(self, **kwargs):
         super(SlideNorn, self).__init__(**kwargs)
+        
         #create song from playlist
         #button
         # for i in range(5):
         #     btn = Button(text=str(i), size_hint_y=None, height=40)
         #     self.add_widget(btn)
         #label
-        print(f'SlideNorn Width = {self.parent}')
 
     def spiderman(self,playlist):
         for i in range(len(playlist.playlist)):

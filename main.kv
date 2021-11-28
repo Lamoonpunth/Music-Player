@@ -1,5 +1,8 @@
 #:kivy 2.0.0
+#:import images_path kivymd.images_path
+
 <MainGridLayout>
+    size: '768dp','1024dp'
     play:play
     slide_volume:slide_volume
     prev:prev
@@ -35,9 +38,17 @@
                     text:''
                     size_hint: 1,0.05
 
-                TextInput:
-                    size_hint:(1,0.1)
-                    text: 'Search'
+                MDBoxLayout:
+                    adaptive_height: True
+
+                    MDIconButton:
+                        icon: 'magnify'
+
+                    MDTextField:
+                        id: search_song
+                        hint_text: 'Search Song'
+                        on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
+
                 Label:
                     text: ''
                     size_hint:(1,0.05)
@@ -150,6 +161,7 @@
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
+                        
                         SlideNorn:
                             id:sn
                             cols: 1
@@ -159,15 +171,16 @@
                             index: 0
                             width: self.minimum_width
                             height: self.minimum_height
-                            # Label:
-                            #     size_hint_y: None
-                            #     height: self.texture_size[1]
-                            #     text_size: self.width, None
-                            #     padding: 25, 10
-                            #     text: str(sn.parent.width)
-                            #     font_name:'sf'
-                            #     font_size:18
-                            #     color:0,0,0,1
+                            size: self.parent.width,self.parent.height
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 25, 10
+                                text: str(sn.parent.width)
+                                font_name:'sf'
+                                font_size:18
+                                color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:

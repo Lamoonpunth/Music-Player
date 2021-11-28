@@ -41,6 +41,7 @@ class playingqueue(list):
         for i in self.musicqueue:
             str += i +"\n"
         return str
+    
 q=playingqueue()
 q.enqueue("1")
 print(q)
