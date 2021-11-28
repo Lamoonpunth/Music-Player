@@ -20,8 +20,13 @@ class SlideNorn(GridLayout):
         #     btn = Button(text=str(i), size_hint_y=None, height=40)
         #     self.add_widget(btn)
         #label
+        print(f'SlideNorn Width = {self.parent}')
+
     def spiderman(self,playlist):
         for i in range(len(playlist.playlist)):
-            lb = SongBox(i+1,playlist.playlist[i].name,playlist.playlist[i].time)
+            t = playlist.playlist[i].time
+            new_t = (t//60) + ((t%60)/100)
+            new_t = format(new_t,'.2f')
+            time_text = f'{new_t}'
+            lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.add_widget(lb)
-       

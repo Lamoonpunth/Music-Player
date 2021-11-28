@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
+from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
@@ -15,7 +16,9 @@ from playingqueue import playingqueue
 from song import song
 from kivy.core.text import LabelBase
 from HoverImage import HoverImage
-from SlideNorn import SlideNorn
+import SlideNorn
+from kivymd.app import MDApp
+from SongBox import SongBox
 #Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 #Load KV File
@@ -55,8 +58,16 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
-        self.ids.sn.spiderman(yoursong)
-        
+        #self.ids.sn.spiderman(yoursong)
+        for i in range(len(yoursong.playlist)):
+            t = yoursong.playlist[i].time
+            new_t = (t//60) + ((t%60)/100)
+            new_t = format(new_t,'.2f')
+            time_text = f'{new_t}'
+            lb = SongBox(i+1,yoursong.playlist[i].name,time_text)
+            self.ids.sn.add_widget(lb)
+            lb.bind(on_press=self.selectsong)
+
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
@@ -93,9 +104,6 @@ class MainGridLayout(Widget):
                 self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
-
-    def hoverplay(self,*args):
-        print("hover")
 
     def nextpress(self,instance):
         if self.queue.isEmpty():
@@ -140,15 +148,30 @@ class MainGridLayout(Widget):
     def shuffleState(self, state):
         print(f'Shuffle state = {state.state}')
 
-# class MainWidget(Widget):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
+    def selectsong(self,*args):
+        self.sound.stop()
+        index=args[0].index
+        self.queue.copyOriginal()
+        self.queue.addfromqueuefirstsong()
+        for i in range(index):
+            self.queue.addfromqueue()
+        print(self.queue.nowplaying)
+        self.soundpath = self.queue.nowplaying.getpath()
+        self.sound = SoundLoader.load(self.soundpath)
+        self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.play()
+        self.sound.volume=self.volume
+        self.playtimeUpdate()
 
-class MainApp(App):
+
+class MainWidget(Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'
         return MainGridLayout()
-
 if __name__ == "__main__":
     MainApp().run()
