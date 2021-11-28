@@ -61,6 +61,8 @@
                         Label:
                             pos_hint: {"center_x" : .5}            
                             text:'Playlist'
+                            font_name: 'sf'
+                            font_size: 18
                             size_hint: .1,0.65
                             color: 0,0,0,1
                         Label:
@@ -104,7 +106,7 @@
                         id:playlist_name
                         text:'Playlist Name'
                         color: 0 , 0 , 0 , 1
-                        font_size: 36
+                        font_size: 42
                         font_name: 'sf'
                     BoxLayout:
                         orientation:'vertical'
@@ -170,15 +172,15 @@
                             width: self.minimum_width
                             height: self.minimum_height
                             size: self.parent.width,self.parent.height
-                            Label:
-                                size_hint_y: None
-                                height: self.texture_size[1]
-                                text_size: self.width, None
-                                padding: 25, 10
-                                text: str(sn.parent.width)
-                                font_name:'sf'
-                                font_size:18
-                                color:0,0,0,1
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 25, 10
+                            #     text: str(sn.parent.width)
+                            #     font_name:'sf'
+                            #     font_size:18
+                            #     color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:

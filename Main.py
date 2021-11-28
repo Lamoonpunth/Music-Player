@@ -39,11 +39,12 @@ def get_ratio(a, b):
     return int(r),int(a//r),int(b//r),f'{int(a//r)}:{int(b//r)}'
 ratio,ratio_width,ratio_height,display_ratio = get_ratio(user_width,user_height)
 # Adjust Window size when start
-app_width = 4*((ratio*(16/9))+user_width/10)
-app_height = 3*((ratio*(16/9))+user_height/10)
+tuakoon = ratio_width/ratio_height
+print(tuakoon)
+app_width = 4*((ratio*(tuakoon))+user_width/10)
+app_height = 3*((ratio*(tuakoon))+user_height/10)
 Window.size = (app_width,app_height)
 Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
-print('sawasdee kub')
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
