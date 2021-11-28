@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
+from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
@@ -17,10 +18,12 @@ from kivy.core.text import LabelBase
 from HoverImage import HoverImage
 from SlideNorn import SlideNorn
 from kivymd.app import MDApp
-#Add Font
+# Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
-#Load KV File
+# Load KV File
 Builder.load_file('main.kv')
+# Adjust Window size when start
+Window.size = (1024,768)
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
@@ -32,10 +35,11 @@ for x in f:
 f.close()
 yoursong = playlist(fullpath)
 
-
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        print(f'Main width = {self.width}')
+        print(f'Main height = {self.height}')
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)

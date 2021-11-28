@@ -31,7 +31,7 @@ class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
         color=(0,0,0,1))
         self.add_widget(lb)
         #song name
-        lb=Label(size_hint_x= .7,
+        lb=Label(size_hint_x= .65,
         halign= 'left',
         text_size= (0.7*self.width,None),
         padding= (25, 10),
@@ -41,7 +41,7 @@ class SongBox(MDBoxLayout, ThemableBehavior, HoverBehavior):
         color=(0,0,0,1))
         self.add_widget(lb)
         #time
-        lb=Label(size_hint_x= .2,
+        lb=Label(size_hint_x= .25,
         text_size= (0.2*self.width,None),
         halign='center',
         padding= (25, 10),

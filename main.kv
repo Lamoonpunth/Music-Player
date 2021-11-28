@@ -1,5 +1,6 @@
 #:kivy 2.0.0
 <MainGridLayout>
+    size: '768dp','1024dp'
     play:play
     slide_volume:slide_volume
     prev:prev
@@ -147,7 +148,7 @@
                             size: self.size
                     ScrollView:
                         id: sc
-                        do_scroll_x: True
+                        do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
                         SlideNorn:
@@ -158,15 +159,16 @@
                             size_hint: None, None
                             width: self.minimum_width
                             height: self.minimum_height
-                            # Label:
-                            #     size_hint_y: None
-                            #     height: self.texture_size[1]
-                            #     text_size: self.width, None
-                            #     padding: 25, 10
-                            #     text: str(sn.parent.width)
-                            #     font_name:'sf'
-                            #     font_size:18
-                            #     color:0,0,0,1
+                            size: self.parent.width,self.parent.height
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 25, 10
+                                text: str(sn.parent.width)
+                                font_name:'sf'
+                                font_size:18
+                                color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:
