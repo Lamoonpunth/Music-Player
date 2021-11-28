@@ -2,7 +2,7 @@
 #:import images_path kivymd.images_path
 
 <MainGridLayout>
-    size: '768dp','1024dp'
+    size: '1024dp','768dp'
     play:play
     slide_volume:slide_volume
     prev:prev
@@ -172,15 +172,15 @@
                             width: self.minimum_width
                             height: self.minimum_height
                             size: self.parent.width,self.parent.height
-                            # Label:
-                            #     size_hint_y: None
-                            #     height: self.texture_size[1]
-                            #     text_size: self.width, None
-                            #     padding: 25, 10
-                            #     text: str(sn.parent.width)
-                            #     font_name:'sf'
-                            #     font_size:18
-                            #     color:0,0,0,1
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 25, 10
+                                text: str(sn.parent.width)
+                                font_name:'sf'
+                                font_size:18
+                                color:0,0,0,1
                     
         # กล่องใส่ UI เลื่อน/เล่น/หยุดเพลง และ เพิ่ม/ลดเสียง
         BoxLayout:

@@ -26,26 +26,12 @@ LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 Builder.load_file('main.kv')
 # Get user screen display size
 user_width, user_height = pyautogui.size()
-# Get User screen ratio
-def ratio(a, b):
-    a = float(a)
-    b = float(b)
-    if b == 0:
-        return a
-    return ratio(b, a % b)
-#returns a string with ratio for height and width
-def get_ratio(a, b):
-    r = ratio(a, b)
-    return int(r),int(a//r),int(b//r),f'{int(a//r)}:{int(b//r)}'
-ratio,ratio_width,ratio_height,display_ratio = get_ratio(user_width,user_height)
-# Adjust Window size when start
-print("as")
-print(ratio)
-app_width = 4*ratio*2.5
-app_height = 3*ratio*2.5
-Window.size = (app_width,app_height)
-Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
-print('sawasdee kub')
+# # Adjust Window size when start
+# app_width = 1024
+# app_height = 768
+# Window.size = (app_width,app_height)
+# Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
+Window.maximize()
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
