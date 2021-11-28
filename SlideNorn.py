@@ -13,6 +13,7 @@ from SongBox import SongBox
 class SlideNorn(GridLayout):
     def __init__(self, **kwargs):
         super(SlideNorn, self).__init__(**kwargs)
+        
         #create song from playlist
         #button
         # for i in range(5):

@@ -1,0 +1,13 @@
+#:kivy 2.0.0
+#:kivymd 0.104.1
+
+BoxLayout: 
+    size_hint: .8,.8
+    pos_hint: {'center_x':.5,'center_y':.5}
+    spacing: dp(100)
+    orientation: 'vertical'
+    MDTextField:
+        hint_text: "This is hint text"
+        helper_text: "This is helper text"
+        helper_text_mode:"on_focus" # "on_focus"
+        required: True
