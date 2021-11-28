@@ -186,7 +186,9 @@ class MainGridLayout(Widget):
         self.bool=True
 
     def Searched_Song(self, text="", search=False):
-        print(text)
+        for songg in self.queue.originalplaylist:
+            if text in songg.name:
+                print(songg.name)
 
 class MainWidget(Widget):
     def __init__(self, **kwargs):
