@@ -29,8 +29,8 @@ LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 # Load KV File
 Builder.load_file('main.kv')
 # Adjust Window size when start
-app_width = 1024
-app_height = 768
+app_width = user_width*0.7
+app_height = user_height*0.7
 Window.size = (app_width,app_height)
 Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
 
