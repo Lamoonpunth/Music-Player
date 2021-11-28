@@ -163,6 +163,8 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
+    def Searched_Song(self, text="", search=False):
+        print(text)
 
 class MainWidget(Widget):
     def __init__(self, **kwargs):

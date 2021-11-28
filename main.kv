@@ -37,9 +37,17 @@
                     text:''
                     size_hint: 1,0.05
 
-                TextInput:
-                    size_hint:(1,0.1)
-                    text: 'Search'
+                MDBoxLayout:
+                    adaptive_height: True
+
+                    MDIconButton:
+                        icon: 'magnify'
+
+                    MDTextField:
+                        id: search_song
+                        hint_text: 'Search Song'
+                        on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
+
                 Label:
                     text: ''
                     size_hint:(1,0.05)

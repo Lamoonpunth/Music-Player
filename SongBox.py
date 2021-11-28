@@ -56,7 +56,6 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         print(self.index)
     def on_enter(self, *args):
         self.md_bg_color = (1, 1, 1, 1)
-
     def on_leave(self, *args):
         self.md_bg_color = self.theme_cls.bg_darkest
 
