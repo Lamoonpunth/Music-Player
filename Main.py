@@ -43,6 +43,7 @@ app_width = 4*ratio*2.5
 app_height = 3*ratio*2.5
 Window.size = (app_width,app_height)
 Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
+print('sawasdee kub')
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
