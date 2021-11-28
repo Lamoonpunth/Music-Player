@@ -39,6 +39,8 @@ def get_ratio(a, b):
     return int(r),int(a//r),int(b//r),f'{int(a//r)}:{int(b//r)}'
 ratio,ratio_width,ratio_height,display_ratio = get_ratio(user_width,user_height)
 # Adjust Window size when start
+print("as")
+print(ratio)
 app_width = 4*ratio*2.5
 app_height = 3*ratio*2.5
 Window.size = (app_width,app_height)
