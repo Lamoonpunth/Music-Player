@@ -162,6 +162,7 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
+        self.bool=True
 
 
 class MainWidget(Widget):
