@@ -19,10 +19,20 @@ from HoverImage import HoverImage
 import SlideNorn
 from kivymd.app import MDApp
 from SongBox import SongBox
-#Add Font
+import pyautogui
+# Get user screen display size
+user_width, user_height = pyautogui.size()
+print(user_width)
+print(user_height)
+# Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
-#Load KV File
+# Load KV File
 Builder.load_file('main.kv')
+# Adjust Window size when start
+app_width = 1024
+app_height = 768
+Window.size = (app_width,app_height)
+Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
@@ -34,10 +44,11 @@ for x in f:
 f.close()
 yoursong = playlist(fullpath)
 
-
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        print(f'Main width = {self.width}')
+        print(f'Main height = {self.height}')
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
@@ -162,6 +173,7 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
+        self.bool=True
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:
