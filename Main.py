@@ -24,7 +24,7 @@ LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 # Load KV File
 Builder.load_file('main.kv')
 # Adjust Window size when start
-Window.size = (1024,768)s
+Window.size = (1024,768)
 
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
