@@ -27,7 +27,8 @@
             # ช่อง Playlist
             BoxLayout:
                 orientation: 'vertical'
-                size_hint: (0.3,1)
+                size_hint: (None,None)
+                size:self.parent.width*0.2,self.parent.height
                 canvas.before:
                     Color:
                         rgba: (0,0,0,.7)
@@ -52,7 +53,6 @@
                             id: search_song
                             hint_text: 'Search Song'
                             on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
-
                     Label:
                         text: ''
                         size_hint:(1,0.05)
@@ -66,39 +66,15 @@
                         bar_width:10
                         GridLayout:
                             cols:1
+                            index:0
+                            spacing:10
+                            padding:10
                             size_hint:(None,None)
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
-                            #  playlist
-                            Label:
-                                size_hint_y: None
-                                height: self.texture_size[1]
-                                text_size: self.width, None
-                                padding: 10, 10
-                                text:'really some amazing text\\n' * 100   
-                            # BoxLayout:
-                            #     orientation: 'horizontal'
-                            #     size_hint: 1,0.1
-                            #     Label:
-                            #         pos_hint: {"center_x" : .5}            
-                            #         text:'Playlist'
-                            #         font_name: 'sf'
-                            #         font_size: 18
-                            #         size_hint: .1,0.65
-                            #         color: 0,0,0,1
-                            #     Label:
-                            #         text:''
-                            #         size_hint: .15,0.65
-                            #     Button:
-                            #         id:add_playlist_btn
-                            #         text:''
-                            #         size_hint: .04,0.65
-                            #         background_color: 0,0,0,0
-                            #         Image:
-                            #             source: 'archive/icon/icon_state_2/playlist_btn_2.png'
-                            #             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            #             size: self.parent.width,self.parent.height
+                            #  playlist  
+                            
 
             # ช่องของ Song list
             BoxLayout:
@@ -208,6 +184,7 @@
                     text:'Song name'
                     color:1,1,1,1
                     font_name: 'sf'
+                    font_size:20
                 # ปุ่มข้างล่าง    
             BoxLayout:
                 size_hint: (1.5,1)
