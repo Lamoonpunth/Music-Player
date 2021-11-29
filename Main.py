@@ -35,8 +35,10 @@ Window.size = (app_width,app_height)
 Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
 
 fullpath=[]
-f = open("yoursongpath.txt", "r+")
+f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
+
 for x in f:
+    print(x)
     if x[-1:] == "\n":
         s=song(x[:-1])
         print(s)
