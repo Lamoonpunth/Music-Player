@@ -1,3 +1,5 @@
+from kivy.config import Config
+# Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -20,20 +22,19 @@ import SlideNorn
 from kivymd.app import MDApp
 from SongBox import SongBox
 import pyautogui
-# Get user screen display size
-user_width, user_height = pyautogui.size()
-print(user_width)
-print(user_height)
+from PlaylistBox import PlaylistBox
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 # Load KV File
 Builder.load_file('main.kv')
-# Adjust Window size when start
-app_width = 1024
-app_height = 768
-Window.size = (app_width,app_height)
-Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
-
+# Get user screen display size
+user_width, user_height = pyautogui.size()
+# # Adjust Window size when start
+# app_width = 1024
+# app_height = 768
+# Window.size = (app_width,app_height)
+# Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
+Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
 
@@ -41,11 +42,24 @@ for x in f:
     print(x)
     if x[-1:] == "\n":
         s=song(x[:-1])
-        print(s)
         fullpath.append(s)
 f.close()
-yoursong = playlist(fullpath)
+yoursong = playlist("yoursong",fullpath)
 
+templist=[]
+playlistlist=[]
+playlistlist.append(yoursong)
+f = open("playlist.txt", "r+")
+for x in f:
+    if x[-1:] == "\n":
+        if x[0] is "%":
+            playlistlist.append(playlist(x[1:-1],templist.copy()))
+            templist=[]
+            continue
+        s=song(x[:-1])
+        templist.append(s)
+f.close()
+print(playlistlist[0].name)
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -71,16 +85,26 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
-        #self.ids.sn.spiderman(yoursong)
-        for i in range(len(yoursong.playlist)):
-            t = yoursong.playlist[i].time
+        self.playlistindex=0
+        self.showsong(yoursong)
+        self.showplaylist(playlistlist)
+    def showplaylist(self,playlistlist):
+        self.ids.playlistslide.clear_widgets()
+        for i in range(len(playlistlist)):
+            lb = PlaylistBox(i,playlistlist[i].name)
+            self.ids.playlistslide.add_widget(lb)
+            lb.bind(on_press=self.selectplaylist)
+
+    def showsong(self,playlist): #spiderman
+        self.ids.sn.clear_widgets()
+        for i in range(len(playlist.playlist)):
+            t = playlist.playlist[i].time
             new_t = (t//60) + ((t%60)/100)
             new_t = format(new_t,'.2f')
             time_text = f'{new_t}'
-            lb = SongBox(i+1,yoursong.playlist[i].name,time_text)
+            lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.ids.sn.add_widget(lb)
             lb.bind(on_press=self.selectsong)
-
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
@@ -164,7 +188,8 @@ class MainGridLayout(Widget):
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
-        self.queue.copyOriginal()
+        self.queue.chooseplaylist(playlistlist[self.playlistindex])
+        print(self.queue.musicqueue)
         self.queue.addfromqueuefirstsong()
         for i in range(index):
             self.queue.addfromqueue()
@@ -176,6 +201,12 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool=True
+
+    def selectplaylist(self,*args):
+        index=args[0].index
+        self.playlistindex=index
+        self.showsong(playlistlist[index])
+
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:
