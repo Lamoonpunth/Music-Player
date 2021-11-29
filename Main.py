@@ -39,11 +39,23 @@ f = open("yoursongpath.txt", "r+")
 for x in f:
     if x[-1:] == "\n":
         s=song(x[:-1])
-        print(s)
         fullpath.append(s)
 f.close()
-yoursong = playlist(fullpath)
+yoursong = playlist("yoursong",fullpath)
 
+templist=[]
+playlistlist=[]
+f = open("playlist.txt", "r+")
+for x in f:
+    if x[-1:] == "\n":
+        if x[0] is "%":
+            playlistlist.append(playlist(x[1:-1],templist.copy()))
+            templist=[]
+            continue
+        s=song(x[:-1])
+        templist.append(s)
+f.close()
+print(playlistlist[0].name)
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
