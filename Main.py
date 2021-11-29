@@ -3,6 +3,8 @@ from kivy.config import Config
 from os import stat
 from kivy import clock
 from kivy.app import App
+from kivy.core import text
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
 from kivy.core.audio import SoundLoader
@@ -16,7 +18,7 @@ from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
-from kivy.core.text import LabelBase
+from kivy.core.text import Label, LabelBase
 from HoverImage import HoverImage
 import SlideNorn
 from kivymd.app import MDApp
