@@ -1,3 +1,5 @@
+from kivy.config import Config
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -32,7 +34,6 @@ user_width, user_height = pyautogui.size()
 # Window.size = (app_width,app_height)
 # Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
 Window.maximize()
-
 fullpath=[]
 f = open("yoursongpath.txt", "r+")
 for x in f:
@@ -68,13 +69,16 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
-        #self.ids.sn.spiderman(yoursong)
-        for i in range(len(yoursong.playlist)):
-            t = yoursong.playlist[i].time
+        self.showsong(yoursong)
+
+    def showsong(self,playlist): #spiderman
+        self.ids.sn.clear_widgets()
+        for i in range(len(playlist.playlist)):
+            t = playlist.playlist[i].time
             new_t = (t//60) + ((t%60)/100)
             new_t = format(new_t,'.2f')
             time_text = f'{new_t}'
-            lb = SongBox(i+1,yoursong.playlist[i].name,time_text)
+            lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.ids.sn.add_widget(lb)
             lb.bind(on_press=self.selectsong)
 
