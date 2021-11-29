@@ -34,60 +34,71 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                Label:
-                    text:''
-                    size_hint: 1,0.05
-
-                MDBoxLayout:
-                    adaptive_height: True
-
-                    MDIconButton:
-                        icon: 'magnify'
-
-                    MDTextField:
-                        id: search_song
-                        hint_text: 'Search Song'
-                        on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
-
-                Label:
-                    text: ''
-                    size_hint:(1,0.05)
                 BoxLayout:
-                    orientation: 'vertical'
-                    #  playlist
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        size_hint: 1,0.1
-                        Label:
-                            pos_hint: {"center_x" : .5}            
-                            text:'Playlist'
-                            font_name: 'sf'
-                            font_size: 18
-                            size_hint: .1,0.65
-                            color: 0,0,0,1
-                        Label:
-                            text:''
-                            size_hint: .15,0.65
-                        Button:
-                            id:add_playlist_btn
-                            text:''
-                            size_hint: .04,0.65
-                            background_color: 0,0,0,0
-                            Image:
-                                source: 'archive/icon/icon_state_2/playlist_btn_2.png'
-                                pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                                size: self.parent.width,self.parent.height
-                        
+                    orientation:'vertical'
+                    size_hint:(None,None)
+                    size: self.parent.width,self.parent.height*0.15
                     Label:
                         text:''
-                        size_hint: 1,.8
+                        size_hint: 1,0.05
 
-                Label:
-                    text:''
-                    size_hint: 1,1
-                
-                
-                    size_hint:(1,0.2)
+                    MDBoxLayout:
+                        adaptive_height: True
+
+                        MDIconButton:
+                            icon: 'magnify'
+
+                        MDTextField:
+                            id: search_song
+                            hint_text: 'Search Song'
+                            on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
+
+                    Label:
+                        text: ''
+                        size_hint:(1,0.05)
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint:(None,None)
+                    size: self.parent.width,self.parent.height*0.85
+                    ScrollView:
+                        do_scroll_x:False
+                        do_scroll_y:True
+                        bar_width:10
+                        GridLayout:
+                            cols:1
+                            size_hint:(None,None)
+                            size:self.parent.width,self.parent.height
+                            height:self.minimum_height
+                            width:self.minimum_width
+                            #  playlist
+                            Label:
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
+                                padding: 10, 10
+                                text:'really some amazing text\\n' * 100   
+                            # BoxLayout:
+                            #     orientation: 'horizontal'
+                            #     size_hint: 1,0.1
+                            #     Label:
+                            #         pos_hint: {"center_x" : .5}            
+                            #         text:'Playlist'
+                            #         font_name: 'sf'
+                            #         font_size: 18
+                            #         size_hint: .1,0.65
+                            #         color: 0,0,0,1
+                            #     Label:
+                            #         text:''
+                            #         size_hint: .15,0.65
+                            #     Button:
+                            #         id:add_playlist_btn
+                            #         text:''
+                            #         size_hint: .04,0.65
+                            #         background_color: 0,0,0,0
+                            #         Image:
+                            #             source: 'archive/icon/icon_state_2/playlist_btn_2.png'
+                            #             pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                            #             size: self.parent.width,self.parent.height
 
             # ช่องของ Song list
             BoxLayout:
@@ -95,7 +106,8 @@
                 # ชื่อ Playlist
                 BoxLayout:
                     orientation:'horizontal' 
-                    size_hint: 1,0.2
+                    size_hint: (None,None)
+                    size:self.parent.width,self.parent.height*0.2
                     canvas.before:
                         Color:
                             rgba: (0,0,0,.7)
@@ -114,7 +126,8 @@
                 BoxLayout:
                     orientation:'horizontal'
                     padding:25,10
-                    size_hint: 1,0.1
+                    size_hint: (None,None)
+                    size:self.parent.width,self.parent.height*0.1
                     canvas.before:
                         Color:
                             rgba: (0,0,0,.5)
@@ -123,8 +136,8 @@
                             size: self.size
                     Label:
                         text:'No.'
-                        # size:self.parent.width*0.1,self.parent.height
-                        size_hint:0.1,1
+                        size_hint:(None,None)
+                        size:self.parent.width*0.1,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
                         color: 0 , 0 , 0 , 1
@@ -132,8 +145,8 @@
                         font_size:16
                     Label:
                         text:'Song'
-                        # size:self.parent.width*0.8,self.parent.height
-                        size_hint:0.7,1
+                        size_hint:(None,None)
+                        size:self.parent.width*0.7,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
                         color: 0 , 0 , 0 , 1
@@ -142,7 +155,8 @@
                     Label:
                         text:'Time'
                         # size:self.parent.width*0.1,self.parent.height
-                        size_hint:0.2,1
+                        size_hint:(None,None)
+                        size:self.parent.width*0.2,self.parent.height
                         text_size:self.width,self.height
                         halign:'center'
                         color: 0 , 0 , 0 , 1
@@ -150,7 +164,8 @@
                         font_size:16
                 BoxLayout:
                     orientation:'vertical'
-                    size_hint: 1,0.7                             
+                    size_hint: (None,None)     
+                    size: self.parent.width,self.parent.height*0.7                       
                     canvas.before:
                         Color:
                             rgba: (0,0,0,.5)
@@ -159,6 +174,8 @@
                             size: self.size
                     ScrollView:
                         id: sc
+                        size_hint:(None,None)
+                        size: self.parent.width,self.parent.height
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15

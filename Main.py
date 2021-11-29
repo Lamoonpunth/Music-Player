@@ -1,5 +1,5 @@
 from kivy.config import Config
-Config.set('graphics','resizable', False)
+# Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -81,7 +81,6 @@ class MainGridLayout(Widget):
             lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.ids.sn.add_widget(lb)
             lb.bind(on_press=self.selectsong)
-
 
     def slide_it(self, *args):
         self.volume = float(args[1]/100)

@@ -49,7 +49,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         #time
         lb=Label(size_hint_x= .25,
         text_size= (0.2*self.width,None),
-        halign='left',
+        halign='right',
         padding= (25, 10),
         text=str(time),
         font_name='sf',
