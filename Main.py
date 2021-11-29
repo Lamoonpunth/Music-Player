@@ -24,6 +24,7 @@ import SlideNorn
 from kivymd.app import MDApp
 from SongBox import SongBox
 import pyautogui
+from PlaylistBox import PlaylistBox
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
 # Load KV File
@@ -47,6 +48,7 @@ yoursong = playlist("yoursong",fullpath)
 
 templist=[]
 playlistlist=[]
+playlistlist.append(yoursong)
 f = open("playlist.txt", "r+")
 for x in f:
     if x[-1:] == "\n":
@@ -83,7 +85,15 @@ class MainGridLayout(Widget):
         self.seekvalue = 0
         self.playtimeUpdateBool = True
         #slidenorninit
+        self.playlistindex=0
         self.showsong(yoursong)
+        self.showplaylist(playlistlist)
+    def showplaylist(self,playlistlist):
+        self.ids.playlistslide.clear_widgets()
+        for i in range(len(playlistlist)):
+            lb = PlaylistBox(i,playlistlist[i].name)
+            self.ids.playlistslide.add_widget(lb)
+            lb.bind(on_press=self.selectplaylist)
 
     def showsong(self,playlist): #spiderman
         self.ids.sn.clear_widgets()
@@ -178,7 +188,8 @@ class MainGridLayout(Widget):
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
-        self.queue.copyOriginal()
+        self.queue.chooseplaylist(playlistlist[self.playlistindex])
+        print(self.queue.musicqueue)
         self.queue.addfromqueuefirstsong()
         for i in range(index):
             self.queue.addfromqueue()
@@ -190,6 +201,12 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool=True
+
+    def selectplaylist(self,*args):
+        index=args[0].index
+        self.playlistindex=index
+        self.showsong(playlistlist[index])
+
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:
