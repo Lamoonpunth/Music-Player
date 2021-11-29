@@ -65,6 +65,7 @@
                         do_scroll_y:True
                         bar_width:10
                         GridLayout:
+                            id:playlistslide
                             cols:1
                             size_hint:(None,None)
                             size:self.parent.width,self.parent.height
@@ -174,8 +175,6 @@
                             size: self.size
                     ScrollView:
                         id: sc
-                        size_hint:(None,None)
-                        size: self.parent.width,self.parent.height
                         do_scroll_x: False
                         do_scroll_y: True
                         bar_width: 15
