@@ -51,7 +51,7 @@ yoursong = playlist("yoursong",fullpath)
 templist=[]
 playlistlist=[]
 playlistlist.append(yoursong)
-f = open("playlist.txt", "r+")
+f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
 for x in f:
     if x[-1:] == "\n":
         if x[0] is "%":
@@ -90,6 +90,7 @@ class MainGridLayout(Widget):
         self.playlistindex=0
         self.showsong(yoursong)
         self.showplaylist(playlistlist)
+        
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
@@ -215,9 +216,9 @@ class MainGridLayout(Widget):
             if text in songg.name:
                 print(songg.name)
 
-class MainWidget(Widget):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+# class MainWidget(Widget):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
 
 class MainApp(MDApp):
     def build(self):
