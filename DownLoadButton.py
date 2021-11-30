@@ -57,6 +57,10 @@ class DownloadURL(MDFloatLayout):
         self.dialog.open()
     
     def clickCancel(self,instance):
+        for obj in self.dialog.content_cls.children:
+            if isinstance(obj, MDTextField):
+                print(obj.text)                           
+                obj.text =''
         self.dialog.dismiss()
 
     def grabText(self, inst):
@@ -65,6 +69,7 @@ class DownloadURL(MDFloatLayout):
                 print(obj.text)
                 t2 = threading.Thread(target=self.downloadFromYoutube,args=(obj.text,), name='t2')              
                 t2.start()                
+                obj.text =''
         self.dialog.dismiss()
 
     def downloadFromYoutube(self,youtubeURL):

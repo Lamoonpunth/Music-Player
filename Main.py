@@ -18,15 +18,17 @@ from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
-from kivy.core.text import Label, LabelBase
 from HoverImage import HoverImage
 import SlideNorn
 from kivymd.app import MDApp
 from SongBox import SongBox
 import pyautogui
 from PlaylistBox import PlaylistBox
+from kivy.core.text import LabelBase
+
 # Add Font
-LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
+LabelBase.register(name='sf',fn_regular='archive/finalFont.ttf')
+
 # Load KV File
 Builder.load_file('main.kv')
 # Get user screen display size
@@ -209,7 +211,6 @@ class MainGridLayout(Widget):
         index=args[0].index
         self.playlistindex=index
         self.showsong(playlistlist[index])
-
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:
