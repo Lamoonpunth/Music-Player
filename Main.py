@@ -1,5 +1,5 @@
 from kivy.config import Config
-# Config.set('graphics','resizable', False)
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -88,10 +88,11 @@ class MainGridLayout(Widget):
         self.playlistindex=0
         self.showsong(yoursong)
         self.showplaylist(playlistlist)
+
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
-            lb = PlaylistBox(i,playlistlist[i].name)
+            lb = PlaylistBox(i,playlistlist[i].name,self.ids.boxbox.width)
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
 

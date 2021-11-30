@@ -57,6 +57,7 @@
                         text: ''
                         size_hint:(1,0.05)
                 BoxLayout:
+                    id:boxbox
                     orientation:'vertical'
                     size_hint:(None,None)
                     size: self.parent.width,self.parent.height*0.85
@@ -71,7 +72,7 @@
                             spacing:10
                             padding:10
                             size_hint:(None,None)
-                            size:self.parent.width,self.parent.height
+                            size:boxbox.width,boxbox.height
                             height:self.minimum_height
                             width:self.minimum_width
                             #  playlist  
