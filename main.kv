@@ -57,24 +57,27 @@
                         text: ''
                         size_hint:(1,0.05)
                 BoxLayout:
+                    id:boxbox
                     orientation:'vertical'
                     size_hint:(None,None)
                     size: self.parent.width,self.parent.height*0.85
                     ScrollView:
+                        size:self.parent.width,self.parent.height
                         do_scroll_x:False
                         do_scroll_y:True
                         bar_width:10
+                        #  playlist 
                         GridLayout:
                             id:playlistslide
                             cols:1
                             index:0
                             spacing:10
                             padding:10
-                            size_hint:(None,None)
+                            size_hint: (None,None)
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
-                            #  playlist  
+                             
                             
 
             # ช่องของ Song list

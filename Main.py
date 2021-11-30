@@ -1,5 +1,5 @@
 from kivy.config import Config
-# Config.set('graphics','resizable', False)
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -185,10 +185,16 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
-        print(f'Repeat state = {state.state}')
+        if state.state == 'down':
+            print(f'Repeat is ON')
+        else:
+            print(f'Repeat is OFF')
 
     def shuffleState(self, state):
-        print(f'Shuffle state = {state.state}')
+        if state.state == 'down':
+            print(f'Shuffle is ON')
+        else:
+            print(f'Shuffle is OFF')
 
     def selectsong(self,*args):
         self.sound.stop()
