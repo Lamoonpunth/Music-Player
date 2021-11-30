@@ -17,14 +17,14 @@ from kivymd.uix.behaviors import HoverBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.theming import ThemableBehavior
 class PlaylistBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
-    def __init__(self,i,name,width,**kwargs):
+    def __init__(self,i,name,**kwargs):
         super(PlaylistBox, self).__init__(**kwargs)
         self.orientation='horizontal'
         self.size_hint=(None,None)
-        self.width = width*1.75
+        self.width = Window.width*0.19
         self.index=i
         lb=Label(size_hint_x= .1,
-        text_size= (width,None),
+        text_size= (self.width,None),
         padding= (25, 10),
         text=name,
         font_name='sf',

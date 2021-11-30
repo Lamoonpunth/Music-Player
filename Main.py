@@ -94,7 +94,7 @@ class MainGridLayout(Widget):
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
-            lb = PlaylistBox(i,playlistlist[i].name,self.ids.boxbox.width)
+            lb = PlaylistBox(i,playlistlist[i].name)
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
 
@@ -183,10 +183,16 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
-        print(f'Repeat state = {state.state}')
+        if state.state == 'down':
+            print(f'Repeat is ON')
+        else:
+            print(f'Repeat is OFF')
 
     def shuffleState(self, state):
-        print(f'Shuffle state = {state.state}')
+        if state.state == 'down':
+            print(f'Shuffle is ON')
+        else:
+            print(f'Shuffle is OFF')
 
     def selectsong(self,*args):
         self.sound.stop()
