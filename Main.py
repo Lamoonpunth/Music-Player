@@ -25,6 +25,7 @@ from SongBox import SongBox
 import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
+from DownLoadButton import DownloadURL
 
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFont.ttf')
@@ -64,6 +65,7 @@ for x in f:
         templist.append(s)
 f.close()
 print(playlistlist[0].name)
+
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -92,6 +94,9 @@ class MainGridLayout(Widget):
         self.playlistindex=0
         self.showsong(yoursong)
         self.showplaylist(playlistlist)
+        self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
+        download_box = DownloadURL()
+        self.ids.playlist_name_box.add_widget(download_box)
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -217,6 +222,7 @@ class MainGridLayout(Widget):
         index=args[0].index
         self.playlistindex=index
         self.showsong(playlistlist[index])
+        self.ids.playlist_name.text = f'{playlistlist[index].name}'
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:

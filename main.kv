@@ -85,6 +85,7 @@
                 orientation: 'vertical'
                 # ชื่อ Playlist
                 BoxLayout:
+                    id: playlist_name_box
                     orientation:'horizontal' 
                     size_hint: (None,None)
                     size:self.parent.width,self.parent.height*0.2
@@ -100,8 +101,6 @@
                         color: 0 , 0 , 0 , 1
                         font_size: 42
                         font_name: 'sf'
-                    BoxLayout:
-                        orientation:'vertical'
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
