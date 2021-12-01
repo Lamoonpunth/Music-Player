@@ -27,6 +27,7 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
+LabelBase.register(name='sf',fn_regular='archive/NotoSans-Regular.ttf')
 # Load KV File
 Builder.load_file('main.kv')
 # Get user screen display size
