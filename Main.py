@@ -83,7 +83,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
+        self.ids.song_name.font_name = 'sf'
         self.volume = 0.25
         #seek
         self.seekvalue = 0
