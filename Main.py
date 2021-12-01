@@ -28,7 +28,7 @@ from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
 
 # Add Font
-LabelBase.register(name='sf',fn_regular='archive/finalFont.ttf')
+LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
 # Load KV File
 Builder.load_file('main.kv')
@@ -43,8 +43,7 @@ Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
 
-for x in f:
-    print(x)
+for x in f:    
     if x[-1:] == "\n":
         s=song(x[:-1])
         fullpath.append(s)
