@@ -1,5 +1,5 @@
 from kivy.config import Config
-# Config.set('graphics','resizable', False)
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -18,16 +18,18 @@ from threading import Thread
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
-from kivy.core.text import Label, LabelBase
 from HoverImage import HoverImage
 import SlideNorn
 from kivymd.app import MDApp
 from SongBox import SongBox
 import pyautogui
 from PlaylistBox import PlaylistBox
+from kivy.core.text import LabelBase
+from DownLoadButton import DownloadURL
+
 # Add Font
-LabelBase.register(name='sf',fn_regular='archive/SF-UI-Display-Regular.ttf')
-LabelBase.register(name='sf',fn_regular='archive/NotoSans-Regular.ttf')
+LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
+
 # Load KV File
 Builder.load_file('main.kv')
 # Get user screen display size
@@ -41,8 +43,7 @@ Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
 
-for x in f:
-    print(x)
+for x in f:    
     if x[-1:] == "\n":
         s=song(x[:-1])
         fullpath.append(s)
@@ -63,6 +64,7 @@ for x in f:
         templist.append(s)
 f.close()
 print(playlistlist[0].name)
+
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -82,7 +84,7 @@ class MainGridLayout(Widget):
         print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.ids.song_name.font_name = 'archive/SF-UI-Display-Regular.ttf'
+        self.ids.song_name.font_name = 'sf'
         self.volume = 0.25
         #seek
         self.seekvalue = 0
@@ -91,6 +93,9 @@ class MainGridLayout(Widget):
         self.playlistindex=0
         self.showsong(yoursong)
         self.showplaylist(playlistlist)
+        self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
+        download_box = DownloadURL()
+        self.ids.playlist_name_box.add_widget(download_box)
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -184,10 +189,16 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
-        print(f'Repeat state = {state.state}')
+        if state.state == 'down':
+            print(f'Repeat is ON')
+        else:
+            print(f'Repeat is OFF')
 
     def shuffleState(self, state):
-        print(f'Shuffle state = {state.state}')
+        if state.state == 'down':
+            print(f'Shuffle is ON')
+        else:
+            print(f'Shuffle is OFF')
 
     def selectsong(self,*args):
         self.sound.stop()
@@ -210,7 +221,7 @@ class MainGridLayout(Widget):
         index=args[0].index
         self.playlistindex=index
         self.showsong(playlistlist[index])
-
+        self.ids.playlist_name.text = f'{playlistlist[index].name}'
 
     def Searched_Song(self, text="", search=False):
         for songg in self.queue.originalplaylist:
