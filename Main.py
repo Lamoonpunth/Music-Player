@@ -97,6 +97,7 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
         download_box = DownloadURL()
         self.ids.playlist_name_box.add_widget(download_box)
+        # self.ids.playlist_name_box.add_widget(SongBrowser)
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()

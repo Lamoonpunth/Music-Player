@@ -104,15 +104,15 @@ class DownloadURL(MDFloatLayout):
             f.write(f'archive/song/{filename}\n')
             f.close()
             
-# class MainApp(MDApp):
-#     def build(self):
-#         screen = DownloadURL()
-#         return screen
+class MainApp(MDApp):
+    def build(self):
+        screen = DownloadURL()
+        return screen
 
-# def run():
-#     MainApp().run()
-# if __name__ == "__main__":
-#     t1 = threading.Thread(target=run(), name='t1')
-#     t1.start() 
+def run():
+    MainApp().run()
+if __name__ == "__main__":
+    t1 = threading.Thread(target=run(), name='t1')
+    t1.start() 
   
     
