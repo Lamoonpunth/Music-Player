@@ -87,10 +87,10 @@ class DownloadURL(MDFloatLayout):
 
         with youtube_dl.YoutubeDL(options) as ydl:
             ydl._ies = [ydl.get_info_extractor('Youtube')]
-            ydl.download([video_info['webpage_url']])
+            numm = ydl.download([video_info['webpage_url']])
         
         print("Download complete... {}".format(filename))   
-    
+        print(f'Number: {numm}')
         g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
         Write = True
         for i in g:                 
