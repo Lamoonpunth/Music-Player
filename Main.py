@@ -104,7 +104,11 @@ class MainGridLayout(Widget):
         self.ids.playlist_name_box.add_widget(download_box)
         #search
         self.searchedPlaylist = playlist('sPlaylist')
+<<<<<<< HEAD
        
+=======
+        self.searchedShow = False
+>>>>>>> e8f11925b07b4f3f7666fb06f1fe4a565c3ebff0
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -150,6 +154,11 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
+            if self.ids.play.icon == 'play-circle':
+                self.ids.play.icon = 'stop-circle'
+            else:
+                self.ids.play.icon = 'play-circle'
+
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
@@ -161,6 +170,7 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def nextpress(self,instance):
+        
         if self.queue.isEmpty():
             print("QueueIsEmpty")
             return
@@ -198,16 +208,26 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
+        if self.ids.repeat.text_color == [0,0,0,1] and self.ids.repeat.icon == 'repeat':
+            self.ids.repeat.text_color = [1,1,1,1]
+            self.ids.repeat.icon == 'repeat-off'
+        else:
+            self.ids.repeat.text_color = [0,0,0,1]
+            self.ids.repeat.icon == 'repeat'
         if state.state == 'down':
             print(f'Repeat is ON')
         else:
             print(f'Repeat is OFF')
 
-    def shuffleState(self, state):
-        if state.state == 'down':
+    def shuffleState(self):
+        if self.ids.shuffle.text_color == [0,0,0,1] and self.ids.shuffle.icon == 'shuffle-variant':
+            self.ids.shuffle.text_color = [1,1,1,1]
+            self.ids.shuffle.icon == 'shuffle-disabled'
             print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
         else:
+            self.ids.shuffle.text_color = [0,0,0,1]
+            self.ids.shuffle.icon == 'shuffle-variant'
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
             self.queue.chooseplaylist(self.queue.originalplaylist)
@@ -215,10 +235,24 @@ class MainGridLayout(Widget):
             for i in range(index):
                 self.queue.addfromqueue()
 
+        # if state.state == 'down':
+        #     print(f'Shuffle is ON')
+        #     random.shuffle(self.queue.musicqueue)
+        # else:
+        #     print(f'Shuffle is OFF')
+        #     index=self.queue.nowplayingindex
+        #     self.queue.chooseplaylist(self.queue.originalplaylist)
+        #     self.queue.addfromqueuefirstsong()
+        #     for i in range(index):
+        #         self.queue.addfromqueue()
+
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
-        self.queue.chooseplaylist(playlistlist[self.playlistindex])
+        if self.searchedShow is True:
+            self.queue.chooseplaylist(self.searchedPlaylist)
+        else:
+            self.queue.chooseplaylist(playlistlist[self.playlistindex])
         print(self.queue.musicqueue)
         self.queue.addfromqueuefirstsong()
         for i in range(index):
@@ -233,8 +267,13 @@ class MainGridLayout(Widget):
         self.bool = True
 
     def selectplaylist(self,*args):
+<<<<<<< HEAD
         index=args[0].index
         self.playlistindex =index
+=======
+        index=args[0].index 
+        self.playlistindex=index
+>>>>>>> e8f11925b07b4f3f7666fb06f1fe4a565c3ebff0
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
         
@@ -247,7 +286,9 @@ class MainGridLayout(Widget):
                 print(songg.path)                        
         print('------------')               
         self.showsong(self.searchedPlaylist)
+        self.searchedShow=True
 
+        
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
@@ -256,6 +297,14 @@ class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'
+        #=========== theme ===========#
+        self.theme_cls.primary_palette = "Gray"
+        #=========== theme ===========#
+
+    #=========== Icon ============#
+    
+    #=========== Icon ============#
+
         return MainGridLayout()
 if __name__ == "__main__":
     MainApp().run()
