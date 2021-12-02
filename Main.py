@@ -26,6 +26,7 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
+import random
 
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
@@ -42,10 +43,11 @@ user_width, user_height = pyautogui.size()
 Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-
+index=0
 for x in f:    
     if x[-1:] == "\n":
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         fullpath.append(s)
 f.close()
 yoursong = playlist("yoursong",fullpath)
@@ -54,13 +56,16 @@ templist=[]
 playlistlist=[]
 playlistlist.append(yoursong)
 f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+index=0
 for x in f:
     if x[-1:] == "\n":
         if x[0] is "%":
             playlistlist.append(playlist(x[1:-1],templist.copy()))
             templist=[]
+            index=0
             continue
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         templist.append(s)
 f.close()
 print(playlistlist[0].name)
@@ -197,8 +202,14 @@ class MainGridLayout(Widget):
     def shuffleState(self, state):
         if state.state == 'down':
             print(f'Shuffle is ON')
+            random.shuffle(self.queue.musicqueue)
         else:
             print(f'Shuffle is OFF')
+            index=self.queue.nowplayingindex
+            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.addfromqueuefirstsong()
+            for i in range(index):
+                self.queue.addfromqueue()
 
     def selectsong(self,*args):
         self.sound.stop()
