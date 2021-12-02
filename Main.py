@@ -14,7 +14,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
-from threading import Thread
+import threading 
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
@@ -26,6 +26,8 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
+import time
+import random
 
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
@@ -42,10 +44,11 @@ user_width, user_height = pyautogui.size()
 Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-
+index=0
 for x in f:    
     if x[-1:] == "\n":
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         fullpath.append(s)
 f.close()
 yoursong = playlist("yoursong",fullpath)
@@ -54,16 +57,19 @@ templist=[]
 playlistlist=[]
 playlistlist.append(yoursong)
 f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+index=0
 for x in f:
     if x[-1:] == "\n":
         if x[0] is "%":
             playlistlist.append(playlist(x[1:-1],templist.copy()))
             templist=[]
+            index=0
             continue
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         templist.append(s)
 f.close()
-print(playlistlist[0].name)
+print(playlistlist[0].name,' here we go')
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
@@ -96,6 +102,8 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
         download_box = DownloadURL()
         self.ids.playlist_name_box.add_widget(download_box)
+        #search
+        self.searchedPlaylist = playlist('sPlaylist')
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -184,7 +192,7 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
-    def playtimeUpdate(self):
+    def playtimeUpdate(self):        
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
@@ -211,8 +219,14 @@ class MainGridLayout(Widget):
         #    self.ids.shuffle.text_color = [0,0,0,1]
         if state.state == 'down':
             print(f'Shuffle is ON')
+            random.shuffle(self.queue.musicqueue)
         else:
             print(f'Shuffle is OFF')
+            index=self.queue.nowplayingindex
+            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.addfromqueuefirstsong()
+            for i in range(index):
+                self.queue.addfromqueue()
 
     def selectsong(self,*args):
         self.sound.stop()
@@ -236,11 +250,16 @@ class MainGridLayout(Widget):
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
-
+        
     def Searched_Song(self, text="", search=False):
-        for songg in self.queue.originalplaylist:
+        # print(f'{type(yoursong)}')        
+        self.searchedPlaylist.clearSong()
+        for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
-                print(songg.name)
+                self.searchedPlaylist.addsong(songg)
+                print(songg.name)                        
+        print('------------')
+        self.showsong(self.searchedPlaylist)
 
         
 # class MainWidget(Widget):

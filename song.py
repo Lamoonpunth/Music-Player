@@ -1,11 +1,12 @@
 from kivy.core.audio import SoundLoader
 class song():
-    def __init__(self,path):
+    def __init__(self,path,index):
         self.path=path
         temp=path[13:]
         self.name=temp[:-4]
         sound=SoundLoader.load(self.path)
         self.time=sound.length
+        self.indexinplaylist=index
     def getpath(self):
         return self.path
     def getname(self):
