@@ -196,67 +196,130 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                BoxLayout:
-                    orientation:'horizontal'
-                    size: self.parent.width/2,self.parent.height
-                    center_x:self.parent.center_x  
+
+                #BoxLayout:
+                    #orientation:'horizontal'
+                    #size: self.parent.width/2,self.parent.height
+                    #center_x:self.parent.center_x  
                     
-                    Button:
-                        background_color: 0,0,0,0
-                    ToggleButton:
-                        id:shuffle
-                        text:''
-                        background_color: 0,0,0,0
-                        on_state: root.shuffleState(self)
-                        Image:
-                            source: 'archive/icon/icon_state_1/shuffle_btn_1.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
-                    Button:
-                        id:prev
-                        text:''
-                        background_color: 0,0,0,0
-                        HoverImage:
-                            normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
-                            hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
-                            source: 'archive/icon/icon_state_2/previous_btn_2.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
-                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
-                    Button:
-                        id:play
-                        text: ' '
-                        background_color: 0,0,0,0
-                        HoverImage:
-                            normalImage:'archive/icon/icon_state_1/play_btn_1.png'
-                            hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
-                            source: 'archive/icon/icon_state_2/play_btn_2.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
-                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
-                    Button:
-                        id:next
-                        text:''
-                        background_color: 0,0,0,0
-                        HoverImage:
-                            normalImage:'archive/icon/icon_state_1/next_btn_1.png'
-                            hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
-                            source: 'archive/icon/icon_state_2/next_btn_2.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
-                            on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
-                            on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
-                    ToggleButton:
-                        id:repeat
-                        text:''
-                        background_color: 0,0,0,0
-                        on_state: root.repeatState(self)
-                        Image:
-                            source: 'archive/icon/icon_state_1/repeat_btn_1.png'
-                            pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
-                            size: self.parent.width,self.parent.height
+                    #Button:
+                    #    background_color: 0,0,0,0
+                    #ToggleButton:
+                    #    id:shuffle
+                    #    text:''
+                    #    background_color: 0,0,0,0
+                    #    on_state: root.shuffleState(self)
+                    #    Image:
+                    #        source: 'archive/icon/icon_state_1/shuffle_btn_1.png'
+                    #        pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                    #        size: self.parent.width,self.parent.height
+                    #Button:
+                    #    id:prev
+                    #    text:''
+                    #    background_color: 0,0,0,0
+                    #    HoverImage:
+                    #        normalImage:'archive/icon/icon_state_1/previous_btn_1.png'
+                    #        hoverImage:'archive/icon/icon_state_2/previous_btn_2.png'
+                    #        source: 'archive/icon/icon_state_2/previous_btn_2.png'
+                    #        pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                    #        size: self.parent.width,self.parent.height
+                    #        on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                    #       on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
+                    #Button:
+                    #    id:play
+                    #    text: ' '
+                    #    background_color: 0,0,0,0
+                    #    HoverImage:
+                    #        normalImage:'archive/icon/icon_state_1/play_btn_1.png'
+                    #        hoverImage:'archive/icon/icon_state_2/play_btn_2.png'
+                    #        source: 'archive/icon/icon_state_2/play_btn_2.png'
+                    #        pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                    #        size: self.parent.width,self.parent.height
+                    #        on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                    #        on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args) 
+                
+                #========== ปุ่ม shuffle previous play next repeat ==============#
+                MDBoxLayout:
+                    
+                    adaptive_height: True
+                    pos_hint: {"center_x":0.5,"center_y":0.5}
+                    Label:
+                        text: ''
+                        size_hint: 0.7,1
+
+                    MDIconButton:
+                        id: shuffle
+                        icon: 'shuffle-variant'
+                        user_font_size: 35
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0,0,0,1]
+                        on_press: self.text_color = [1,1,1,1]
+                        on_release: self.text_color =  [0,0,0,1]
+
+                    MDIconButton:
+                        id: prev
+                        icon: 'skip-previous'
+                        user_font_size: 65
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0,0,0,1]
+                        on_press: self.text_color = [1,1,1,1]
+                        on_release: self.text_color =  [0,0,0,1]
+                    MDIconButton:
+                        id: play
+                        icon: 'play-circle'
+                        user_font_size: 80
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0,0,0,1]
+                        on_press: self.text_color = [1,1,1,1]
+                        on_release: self.text_color =  [0,0,0,1]
+                        
+                    MDIconButton:
+                        id: next
+                        icon: 'skip-next'
+                        user_font_size: 65
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0,0,0,1]
+                        on_press: self.text_color = [1,1,1,1]
+                        on_release: self.text_color =  [0,0,0,1]
+                    MDIconButton:
+                        id: repeat
+                        icon: 'repeat'
+                        user_font_size: 35
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0,0,0,1]
+                        on_press: self.text_color = [1,1,1,1]
+                        on_release: self.text_color =  [0,0,0,1]
+
+                    #========== ปุ่ม shuffle previous play next repeat ==============#
+                    
+
+
+                    #Button:
+                    #    id:next
+                    #    text:''
+                    #    background_color: 0,0,0,0
+                    #    HoverImage:
+                    #        normalImage:'archive/icon/icon_state_1/next_btn_1.png'
+                    #        hoverImage:'archive/icon/icon_state_2/next_btn_2.png'
+                    #        source: 'archive/icon/icon_state_2/next_btn_2.png'
+                    #        pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                    #        size: self.parent.width,self.parent.height
+                    #        on_touch_down: if self.collide_point(*args[1].pos):self.otd(*args)
+                    #        on_touch_up: if self.collide_point(*args[1].pos):self.otu(*args)
+                    #ToggleButton:
+                    #    id:repeat
+                    #    text:''
+                    #    background_color: 0,0,0,0
+                    #    on_state: root.repeatState(self)
+                    #    Image:
+                    #        source: 'archive/icon/icon_state_1/repeat_btn_1.png'
+                    #        pos: self.parent.center_x - (self.parent.width/2),self.parent.center_y - (self.parent.height/2)
+                    #        size: self.parent.width,self.parent.height
 
                     Label:
                         text: ''

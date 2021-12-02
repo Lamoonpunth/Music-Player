@@ -141,6 +141,11 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
+            if self.ids.play.icon == 'play-circle':
+                self.ids.play.icon = 'stop-circle'
+            else:
+                self.ids.play.icon = 'play-circle'
+
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
@@ -152,6 +157,7 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def nextpress(self,instance):
+        
         if self.queue.isEmpty():
             print("QueueIsEmpty")
             return
@@ -189,12 +195,20 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
+        #if self.ids.repeat.text_color == [0,0,0,1]:
+        #    self.ids.repeat.text_color = [1,1,1,1]
+        #else:
+        #    self.ids.repeat.text_color = [0,0,0,1]
         if state.state == 'down':
             print(f'Repeat is ON')
         else:
             print(f'Repeat is OFF')
 
     def shuffleState(self, state):
+        #if self.ids.shuffle.text_color == [0,0,0,1]:
+        #    self.ids.shuffle.text_color = [1,1,1,1]
+        #else:
+        #    self.ids.shuffle.text_color = [0,0,0,1]
         if state.state == 'down':
             print(f'Shuffle is ON')
         else:
@@ -218,7 +232,7 @@ class MainGridLayout(Widget):
         self.bool=True
 
     def selectplaylist(self,*args):
-        index=args[0].index
+        index=args[0].index 
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
@@ -228,6 +242,7 @@ class MainGridLayout(Widget):
             if text in songg.name:
                 print(songg.name)
 
+        
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
@@ -236,6 +251,14 @@ class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'
+        #=========== theme ===========#
+        self.theme_cls.primary_palette = "Gray"
+        #=========== theme ===========#
+
+    #=========== Icon ============#
+    
+    #=========== Icon ============#
+
         return MainGridLayout()
 if __name__ == "__main__":
     MainApp().run()
