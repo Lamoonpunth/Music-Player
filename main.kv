@@ -266,15 +266,15 @@
                         text_color: [0,0,0,1]
                         on_press: self.text_color = [1,1,1,1]
                         on_release: self.text_color =  [0,0,0,1]
-                    MDIconButton:
+                    
+                    PlayButton:
                         id: play
                         icon: 'play-circle'
                         user_font_size: 80
                         theme_text_color: "Custom"
                         pos_hint: {"center_x":0.5,"center_y":0.5}
-                        text_color: [0,0,0,1]
-                        on_press: self.text_color = [1,1,1,1]
-                        on_release: self.text_color =  [0,0,0,1]
+                        text_color: [1,1,1,1]
+                        on_release: self.user_font_size = 85
                         
                     MDIconButton:
                         id: next

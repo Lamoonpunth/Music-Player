@@ -28,7 +28,7 @@ from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
 import time
 import random
-
+from PlayButton import PlayButton
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -150,6 +150,7 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
+            self.ids.play.user_font_size= 80
             if self.ids.play.icon == 'play-circle':
                 self.ids.play.icon = 'stop-circle'
             else:
