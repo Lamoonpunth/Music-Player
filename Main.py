@@ -1,3 +1,4 @@
+from re import search
 from kivy.config import Config
 Config.set('graphics','resizable', False)
 from os import stat
@@ -261,15 +262,20 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool = True
+        #print(self.searchedShow,' ooo o oo ')
 
     def selectplaylist(self,*args):
         index=args[0].index 
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
+        self.searchedShow = False
         
     def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')        
+        # print(f'{type(yoursong)}')    
+        if text =='':
+            self.searchedShow = False   
+            return 
         self.searchedPlaylist.clearSong()
         for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
@@ -277,8 +283,8 @@ class MainGridLayout(Widget):
                 print(songg.path)                        
         print('------------')               
         self.showsong(self.searchedPlaylist)
-        self.searchedShow=True
-
+        self.searchedShow = search
+        
         
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
