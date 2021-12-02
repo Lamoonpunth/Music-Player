@@ -14,7 +14,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
-from threading import Thread
+import threading 
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
@@ -26,7 +26,7 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
-
+import time
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -63,7 +63,7 @@ for x in f:
         s=song(x[:-1])
         templist.append(s)
 f.close()
-print(playlistlist[0].name)
+print(playlistlist[0].name,' here we go')
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
@@ -96,6 +96,8 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
         download_box = DownloadURL()
         self.ids.playlist_name_box.add_widget(download_box)
+        #search
+        self.searchedPlaylist = playlist('sPlaylist')
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -178,7 +180,7 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
-    def playtimeUpdate(self):
+    def playtimeUpdate(self):        
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
@@ -222,11 +224,16 @@ class MainGridLayout(Widget):
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
-
+        
     def Searched_Song(self, text="", search=False):
-        for songg in self.queue.originalplaylist:
+        # print(f'{type(yoursong)}')        
+        self.searchedPlaylist.clearSong()
+        for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
-                print(songg.name)
+                self.searchedPlaylist.addsong(songg)
+                print(songg.name)                        
+        print('------------')
+        self.showsong(self.searchedPlaylist)
 
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
