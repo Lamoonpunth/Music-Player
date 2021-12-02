@@ -1,0 +1,27 @@
+#:kivy 2.0.0
+#:import Factory kivy.factory.Factory
+<SongBrowser>:
+    id: sb
+    canvas:
+        Color:
+            rgba: (0,0,0,1)
+        Rectangle:
+            size:self.size
+            pos:self.pos
+    orientation: 'vertical'
+    size: root.width,root.height
+    size_hint_y:None
+    height:"500dp"
+    padding: 50
+    spacing: 20
+    FileChooserListView:
+        id:lv
+        on_selection: sb.selected(lv.selection)
+
+<AddSong>:
+    id:addsong
+    MDIconButton:
+        icon: 'plus-circle'
+        text: "ALERT DIALOG"
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        on_release: root.show_songbrowser()
