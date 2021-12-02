@@ -1,3 +1,4 @@
+from re import search
 from kivy.config import Config
 Config.set('graphics','resizable', False)
 from os import stat
@@ -14,7 +15,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.clock import Clock
-from threading import Thread
+import threading 
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
@@ -26,9 +27,14 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
-
+import time
+import random
+import PlayButton
+import NextPrevButton
+import ShuffleButton
+import RepeatButton
 # Add Font
-LabelBase.register(name='sf',fn_regular='archive/finalFont.ttf')
+LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
 # Load KV File
 Builder.load_file('main.kv')
@@ -42,11 +48,11 @@ user_width, user_height = pyautogui.size()
 Window.maximize()
 fullpath=[]
 f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-
-for x in f:
-    print(x)
+index=0
+for x in f:    
     if x[-1:] == "\n":
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         fullpath.append(s)
 f.close()
 yoursong = playlist("yoursong",fullpath)
@@ -55,16 +61,19 @@ templist=[]
 playlistlist=[]
 playlistlist.append(yoursong)
 f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+index=0
 for x in f:
     if x[-1:] == "\n":
         if x[0] is "%":
             playlistlist.append(playlist(x[1:-1],templist.copy()))
             templist=[]
+            index=0
             continue
-        s=song(x[:-1])
+        s=song(x[:-1],index)
+        index+=1
         templist.append(s)
 f.close()
-print(playlistlist[0].name)
+print(playlistlist[0].name,' here we go')
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
@@ -75,6 +84,7 @@ class MainGridLayout(Widget):
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
+        self.shuffle.bind(on_press=self.shuffleState)
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
@@ -97,7 +107,9 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
         download_box = DownloadURL()
         self.ids.playlist_name_box.add_widget(download_box)
-        # self.ids.playlist_name_box.add_widget(SongBrowser)
+        #search
+        self.searchedPlaylist = playlist('sPlaylist')       
+        self.searchedShow = False
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -143,6 +155,12 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def press(self, instance):
+            self.ids.play.user_font_size= 80
+            if self.ids.play.icon == 'play-circle':
+                self.ids.play.icon = 'pause-circle'
+            else:
+                self.ids.play.icon = 'play-circle'
+
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
@@ -154,6 +172,7 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def nextpress(self,instance):
+        
         if self.queue.isEmpty():
             print("QueueIsEmpty")
             return
@@ -180,7 +199,7 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
-    def playtimeUpdate(self):
+    def playtimeUpdate(self):        
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
@@ -189,23 +208,52 @@ class MainGridLayout(Widget):
                 self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
+#=============== repeat รอเขียนเพิ่ม =======================#
+    # def repeatState(self, instance):
+    #     if self.ids.repeat.text_color == [0,0,0,1]:
+    #         self.ids.repeat.text_color = [1,1,1,1]
+    #         print(f'Repeat is ON')
+    #     else:
+    #         self.ids.repeat.text_color = [0,0,0,1]
+    #         print(f'Repeat is OFF')
 
-    def repeatState(self, state):
-        if state.state == 'down':
-            print(f'Repeat is ON')
-        else:
-            print(f'Repeat is OFF')
+#=========================================================#
 
-    def shuffleState(self, state):
-        if state.state == 'down':
+    def shuffleState(self, instance):
+        if self.ids.shuffle.state is 'normal':
+            self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is ON')
+            random.shuffle(self.queue.musicqueue)
         else:
+            self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is OFF')
+            index=self.queue.nowplayingindex
+            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.addfromqueuefirstsong()
+            for i in range(index):
+                self.queue.addfromqueue()
+
+
+        # if state.state == 'down':
+        #     print(f'Shuffle is ON')
+        #     random.shuffle(self.queue.musicqueue)
+        # else:
+        #     print(f'Shuffle is OFF')
+        #     index=self.queue.nowplayingindex
+        #     self.queue.chooseplaylist(self.queue.originalplaylist)
+        #     self.queue.addfromqueuefirstsong()
+        #     for i in range(index):
+        #         self.queue.addfromqueue()
+
+        
 
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
-        self.queue.chooseplaylist(playlistlist[self.playlistindex])
+        if self.searchedShow is True:
+            self.queue.chooseplaylist(self.searchedPlaylist)
+        else:
+            self.queue.chooseplaylist(playlistlist[self.playlistindex])
         print(self.queue.musicqueue)
         self.queue.addfromqueuefirstsong()
         for i in range(index):
@@ -217,19 +265,31 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
-        self.bool=True
+        self.bool = True
+        #print(self.searchedShow,' ooo o oo ')
 
     def selectplaylist(self,*args):
-        index=args[0].index
+        index=args[0].index 
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
-
+        self.searchedShow = False
+        
     def Searched_Song(self, text="", search=False):
-        for songg in self.queue.originalplaylist:
+        # print(f'{type(yoursong)}')    
+        if text =='':
+            self.searchedShow = False   
+            return 
+        self.searchedPlaylist.clearSong()
+        for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
-                print(songg.name)
-
+                self.searchedPlaylist.addsong(songg)
+                print(songg.path)                        
+        print('------------')               
+        self.showsong(self.searchedPlaylist)
+        self.searchedShow = search
+        
+        
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
@@ -238,6 +298,14 @@ class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
         self.icon = 'Icon/title.png'
+        #=========== theme ===========#
+        self.theme_cls.primary_palette = "Gray"
+        #=========== theme ===========#
+
+    #=========== Icon ============#
+    
+    #=========== Icon ============#
+
         return MainGridLayout()
 if __name__ == "__main__":
     MainApp().run()

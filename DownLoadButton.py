@@ -97,7 +97,8 @@ class DownloadURL(MDFloatLayout):
             if filename in i:
                 Write = False
                 break  
-        g.close()      
+        g.close()  
+            
         #write
         if Write: 
             f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  

@@ -4,6 +4,7 @@ class playingqueue(list):
         self.originalplaylist=[]
         self.musicqueue=[]
         self.nowplaying=""
+        self.nowplayingindex=0
         self.playedstack=[]
         self.random=False
         self.Loop=False
@@ -16,12 +17,15 @@ class playingqueue(list):
     def enqueue(self,song):
         self.musicqueue.append(song)
     def addfromqueuefirstsong(self):
+        self.nowplayingindex=self.musicqueue[0].indexinplaylist
         self.nowplaying=self.dequeue()
     def addfromqueue(self):
         self.playedstack.append(self.nowplaying)
+        self.nowplayingindex=self.musicqueue[0].indexinplaylist
         self.nowplaying=self.dequeue()
     def addfromstack(self):
         self.musicqueue.insert(0,self.nowplaying)
+        self.nowplayingindex=self.playedstack[-1].indexinplaylist
         self.nowplaying=self.playedstack.pop()
     def copyOriginal(self):
         self.musicqueue=self.originalplaylist.copy()
@@ -31,7 +35,7 @@ class playingqueue(list):
         return len(self.playedstack)==0
     def chooseplaylist(self,playlist):
         self.musicqueue=playlist.playlist.copy()
-        self.originalplaylist=playlist.playlist.copy()
+        self.originalplaylist=playlist
         self.nowplaying=""
         self.playedstack=[]
     def isEmpty(self):
