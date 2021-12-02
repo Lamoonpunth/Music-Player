@@ -104,6 +104,7 @@ class MainGridLayout(Widget):
         self.ids.playlist_name_box.add_widget(download_box)
         #search
         self.searchedPlaylist = playlist('sPlaylist')
+        self.searchedShow = False
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -244,7 +245,10 @@ class MainGridLayout(Widget):
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
-        self.queue.chooseplaylist(playlistlist[self.playlistindex])
+        if self.searchedShow is True:
+            self.queue.chooseplaylist(self.searchedPlaylist)
+        else:
+            self.queue.chooseplaylist(playlistlist[self.playlistindex])
         print(self.queue.musicqueue)
         self.queue.addfromqueuefirstsong()
         for i in range(index):
@@ -273,6 +277,7 @@ class MainGridLayout(Widget):
                 print(songg.name)                        
         print('------------')
         self.showsong(self.searchedPlaylist)
+        self.searchedShow=True
 
         
 # class MainWidget(Widget):
