@@ -274,10 +274,7 @@ class MainGridLayout(Widget):
         self.searchedShow = False
         
     def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')    
-        if text =='':
-            self.searchedShow = False   
-            return 
+        # print(f'{type(yoursong)}')             
         self.searchedPlaylist.clearSong()
         for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
@@ -286,6 +283,8 @@ class MainGridLayout(Widget):
         print('------------')               
         self.showsong(self.searchedPlaylist)
         self.searchedShow = search
+        if text =='':
+            self.searchedShow = False   
         
         
 # class MainWidget(Widget):
