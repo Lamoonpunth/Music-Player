@@ -103,12 +103,8 @@ class MainGridLayout(Widget):
         download_box = DownloadURL()
         self.ids.playlist_name_box.add_widget(download_box)
         #search
-        self.searchedPlaylist = playlist('sPlaylist')
-<<<<<<< HEAD
-       
-=======
+        self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False
->>>>>>> e8f11925b07b4f3f7666fb06f1fe4a565c3ebff0
         
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -267,13 +263,8 @@ class MainGridLayout(Widget):
         self.bool = True
 
     def selectplaylist(self,*args):
-<<<<<<< HEAD
-        index=args[0].index
-        self.playlistindex =index
-=======
         index=args[0].index 
         self.playlistindex=index
->>>>>>> e8f11925b07b4f3f7666fb06f1fe4a565c3ebff0
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
         
