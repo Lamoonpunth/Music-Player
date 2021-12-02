@@ -10,7 +10,7 @@ class RepeatButton(MDIconButton,HoverBehavior):
         return super().on_enter()
     def on_leave(self):
         if self.repeatstate == "False":
-            self.text_color = (0.7,0.7,0.7)
+            self.text_color = (0.6,0.6,0.6)
         else:
             self.text_color = (1,0.73,0.8,1)
         return super().on_leave()
