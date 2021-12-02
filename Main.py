@@ -203,20 +203,25 @@ class MainGridLayout(Widget):
             self.ids.playtime.value=value
 
     def repeatState(self, state):
-        #if self.ids.repeat.text_color == [0,0,0,1]:
-        #    self.ids.repeat.text_color = [1,1,1,1]
-        #else:
-        #    self.ids.repeat.text_color = [0,0,0,1]
+        if self.ids.repeat.text_color == [0,0,0,1] and self.ids.repeat.icon == 'repeat':
+            self.ids.repeat.text_color = [1,1,1,1]
+            self.ids.repeat.icon == 'repeat-off'
+        else:
+            self.ids.repeat.text_color = [0,0,0,1]
+            self.ids.repeat.icon == 'repeat'
         if state.state == 'down':
             print(f'Repeat is ON')
         else:
             print(f'Repeat is OFF')
 
     def shuffleState(self, state):
-        #if self.ids.shuffle.text_color == [0,0,0,1]:
-        #    self.ids.shuffle.text_color = [1,1,1,1]
-        #else:
-        #    self.ids.shuffle.text_color = [0,0,0,1]
+        if self.ids.shuffle.text_color == [0,0,0,1] and self.ids.shuffle.icon == 'shuffle-variant':
+            self.ids.shuffle.text_color = [1,1,1,1]
+            self.ids.shuffle.icon == 'shuffle-disabled'
+        else:
+            self.ids.shuffle.text_color = [0,0,0,1]
+            self.ids.shuffle.icon == 'shuffle-variant'
+
         if state.state == 'down':
             print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
