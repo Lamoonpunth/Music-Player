@@ -7,6 +7,8 @@
     slide_volume:slide_volume
     prev:prev
     next:next
+    shuffle:shuffle
+    repeat:repeat
     canvas:
         Rectangle:
             size:self.size
@@ -255,7 +257,6 @@
                         theme_text_color: "Custom"
                         pos_hint: {"center_x":0.5,"center_y":0.5}
                         text_color: [0,0,0,1]
-                        on_release:root.shuffleState()
 
                     MDIconButton:
                         id: prev
