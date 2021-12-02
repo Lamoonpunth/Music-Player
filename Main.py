@@ -221,11 +221,11 @@ class MainGridLayout(Widget):
 
     def shuffleState(self, instance):
         if self.ids.shuffle.state is 'normal':
-            self.ids.shuffle.text_color = [1,0.73,0.8,1]
+            self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
         else:
-            self.ids.shuffle.text_color = [0.7,0.7,0.7,1]
+            self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
             self.queue.chooseplaylist(self.queue.originalplaylist)
