@@ -27,7 +27,8 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
-from SongBrowser import AddSong
+# from SongBrowser import AddSong
+from SongBrowser import Browser
 import time
 import random
 import PlayButton
@@ -108,7 +109,7 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
         #Add file and Download Components
         download_box = DownloadURL()
-        song_browser = AddSong()
+        song_browser = Browser().AddSong()
         self.ids.playlist_name_box.add_widget(download_box)
         self.ids.playlist_name_box.add_widget(song_browser)
         #search

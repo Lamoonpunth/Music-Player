@@ -1,5 +1,6 @@
 #:kivy 2.0.0
 #:import Factory kivy.factory.Factory
+
 <SongBrowser>:
     id: sb
     canvas:
@@ -17,7 +18,10 @@
     # spacing: 20
     FileChooserListView:
         id:lv
+        font_name:'sf'
+        font_size: '50'
         on_selection: sb.selected(lv.selection)
+        on_submit: sb.submit(*args)
 
 <AddSong>:
     id:addsong
