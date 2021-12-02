@@ -172,8 +172,9 @@ class MainGridLayout(Widget):
                 self.sound.stop()
 
     def nextpress(self,instance):
-        
-        if self.queue.isEmpty():
+        if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
+            self.queue.chooseplaylist(self.queue.originalplaylist)
+        elif self.queue.isEmpty():
             print("QueueIsEmpty")
             return
         self.sound.stop()
@@ -205,7 +206,10 @@ class MainGridLayout(Widget):
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
             if value>=9990:
-                self.nextpress("instance")
+                if self.ids.repeat.repeatstate == "repeatsong":
+                    self.sound.seek(0)
+                else:
+                    self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
 #=============== repeat รอเขียนเพิ่ม =======================#
