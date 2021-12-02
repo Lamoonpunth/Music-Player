@@ -29,7 +29,10 @@ from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
 import time
 import random
-from PlayButton import PlayButton
+import PlayButton
+import NextPrevButton
+import ShuffleButton
+import RepeatButton
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -82,7 +85,6 @@ class MainGridLayout(Widget):
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.shuffle.bind(on_press=self.shuffleState)
-        self.repeat.bind(on_press=self.repeatState)
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
@@ -155,7 +157,7 @@ class MainGridLayout(Widget):
     def press(self, instance):
             self.ids.play.user_font_size= 80
             if self.ids.play.icon == 'play-circle':
-                self.ids.play.icon = 'stop-circle'
+                self.ids.play.icon = 'pause-circle'
             else:
                 self.ids.play.icon = 'play-circle'
 
@@ -207,24 +209,23 @@ class MainGridLayout(Widget):
                 value=0
             self.ids.playtime.value=value
 #=============== repeat รอเขียนเพิ่ม =======================#
-    def repeatState(self, instance):
-        if self.ids.repeat.text_color == [0,0,0,1]:
-            self.ids.repeat.text_color = [1,1,1,1]
-            print(f'Repeat is ON')
-
-        else:
-            self.ids.repeat.text_color = [0,0,0,1]
-            print(f'Repeat is OFF')
+    # def repeatState(self, instance):
+    #     if self.ids.repeat.text_color == [0,0,0,1]:
+    #         self.ids.repeat.text_color = [1,1,1,1]
+    #         print(f'Repeat is ON')
+    #     else:
+    #         self.ids.repeat.text_color = [0,0,0,1]
+    #         print(f'Repeat is OFF')
 
 #=========================================================#
 
     def shuffleState(self, instance):
-        if self.ids.shuffle.text_color == [0,0,0,1]:
-            self.ids.shuffle.text_color = [1,1,1,1]
+        if self.ids.shuffle.state is 'normal':
+            self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
         else:
-            self.ids.shuffle.text_color = [0,0,0,1]
+            self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
             self.queue.chooseplaylist(self.queue.originalplaylist)
