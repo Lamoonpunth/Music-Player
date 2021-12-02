@@ -243,9 +243,7 @@ class MainGridLayout(Widget):
         #     self.queue.chooseplaylist(self.queue.originalplaylist)
         #     self.queue.addfromqueuefirstsong()
         #     for i in range(index):
-        #         self.queue.addfromqueue()
-
-        
+        #         self.queue.addfromqueue()       
 
     def selectsong(self,*args):
         self.sound.stop()

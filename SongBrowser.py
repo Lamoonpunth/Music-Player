@@ -1,13 +1,13 @@
 from kivymd.app import MDApp
-from kivy.uix.widget import Widget
 from kivy.lang import Builder
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.textfield import MDTextField
+from kivymd.uix.boxlayout import BoxLayout
 
-class SongBrowser(MDFloatLayout):
-    
+Builder.load_file('SongBrowser.kv')
+
+class SongBrowser(BoxLayout):    
     def selected(self,filename):
         try:
             print(filename[0])
@@ -22,14 +22,27 @@ class AddSong(MDFloatLayout):
         self.box = None
 
     def show_songbrowser(self):
-        pass
+        if not self.box:
+            self.box = MDDialog(                
+                type="custom",
+                content_cls=SongBrowser(),
+                buttons=[
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        on_release = self.clickConfirm
+                    ),
+                    MDFlatButton(
+                        text="CANCEL",
+                        theme_text_color="Custom",              
+                        on_release = self.clickCancel                           
+                    ),
+                ],
+            )
+        self.box.open()
     
     def clickCancel(self,instance):
         self.dialog.dismiss()
 
-class BrowserApp(MDApp):
-    def build(self):
-        return AddSong()
-
-if __name__ == '__main__':
-    BrowserApp().run()
+    def clickConfirm(self,instance):
+        pass

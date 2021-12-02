@@ -10,13 +10,10 @@
             pos:self.pos
     orientation: 'vertical'
     size: root.width,root.height
+    size_hint_y:None
+    height:"500dp"
     padding: 50
     spacing: 20
-
-    # Image:
-    #     id: my_image
-    #     source: ""
-
     FileChooserListView:
         id:lv
         on_selection: sb.selected(lv.selection)
