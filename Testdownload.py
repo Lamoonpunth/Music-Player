@@ -1,11 +1,11 @@
 import youtube_dl
-from kivy.lang import Builder
-from kivy.properties import StringProperty
-from kivy.uix.screenmanager import Screen
+# from kivy.lang import Builder
+# from kivy.properties import StringProperty
+# from kivy.uix.screenmanager import Screen
 
-from kivymd.icon_definitions import md_icons
-from kivymd.app import MDApp
-from kivymd.uix.list import OneLineIconListItem
+# from kivymd.icon_definitions import md_icons
+# from kivymd.app import MDApp
+# from kivymd.uix.list import OneLineIconListItem
 
 
 
@@ -42,4 +42,8 @@ def run():
         f.close()
     
 if __name__=='__main__':
-    run()
+    # run()
+    print(ord('ス'))
+    print(ord('호'))
+    print(ord('ミ'))
+    print(ord('업'))

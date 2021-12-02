@@ -183,7 +183,9 @@ class MainGridLayout(Widget):
 
     # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
-        if self.queue.isEmpty():
+        if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
+            self.queue.chooseplaylist(self.queue.originalplaylist)
+        elif self.queue.isEmpty():
             print("QueueIsEmpty")
             return
         self.sound.stop()
@@ -217,7 +219,10 @@ class MainGridLayout(Widget):
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
             if value>=9990:
-                self.nextpress("instance")
+                if self.ids.repeat.repeatstate == "repeatsong":
+                    self.sound.seek(0)
+                else:
+                    self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
 #=============== repeat รอเขียนเพิ่ม =======================#
@@ -232,12 +237,12 @@ class MainGridLayout(Widget):
 #=========================================================#
     # Shuffle song toggle button(เลือกเพื่อสุ่มเพลง)
     def shuffleState(self, instance):
-        if self.ids.shuffle.state is 'normal':
-            self.ids.shuffle.text_color = [1,0.41,0.69,1]
+        if self.ids.shuffle.state is 'down':
+            self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
         else:
-            self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
+            self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
             self.queue.chooseplaylist(self.queue.originalplaylist)
@@ -287,10 +292,7 @@ class MainGridLayout(Widget):
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')    
-        if text =='':
-            self.searchedShow = False   
-            return 
+        # print(f'{type(yoursong)}')             
         self.searchedPlaylist.clearSong()
         for songg in playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
@@ -299,6 +301,13 @@ class MainGridLayout(Widget):
         print('------------')               
         self.showsong(self.searchedPlaylist)
         self.searchedShow = search
+        if text =='':
+            self.searchedShow = False   
+        
+        
+# class MainWidget(Widget):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
 
 # Main Application running Function
 class MainApp(MDApp):
