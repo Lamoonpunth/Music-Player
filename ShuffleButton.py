@@ -18,7 +18,7 @@ class ShuffleButton(MDIconButton,HoverBehavior,ToggleButtonBehavior):
         return super().on_leave()
     def on_release(self):
         if self.state is 'normal':
-            self.text_color = (0.7,0.7,0.7,1)
+            self.text_color = (1,1,1,1)
         else:
-            self.text_color = (1,0.73,0.8,1)
+            self.text_color = (1,0.60,0.75,1)
         return super().on_release()
