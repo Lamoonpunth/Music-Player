@@ -4,12 +4,15 @@ from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 
 Builder.load_file('SongBrowser.kv')
 
-class SongBrowser(BoxLayout):    
+class SongBrowser(BoxLayout):  
+
     def selected(self,filename):
         try:
+            # ดูตำแหน่งไฟล์ที่เราเลือก
             print(filename[0])
         except:
             pass

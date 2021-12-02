@@ -27,6 +27,7 @@ import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import LabelBase
 from DownLoadButton import DownloadURL
+from SongBrowser import AddSong
 import time
 import random
 import PlayButton
@@ -105,8 +106,11 @@ class MainGridLayout(Widget):
         self.showsong(yoursong)
         self.showplaylist(playlistlist)
         self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
+        #Add file and Download Components
         download_box = DownloadURL()
+        song_browser = AddSong()
         self.ids.playlist_name_box.add_widget(download_box)
+        self.ids.playlist_name_box.add_widget(song_browser)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False
@@ -129,17 +133,21 @@ class MainGridLayout(Widget):
             self.ids.sn.add_widget(lb)
             lb.bind(on_press=self.selectsong)
 
+    # Volume Bar(เพิ่มลดเสียง)
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
         self.sound.volume = self.volume
 
+    # Update ProgressBar in Volume bar(แสดงผลระดับเสียง)
     def valuechange(self,*args):
         self.seekvalue=args[1]
 
+    # Not update song time when hold(ดักไว้ให้ค่าไม่เปลี่ยนตอนกำลังเลื่อนเวลาเพลง)
     def notupdate(self,*args):
         print("ontouchdown")
         self.playtimeUpdateBool=False
 
+    # Seek song time(เลื่อนเวลาในเพลง)
     def seek(self, *args):
         if self.playtimeUpdateBool is False:
             self.playtimeUpdateBool = True
@@ -154,6 +162,7 @@ class MainGridLayout(Widget):
                 self.sound.seek(self.seekvalue*self.sound.length/10000)
                 self.sound.stop()
 
+    # Play button(ปุ่มเปิด-ปิดเพลง)
     def press(self, instance):
             self.ids.play.user_font_size= 80
             if self.ids.play.icon == 'play-circle':
@@ -171,8 +180,8 @@ class MainGridLayout(Widget):
                 self.bool = False
                 self.sound.stop()
 
+    # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
-        
         if self.queue.isEmpty():
             print("QueueIsEmpty")
             return
@@ -184,7 +193,8 @@ class MainGridLayout(Widget):
         self.sound.play()
         self.sound.volume=self.volume
         self.playtimeUpdate()
-
+    
+    # Backward song(เปลี่ยนเพลงย้อนไปคิวก่อนหน้านี้)
     def prevpress(self,instance):
         print(self.queue.isStackEmpty())
         if self.queue.isStackEmpty():
@@ -199,6 +209,7 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
+    # Update ProgressBar in SongTime bar(แสดงผลช่วงเวลาในเพลง)
     def playtimeUpdate(self):        
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
@@ -218,7 +229,7 @@ class MainGridLayout(Widget):
     #         print(f'Repeat is OFF')
 
 #=========================================================#
-
+    # Shuffle song toggle button(เลือกเพื่อสุ่มเพลง)
     def shuffleState(self, instance):
         if self.ids.shuffle.state is 'normal':
             self.ids.shuffle.text_color = [1,0.41,0.69,1]
@@ -232,8 +243,6 @@ class MainGridLayout(Widget):
             self.queue.addfromqueuefirstsong()
             for i in range(index):
                 self.queue.addfromqueue()
-
-
         # if state.state == 'down':
         #     print(f'Shuffle is ON')
         #     random.shuffle(self.queue.musicqueue)
@@ -245,6 +254,7 @@ class MainGridLayout(Widget):
         #     for i in range(index):
         #         self.queue.addfromqueue()       
 
+    # Choose song from songlist(ฟังก์ชันเมื่อกดเลือกเพลงจากในเพลย์ลิสต์)
     def selectsong(self,*args):
         self.sound.stop()
         index=args[0].index
@@ -266,13 +276,15 @@ class MainGridLayout(Widget):
         self.bool = True
         #print(self.searchedShow,' ooo o oo ')
 
+    # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
     def selectplaylist(self,*args):
         index=args[0].index 
         self.playlistindex=index
         self.showsong(playlistlist[index])
         self.ids.playlist_name.text = f'{playlistlist[index].name}'
         self.searchedShow = False
-        
+    
+    # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')    
         if text =='':
@@ -286,12 +298,8 @@ class MainGridLayout(Widget):
         print('------------')               
         self.showsong(self.searchedPlaylist)
         self.searchedShow = search
-        
-        
-# class MainWidget(Widget):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
 
+# Main Application running Function
 class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
@@ -305,5 +313,7 @@ class MainApp(MDApp):
     #=========== Icon ============#
 
         return MainGridLayout()
+
+# Main Function to run App
 if __name__ == "__main__":
     MainApp().run()
