@@ -1,6 +1,7 @@
 from os import name
 from re import S
 import re
+from kivy.core import text
 from kivy.lang import Builder
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.button import MDFlatButton
@@ -20,19 +21,9 @@ class Browser():
             super().__init__(**kwargs)
             # self.choosed = None
 
-        def submit(self,*args):
-            Browser.choosed = args[1]
-            print(f"choosed = {Browser.choosed}")
-            print(f"Type = {type(Browser.choosed[0])}")
-
         def selected(self,filename):
-            try:
-                # ดูตำแหน่งไฟล์ที่เราเลือก
-                Browser.choosed = filename[0]
-                print(f'path = {Browser.choosed}')
-            except:
-                print('Error Selected')
-                return
+            Browser.choosed = filename
+            print(f'one clicked = {Browser.choosed}')
 
     class AddSong(MDFloatLayout):   
         def __init__(self, **kwargs):
@@ -41,6 +32,7 @@ class Browser():
             self.size_hint=(None,None)   
             self.songbrowser = Browser().SongBrowser()
             self.box = None
+            self.warning = None
 
         def show_songbrowser(self):
             if not self.box:
@@ -68,18 +60,33 @@ class Browser():
         def clickConfirm(self,instance):
             print(Browser.choosed)
             song = Browser.choosed[0]
-          
-            g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-            Write = True
-            for i in g:                 
-                if song in i:
-                    Write = False
-                    break  
-            g.close()  
-            #write
-            if Write: 
-                f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
-                f.write(f'{song}\n')
-                f.close()
-          
-            self.box.dismiss()
+            if song:
+                g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
+                Write = True
+                for i in g:                 
+                    if song in i:
+                        Write = False
+                        break  
+                g.close()  
+                #write
+                if Write: 
+                    f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
+                    f.write(f'{song}\n')
+                    f.close()
+                self.box.dismiss()
+            else:
+                self.warning = MDDialog(                
+                    type="custom",
+                    text="Please choose file",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            on_release = self.warningConfirm
+                        ),
+                    ],
+                )
+                self.warning.open()
+            
+        def warningConfirm(self,instance):
+            self.warning.dismiss()
