@@ -100,12 +100,7 @@
                         text:'Playlist Name'
                         color: 0 , 0 , 0 , 1
                         font_size: 42
-                        font_name: 'sf'
-                    MDIconButton:       
-                        id: iButton 
-                        icon: 'refresh'                           
-                        pos_hint: {'center_x': .5, 'center_y': .5}
-                        on_release: root.refresh()        
+                        font_name: 'sf'  
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
@@ -354,3 +349,10 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
+
+<Refresh@MDIconButton>:
+    id: iButton 
+    icon: 'refresh'                           
+    pos_hint: {'center_x': .1, 'center_y': .28}
+    padding: 20
+    on_release: root.refresh()      
