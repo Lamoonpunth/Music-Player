@@ -20,7 +20,8 @@
         id:lv
         font_name:'sf'
         font_size: '50'
-        on_selection: sb.selected(lv.selection)
+        # on_selection: sb.selected(lv.selection)
+        on_touch_up: sb.selected(lv.selection)
         on_submit: sb.submit(*args)
 
 <AddSong>:
