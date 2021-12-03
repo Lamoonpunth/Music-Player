@@ -14,6 +14,7 @@ from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix.button import MDIconButton
 from kivy.clock import Clock
 import threading 
 from playlist import playlist
@@ -110,8 +111,10 @@ class MainGridLayout(Widget):
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
+        refresh_button = Refresh()
         self.ids.playlist_name_box.add_widget(download_box)
         self.ids.playlist_name_box.add_widget(song_browser)
+        self.ids.playlist_name_box.add_widget(refresh_button)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False
@@ -307,6 +310,8 @@ class MainGridLayout(Widget):
         
     def refresh(self):
         a=0
+class Refresh(MDIconButton):
+     pass
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
