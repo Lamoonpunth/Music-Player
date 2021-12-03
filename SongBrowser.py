@@ -58,9 +58,10 @@ class Browser():
             self.box.dismiss()
 
         def clickConfirm(self,instance):
-            print(Browser.choosed)
-            song = Browser.choosed[0]
-            if song:
+            # print(Browser.choosed)
+            song = Browser.choosed
+            if song != None:
+                song = song[0]
                 g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
                 Write = True
                 for i in g:                 
@@ -77,11 +78,12 @@ class Browser():
             else:
                 self.warning = MDDialog(                
                     type="custom",
-                    text="Please choose file",
+                    title="Please choose .MP3 file",
                     buttons=[
                         MDFlatButton(
                             text="OK",
                             theme_text_color="Custom",
+                            text_color = (0,0,0,1),
                             on_release = self.warningConfirm
                         ),
                     ],
