@@ -111,14 +111,15 @@ class MainGridLayout(Widget):
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
-        refresh_button = Refresh()
         self.ids.playlist_name_box.add_widget(download_box)
         self.ids.playlist_name_box.add_widget(song_browser)
-        self.ids.playlist_name_box.add_widget(refresh_button)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False
-        
+
+    class Refresh(MDIconButton):
+     pass
+
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
@@ -310,8 +311,10 @@ class MainGridLayout(Widget):
         
     def refresh(self):
         a=0
-class Refresh(MDIconButton):
-     pass
+        print('Refresh')
+
+# class Refresh(MDIconButton):
+#      pass
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
@@ -325,9 +328,9 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "Gray"
         #=========== theme ===========#
 
-    #=========== Icon ============#
-    
-    #=========== Icon ============#
+        #=========== Icon ============#
+        
+        #=========== Icon ============#
 
         return MainGridLayout()
 
