@@ -121,7 +121,7 @@ class DownloadURL(BoxLayout):
             
             print("Download complete... {}".format(songgpath))   
             print(f'Number: {numm}')
-            
+            self.ids.iButton.icon = 'youtube'
             g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
             Write = True
             for i in g:                 
@@ -136,8 +136,8 @@ class DownloadURL(BoxLayout):
                 f.close()
         except:
             print('Error')
-        self.isLoading = False
-        self.ids.iButton.icon = 'youtube' 
+            self.ids.iButton.icon = 'alert-box'
+        self.isLoading = False         
         self.spin.active = self.isLoading   
 class MainApp(MDApp):
     def build(self):
