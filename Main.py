@@ -305,7 +305,8 @@ class MainGridLayout(Widget):
         if text =='':
             self.searchedShow = False   
         
-        
+    def refresh(self):
+        a=0
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)

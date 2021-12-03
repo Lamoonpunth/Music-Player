@@ -53,7 +53,7 @@
                             id: search_song
                             hint_text: 'Search Song'
                             on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
-                            font_name: 'sf'
+                            font_name: 'sf'                    
                     Label:
                         text: ''
                         size_hint:(1,0.05)
@@ -62,6 +62,7 @@
                     orientation:'vertical'
                     size_hint:(None,None)
                     size: self.parent.width,self.parent.height*0.85
+                    
                     ScrollView:
                         size:self.parent.width,self.parent.height
                         do_scroll_x:False
@@ -93,13 +94,18 @@
                             rgba: (0,0,0,.7)
                         Rectangle:
                             pos: self.pos
-                            size: self.size
+                            size: self.size                    
                     Label:
                         id:playlist_name
                         text:'Playlist Name'
                         color: 0 , 0 , 0 , 1
                         font_size: 42
                         font_name: 'sf'
+                    MDIconButton:       
+                        id: iButton 
+                        icon: 'refresh'                           
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        on_release: root.refresh()        
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
