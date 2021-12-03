@@ -12,11 +12,11 @@ KV = '''
 #:import images_path kivymd.images_path
 <Content>
     orientation: "horizontal"
-    size_hint_y: None
+    size_hint_y: None    
     height: "50dp"
     MDTextField:
         hint_text: "Enter Youtube URL"  
-        
+        font_name: 'sf'
 <DownloadURL>
     MDIconButton:
         icon: 'plus-circle-outline'
