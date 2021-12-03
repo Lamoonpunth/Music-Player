@@ -1,8 +1,7 @@
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.behaviors import HoverBehavior
-class PlayButton(MDIconButton,HoverBehavior):
-    
+class PlayButton(MDIconButton,HoverBehavior):    
     
     def on_enter(self):
         self.user_font_size= 85

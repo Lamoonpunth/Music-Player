@@ -1,3 +1,4 @@
+import nltk
 class pair():
     def __init__(self,name,sim):
         self.name=name
@@ -6,7 +7,7 @@ class pair():
         return str(self.name)+"\t"+str(self.sim)+"\n"
 def sim(pair):
     return pair.sim
-import nltk
+
 alphabet="abcdefghijklmnopqrstuvwxyz"
 searchword="az"
 songlist=[]

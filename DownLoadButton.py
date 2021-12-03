@@ -10,17 +10,19 @@ import threading
 
 KV = '''
 #:import images_path kivymd.images_path
-<Content>
+<Content>    
     orientation: "horizontal"
     size_hint_y: None    
-    height: "50dp"
+    height: "50dp"    
     MDTextField:
         hint_text: "Enter Youtube URL"  
         font_name: 'sf'
-<DownloadURL>
-    MDIconButton:
-        icon: 'plus-circle-outline'
-        text: "ALERT DIALOG"
+<DownloadURL>   
+    size_hint_y: None               
+    MDIconButton:       
+        id: iButton 
+        icon: 'youtube'
+        text_color: [0.6,0.6,0.6,1]      
         pos_hint: {'center_x': .5, 'center_y': .5}
         on_release: root.show_enterURL()
 '''
@@ -35,27 +37,29 @@ class DownloadURL(MDFloatLayout):
         self.orientation='horizontal'
         self.size_hint=(None,None)   
         self.dialog = None
+        self.isLoading = False
 
     def show_enterURL(self):
-        if not self.dialog:
-            self.dialog = MDDialog(                
-                type="custom",
-                content_cls=Content(),
-                buttons=[
-                    MDFlatButton(
-                        text="CANCEL",
-                        theme_text_color="Custom",              
-                        on_release = self.clickCancel                           
-                    ),
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        on_release = self.grabText
-                    ),
-                ],
-            )
-        self.dialog.open()
-    
+        if not self.isLoading:
+            if not self.dialog:
+                self.dialog = MDDialog(                
+                    type="custom",                
+                    content_cls=Content(),
+                    buttons=[
+                        MDFlatButton(
+                            text="CANCEL",
+                            theme_text_color="Custom",              
+                            on_release = self.clickCancel                           
+                        ),
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            on_release = self.grabText
+                        ),
+                    ],
+                )
+            self.dialog.open()
+        
     def clickCancel(self,instance):
         for obj in self.dialog.content_cls.children:
             if isinstance(obj, MDTextField):
@@ -64,6 +68,7 @@ class DownloadURL(MDFloatLayout):
         self.dialog.dismiss()
 
     def grabText(self, inst):
+        self.ids.iButton.icon = 'loading'                
         for obj in self.dialog.content_cls.children:
             if isinstance(obj, MDTextField):
                 print(obj.text)
@@ -73,7 +78,8 @@ class DownloadURL(MDFloatLayout):
         self.dialog.dismiss()
 
     def downloadFromYoutube(self,youtubeURL):
-        try:
+        try:            
+            self.isLoading = True
             video_url = youtubeURL
             video_info = youtube_dl.YoutubeDL().extract_info(
                 url = video_url,download=False
@@ -112,7 +118,8 @@ class DownloadURL(MDFloatLayout):
                 f.close()
         except:
             print('Error')
-           
+        self.isLoading = False
+        self.ids.iButton.icon = 'youtube' 
             
 # class MainApp(MDApp):
 #     def build(self):
