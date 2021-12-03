@@ -73,47 +73,56 @@ class DownloadURL(MDFloatLayout):
         self.dialog.dismiss()
 
     def downloadFromYoutube(self,youtubeURL):
-        video_url = youtubeURL
-        video_info = youtube_dl.YoutubeDL().extract_info(
-            url = video_url,download=False
-        )
-        filename = f"{video_info['title']}.mp3"
-        
-        options={
-            'format':'bestaudio/best',
-            'keepvideo':False,
-            'outtmpl':f'archive/song/{filename}',
-        }
+        try:
+            video_url = youtubeURL
+            video_info = youtube_dl.YoutubeDL().extract_info(
+                url = video_url,download=False
+            )
+            VDname = video_info['title']
+            songgpath =''
+            for i in range(len(VDname)):
+                if  VDname[i] not in '\/:*?"<>|':
+                    songgpath += VDname[i]                    
+                
+            filename = f"{songgpath}.mp3"            
+            options={
+                'format':'bestaudio/best',
+                'keepvideo':False,
+                'outtmpl':f'archive/song/{filename}',
+            }
 
-        with youtube_dl.YoutubeDL(options) as ydl:
-            ydl._ies = [ydl.get_info_extractor('Youtube')]
-            numm = ydl.download([video_info['webpage_url']])
-        
-        print("Download complete... {}".format(filename))   
-        print(f'Number: {numm}')
-        g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-        Write = True
-        for i in g:                 
-            if filename in i:
-                Write = False
-                break  
-        g.close()  
+            with youtube_dl.YoutubeDL(options) as ydl:
+                ydl._ies = [ydl.get_info_extractor('Youtube')]
+                numm = ydl.download([video_info['webpage_url']])
             
-        #write
-        if Write: 
-            f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
-            f.write(f'archive/song/{filename}\n')
-            f.close()
+            print("Download complete... {}".format(songgpath))   
+            print(f'Number: {numm}')
             
-class MainApp(MDApp):
-    def build(self):
-        screen = DownloadURL()
-        return screen
+            g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
+            Write = True
+            for i in g:                 
+                if filename in i:
+                    Write = False
+                    break  
+            g.close()              
+            #write
+            if Write: 
+                f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
+                f.write(f'archive/song/{filename}\n')
+                f.close()
+        except:
+            print('Error')
+           
+            
+# class MainApp(MDApp):
+#     def build(self):
+#         screen = DownloadURL()
+#         return screen
 
-def run():
-    MainApp().run()
-if __name__ == "__main__":
-    t1 = threading.Thread(target=run(), name='t1')
-    t1.start() 
+# def run():
+#     MainApp().run()
+# if __name__ == "__main__":
+#     t1 = threading.Thread(target=run(), name='t1')
+#     t1.start() 
   
     

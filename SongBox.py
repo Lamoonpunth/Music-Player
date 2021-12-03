@@ -21,7 +21,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
     def __init__(self,i,name,time, **kwargs):
         super(SongBox, self).__init__(**kwargs)
         self.orientation='horizontal'
-        self.size_hint=(None,None)
+        self.size_hint=(None,None)             
         #print(width)
         self.width=Window.width*0.7
         Window.bind(mouse_pos=self.on_maximize)

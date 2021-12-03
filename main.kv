@@ -113,8 +113,8 @@
                             pos: self.pos
                             size: self.size
                     Label:
-                        text:'No.'
-                        size_hint:(None,None)
+                        text:'         No.'                    
+                        size_hint:(0.07,None)                            
                         size:self.parent.width*0.1,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
@@ -122,8 +122,8 @@
                         font_name: 'sf'
                         font_size:16
                     Label:
-                        text:'Song'
-                        size_hint:(None,None)
+                        text:'  Song'
+                        size_hint:(0.6,None)                        
                         size:self.parent.width*0.7,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
@@ -133,7 +133,7 @@
                     Label:
                         text:'Time'
                         # size:self.parent.width*0.1,self.parent.height
-                        size_hint:(None,None)
+                        size_hint:(0.3,None)                       
                         size:self.parent.width*0.2,self.parent.height
                         text_size:self.width,self.height
                         halign:'center'
@@ -154,7 +154,8 @@
                         id: sc
                         do_scroll_x: False
                         do_scroll_y: True
-                        bar_width: 15
+                        size: self.parent.width*2,self.parent.height
+                        bar_width: 15                       
                         SlideNorn:
                             id:sn
                             cols: 1
