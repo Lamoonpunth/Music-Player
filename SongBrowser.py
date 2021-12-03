@@ -9,6 +9,7 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import BoxLayout
 from kivy.uix.scatter import Scatter
 from kivy.core.text import LabelBase
+import os
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -16,13 +17,15 @@ Builder.load_file('SongBrowser.kv')
 
 class Browser():
     choosed = None
+    path = None
     class SongBrowser(BoxLayout):  
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             # self.choosed = None
 
-        def selected(self,filename):
+        def selected(self,path,filename):
             Browser.choosed = filename
+            Browser.path = path
             print(f'one clicked = {Browser.choosed}')
 
     class AddSong(MDFloatLayout):   
@@ -58,10 +61,18 @@ class Browser():
             self.box.dismiss()
 
         def clickConfirm(self,instance):
-            # print(Browser.choosed)
             song = Browser.choosed
             if song != None:
                 song = song[0]
+                name = os.path.join(Browser.path, Browser.choosed[0])[len(Browser.path)+1:]
+                #archive/song/
+                print(name)
+                song = Browser.choosed[0]
+                import shutil
+                original = song
+                target = os.path.join("archive/song/",name)
+                shutil.copyfile(original, target)
+
                 g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
                 Write = True
                 for i in g:                 
@@ -72,7 +83,7 @@ class Browser():
                 #write
                 if Write: 
                     f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
-                    f.write(f'{song}\n')
+                    f.write(f'{target}\n')
                     f.close()
                 self.box.dismiss()
             else:
