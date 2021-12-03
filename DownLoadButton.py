@@ -26,9 +26,9 @@ KV = '''
     
     MDIconButton:       
         id: iButton 
-        icon: 'youtube'
-        text_color: [0.6,0.6,0.6,1]      
+        icon: 'youtube'             
         pos_hint: {'center_x': .5, 'center_y': .5}
+        theme_text_color: "Custom"
         on_release: root.show_enterURL()        
 '''
 
@@ -42,7 +42,8 @@ class DownloadURL(BoxLayout):
         self.orientation='horizontal'
         self.size_hint=(None,None)   
         self.dialog = None
-        self.isLoading = False        
+        self.isLoading = False 
+        self.ids.iButton.text_color = (1,0,0,1.0)       
         self.spin = (MDSpinner(        
         size_hint=(None, None),
         size=(46, 46),
@@ -122,6 +123,7 @@ class DownloadURL(BoxLayout):
             print("Download complete... {}".format(songgpath))   
             print(f'Number: {numm}')
             self.ids.iButton.icon = 'youtube'
+            self.ids.iButton.text_color = (1,0,0,1.0)
             g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
             Write = True
             for i in g:                 
@@ -137,6 +139,7 @@ class DownloadURL(BoxLayout):
         except:
             print('Error')
             self.ids.iButton.icon = 'alert-box'
+            self.ids.iButton.text_color = (1,1,0,1.0)
         self.isLoading = False         
         self.spin.active = self.isLoading   
 class MainApp(MDApp):
