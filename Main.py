@@ -280,6 +280,7 @@ class MainGridLayout(Widget):
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool = True
+        self.ids.play.icon = 'pause-circle'
         #print(self.searchedShow,' ooo o oo ')
 
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)

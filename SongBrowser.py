@@ -42,7 +42,7 @@ class Browser():
             if not self.box:
                 self.box = MDDialog(                
                     type="custom",
-                    content_cls=Browser().SongBrowser(),
+                    content_cls = Browser().SongBrowser(),
                     buttons=[
                         MDFlatButton(
                             text="OK",
