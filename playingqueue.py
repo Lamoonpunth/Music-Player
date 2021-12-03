@@ -21,6 +21,7 @@ class playingqueue(list):
         self.nowplaying=self.dequeue()
     def addfromqueue(self):
         self.playedstack.append(self.nowplaying)
+        print(self.musicqueue)
         self.nowplayingindex=self.musicqueue[0].indexinplaylist
         self.nowplaying=self.dequeue()
     def addfromstack(self):
