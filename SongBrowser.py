@@ -21,10 +21,6 @@ class Browser():
             super().__init__(**kwargs)
             # self.choosed = None
 
-        def submit(self,*args):
-            Browser.choosed = args[1]
-            print(f"double clicked = {Browser.choosed}")
-
         def selected(self,filename):
             Browser.choosed = filename
             print(f'one clicked = {Browser.choosed}')
@@ -78,19 +74,19 @@ class Browser():
                     f.write(f'{song}\n')
                     f.close()
                 self.box.dismiss()
-        #     else:
-        #         self.warning = MDDialog(                
-        #             type="custom",
-        #             text="Please choose file",
-        #             buttons=[
-        #                 MDFlatButton(
-        #                     text="OK",
-        #                     theme_text_color="Custom",
-        #                     on_release = self.clickConfirm
-        #                 ),
-        #             ],
-        #         )
-        #         self.warning.open()
+            else:
+                self.warning = MDDialog(                
+                    type="custom",
+                    text="Please choose file",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            on_release = self.warningConfirm
+                        ),
+                    ],
+                )
+                self.warning.open()
             
-        # def warningCancel(self,instance):
-        #     pass
+        def warningConfirm(self,instance):
+            self.warning.dismiss()
