@@ -5,9 +5,12 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.textfield import MDTextField
+from kivy.core.text import LabelBase
+from kivymd.uix.spinner import MDSpinner
+
 import youtube_dl
 import threading
-
+LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 KV = '''
 #:import images_path kivymd.images_path
 <Content>    
@@ -18,27 +21,41 @@ KV = '''
         hint_text: "Enter Youtube URL"  
         font_name: 'sf'
 <DownloadURL>   
-    size_hint_y: None               
+    size_hint_y: None      
+    orientation: "horizontal"    
+    
     MDIconButton:       
         id: iButton 
         icon: 'youtube'
         text_color: [0.6,0.6,0.6,1]      
         pos_hint: {'center_x': .5, 'center_y': .5}
-        on_release: root.show_enterURL()
+        on_release: root.show_enterURL()        
 '''
 
 Builder.load_string(KV)
 class Content(BoxLayout):
     pass
 
-class DownloadURL(MDFloatLayout):   
+class DownloadURL(BoxLayout):   
     def __init__(self, **kwargs):
-        super(MDFloatLayout, self).__init__(**kwargs) 
+        super(BoxLayout, self).__init__(**kwargs) 
         self.orientation='horizontal'
         self.size_hint=(None,None)   
         self.dialog = None
-        self.isLoading = False
-
+        self.isLoading = False        
+        self.spin = (MDSpinner(        
+        size_hint=(None, None),
+        size=(46, 46),
+        pos_hint={'center_x': .5, 'center_y': .5},
+        active=False,
+        palette=[
+            [0.28627450980392155, 0.8431372549019608, 0.596078431372549, 1],
+            [0.3568627450980392, 0.3215686274509804, 0.8666666666666667, 1],
+            [0.8862745098039215, 0.36470588235294116, 0.592156862745098, 1],
+            [0.8784313725490196, 0.9058823529411765, 0.40784313725490196, 1],
+                ]
+        ))
+        self.add_widget(self.spin)
     def show_enterURL(self):
         if not self.isLoading:
             if not self.dialog:
@@ -68,7 +85,8 @@ class DownloadURL(MDFloatLayout):
         self.dialog.dismiss()
 
     def grabText(self, inst):
-        self.ids.iButton.icon = 'loading'                
+        self.spin.active = True
+        self.ids.iButton.icon = ''                
         for obj in self.dialog.content_cls.children:
             if isinstance(obj, MDTextField):
                 print(obj.text)
@@ -120,16 +138,16 @@ class DownloadURL(MDFloatLayout):
             print('Error')
         self.isLoading = False
         self.ids.iButton.icon = 'youtube' 
-            
-# class MainApp(MDApp):
-#     def build(self):
-#         screen = DownloadURL()
-#         return screen
+        self.spin.active = self.isLoading   
+class MainApp(MDApp):
+    def build(self):
+        screen = DownloadURL()
+        return screen
 
-# def run():
-#     MainApp().run()
-# if __name__ == "__main__":
-#     t1 = threading.Thread(target=run(), name='t1')
-#     t1.start() 
+def run():
+    MainApp().run()
+if __name__ == "__main__":
+    t1 = threading.Thread(target=run(), name='t1')
+    t1.start() 
   
     
