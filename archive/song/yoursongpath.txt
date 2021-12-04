@@ -18,3 +18,5 @@ archive/song/Official髭男dism - Cry Baby［Official Video］.mp3
 archive/song/Sad Machine.mp3
 archive/song/03 Jaeger.mp3
 archive/song/กูเป็นพระเจ้า.mp3
+archive/song/たぶん.mp3
+archive/song/Hello Hi Meme Sound Effect.mp3

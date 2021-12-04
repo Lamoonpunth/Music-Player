@@ -101,6 +101,9 @@
                         color: 0 , 0 , 0 , 1
                         font_size: 42
                         font_name: 'sf'  
+                    Refresh:
+                        on_release: root.refresh()
+
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
@@ -350,9 +353,8 @@
                         pos: self.pos
                         size: self.size
 
-<Refresh@MDIconButton>:
+<Refresh>:
     id: iButton 
     icon: 'refresh'                           
     pos_hint: {'center_x': .1, 'center_y': .28}
     padding: 20
-    on_release: root.refresh()      

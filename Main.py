@@ -49,40 +49,15 @@ user_width, user_height = pyautogui.size()
 # Window.size = (app_width,app_height)
 # Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
 Window.maximize()
-fullpath=[]
-f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-index=0
-for x in f:    
-    if x[-1:] == "\n":
-        s=song(x[:-1],index)
-        index+=1
-        fullpath.append(s)
-f.close()
-yoursong = playlist("yoursong",fullpath)
-
-templist=[]
-playlistlist=[]
-playlistlist.append(yoursong)
-f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
-index=0
-for x in f:
-    if x[-1:] == "\n":
-        if x[0] is "%":
-            playlistlist.append(playlist(x[1:-1],templist.copy()))
-            templist=[]
-            index=0
-            continue
-        s=song(x[:-1],index)
-        index+=1
-        templist.append(s)
-f.close()
-print(playlistlist[0].name,' here we go')
 
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         print(f'Main width = {self.width}')
         print(f'Main height = {self.height}')
+        self.yoursong=[]
+        self.playlistlist=[]
+        self.reload()
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
@@ -91,7 +66,7 @@ class MainGridLayout(Widget):
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
-        self.queue.chooseplaylist(yoursong)
+        self.queue.chooseplaylist(self.yoursong)
         self.queue.addfromqueuefirstsong()
         #Load Song
         self.soundpath = self.queue.nowplaying.getpath()
@@ -105,20 +80,21 @@ class MainGridLayout(Widget):
         self.playtimeUpdateBool = True
         #slidenorninit
         self.playlistindex=0
-        self.showsong(yoursong)
-        self.showplaylist(playlistlist)
-        self.ids.playlist_name.text = f'{playlistlist[self.playlistindex].name}'
+        self.showsong(self.yoursong)
+        self.showplaylist(self.playlistlist)
+        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
-        refresh_button = Refresh()
         self.ids.playlist_name_box.add_widget(download_box)
         self.ids.playlist_name_box.add_widget(song_browser)
-        self.ids.playlist_name_box.add_widget(refresh_button)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False
-        
+
+    class Refresh(MDIconButton):
+     pass
+
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
@@ -202,7 +178,6 @@ class MainGridLayout(Widget):
     
     # Backward song(เปลี่ยนเพลงย้อนไปคิวก่อนหน้านี้)
     def prevpress(self,instance):
-        print(self.queue.isStackEmpty())
         if self.queue.isStackEmpty():
             print("StackIsEmpty")
             return
@@ -270,12 +245,10 @@ class MainGridLayout(Widget):
         if self.searchedShow is True:
             self.queue.chooseplaylist(self.searchedPlaylist)
         else:
-            self.queue.chooseplaylist(playlistlist[self.playlistindex])
-        print(self.queue.musicqueue)
+            self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
         self.queue.addfromqueuefirstsong()
         for i in range(index):
             self.queue.addfromqueue()
-        print(self.queue.nowplaying)
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
@@ -290,15 +263,15 @@ class MainGridLayout(Widget):
     def selectplaylist(self,*args):
         index=args[0].index 
         self.playlistindex=index
-        self.showsong(playlistlist[index])
-        self.ids.playlist_name.text = f'{playlistlist[index].name}'
+        self.showsong(self.playlistlist[index])
+        self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
         self.searchedShow = False
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')             
         self.searchedPlaylist.clearSong()
-        for songg in playlistlist[self.playlistindex].playlist:            
+        for songg in self.playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
                 self.searchedPlaylist.addsong(songg)
                 print(songg.path)                        
@@ -309,9 +282,42 @@ class MainGridLayout(Widget):
             self.searchedShow = False   
         
     def refresh(self):
-        a=0
-class Refresh(MDIconButton):
-     pass
+        self.reload()
+        self.showplaylist(self.playlistlist)
+        self.showsong(self.yoursong)
+        print(self.playlistlist)
+        print(self.playlistlist[0])
+        self.queue.chooseplaylist(self.yoursong)
+    def reload(self):
+        fullpath=[]
+        f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
+        index=0
+        for x in f:    
+            if x[-1:] == "\n":
+                s=song(x[:-1],index)
+                index+=1
+                fullpath.append(s)
+        f.close()
+        self.yoursong = playlist("yoursong",fullpath)
+
+        templist=[]
+        self.playlistlist=[]
+        self.playlistlist.append(self.yoursong)
+        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        index=0
+        for x in f:
+            if x[-1:] == "\n":
+                if x[0] is "%":
+                    self.playlistlist.append(playlist(x[1:-1],templist.copy()))
+                    templist=[]
+                    index=0
+                    continue
+                s=song(x[:-1],index)
+                index+=1
+                templist.append(s)
+        f.close()
+# class Refresh(MDIconButton):
+#      pass
 # class MainWidget(Widget):
 #     def __init__(self, **kwargs):
 #         super().__init__(**kwargs)
@@ -325,9 +331,9 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "Gray"
         #=========== theme ===========#
 
-    #=========== Icon ============#
-    
-    #=========== Icon ============#
+        #=========== Icon ============#
+        
+        #=========== Icon ============#
 
         return MainGridLayout()
 

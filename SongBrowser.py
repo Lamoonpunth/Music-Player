@@ -35,7 +35,18 @@ class Browser():
             self.size_hint=(None,None)   
             self.songbrowser = Browser().SongBrowser()
             self.box = None
-            self.warning = None
+            self.warning = MDDialog(                
+                    type="custom",
+                    title="Please choose .MP3 file",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color = (0,0,0,1),
+                            on_release = self.warningConfirm
+                        ),
+                    ],
+                )
 
         def show_songbrowser(self):
             if not self.box:
@@ -63,31 +74,38 @@ class Browser():
         def clickConfirm(self,instance):
             song = Browser.choosed
             if song != None:
+                # Check if file is .mp3 or not
                 song = song[0]
-                name = os.path.join(Browser.path, Browser.choosed[0])[len(Browser.path)+1:]
-                #archive/song/
-                print(name)
-                song = Browser.choosed[0]
-                import shutil
-                original = song
-                target = os.path.join("archive/song/",name)
-                shutil.copyfile(original, target)
+                check_mp3 = ''
+                for i in range(3):
+                    check_mp3 = song[-(i+1)] + check_mp3
+                print(f'Choosed File type = --{check_mp3}--')
+                if check_mp3 == 'mp3':
+                    name = os.path.join(Browser.path, Browser.choosed[0])[len(Browser.path)+1:]
+                    #archive/song/
+                    print(name)
+                    song = Browser.choosed[0]
+                    import shutil
+                    original = song
+                    target = os.path.join("archive/song/",name)
+                    shutil.copyfile(original, target)
 
-                g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
-                Write = True
-                for i in g:                 
-                    if song in i:
-                        Write = False
-                        break  
-                g.close()  
-                #write
-                if Write: 
-                    f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
-                    f.write(f'{target}\n')
-                    f.close()
-                self.box.dismiss()
-            else:
-                self.warning = MDDialog(                
+                    g = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
+                    Write = True
+                    for i in g:                 
+                        if song in i:
+                            Write = False
+                            break  
+                    g.close()  
+                    #write
+                    if Write: 
+                        f = open("archive/song/yoursongpath.txt", "a",encoding='utf8')  
+                        f.write(f'{target}\n')
+                        f.close()
+                    self.box.dismiss()
+                elif check_mp3 != 'mp3':
+                    self.box.dismiss()
+                    self.warning = MDDialog(                
                     type="custom",
                     title="Please choose .MP3 file",
                     buttons=[
@@ -96,9 +114,11 @@ class Browser():
                             theme_text_color="Custom",
                             text_color = (0,0,0,1),
                             on_release = self.warningConfirm
-                        ),
-                    ],
-                )
+                            ),
+                        ],
+                    )
+                    self.warning.open()
+            else:
                 self.warning.open()
             
         def warningConfirm(self,instance):
