@@ -44,10 +44,7 @@ Builder.load_file('main.kv')
 # Get user screen display size
 user_width, user_height = pyautogui.size()
 # # Adjust Window size when start
-# app_width = 1024
-# app_height = 768
-# Window.size = (app_width,app_height)
-# Window._set_window_pos((user_width/2)-(app_width/2),(user_height/2)-(app_height/2))
+
 Window.maximize()
 
 class MainGridLayout(Widget):
@@ -101,17 +98,6 @@ class MainGridLayout(Widget):
             lb = PlaylistBox(i,playlistlist[i].name)
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
-
-    def showqueue(self):
-        self.ids.playlist_name.text='Queue'
-        self.ids.sn.clear_widgets()
-        for i in range(len(self.queue.musicqueue)):
-            t = self.queue.musicqueue[i].time
-            new_t = (t//60) + ((t%60)/100)
-            new_t = format(new_t,'.2f')
-            time_text = f'{new_t}'
-            lb = SongBox(i+1,self.queue.musicqueue[i].name,time_text)
-            self.ids.sn.add_widget(lb)
 
     def showsong(self,playlist): #spiderman
         self.ids.sn.clear_widgets()
@@ -214,16 +200,7 @@ class MainGridLayout(Widget):
                     self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
-#=============== repeat รอเขียนเพิ่ม =======================#
-    # def repeatState(self, instance):
-    #     if self.ids.repeat.text_color == [0,0,0,1]:
-    #         self.ids.repeat.text_color = [1,1,1,1]
-    #         print(f'Repeat is ON')
-    #     else:
-    #         self.ids.repeat.text_color = [0,0,0,1]
-    #         print(f'Repeat is OFF')
 
-#=========================================================#
     # Shuffle song toggle button(เลือกเพื่อสุ่มเพลง)
     def shuffleState(self, instance):
         if self.ids.shuffle.state is 'down':
@@ -237,17 +214,7 @@ class MainGridLayout(Widget):
             self.queue.chooseplaylist(self.queue.originalplaylist)
             self.queue.addfromqueuefirstsong()
             for i in range(index):
-                self.queue.addfromqueue()
-        # if state.state == 'down':
-        #     print(f'Shuffle is ON')
-        #     random.shuffle(self.queue.musicqueue)
-        # else:
-        #     print(f'Shuffle is OFF')
-        #     index=self.queue.nowplayingindex
-        #     self.queue.chooseplaylist(self.queue.originalplaylist)
-        #     self.queue.addfromqueuefirstsong()
-        #     for i in range(index):
-        #         self.queue.addfromqueue()       
+                self.queue.addfromqueue()   
 
     # Choose song from songlist(ฟังก์ชันเมื่อกดเลือกเพลงจากในเพลย์ลิสต์)
     def selectsong(self,*args):
@@ -327,11 +294,6 @@ class MainGridLayout(Widget):
                 index+=1
                 templist.append(s)
         f.close()
-# class Refresh(MDIconButton):
-#      pass
-# class MainWidget(Widget):
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
 
 # Main Application running Function
 class MainApp(MDApp):
