@@ -280,16 +280,17 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                MDIconButton:
+                QueueButton:
                     id: queue_list
-                    icon: 'playlist-edit'                           
+                    icon: 'playlist-edit'
                     user_font_size: 35
                     theme_text_color: "Custom"
                     pos_hint: {"center_x":0.5,"center_y":0.5}
                     text_color: [0.6,0.6,0.6,1]
                     ripple_scale: 0
                     size_hint: 0.1, None
-                    on_touch_up: if self.collide_point(*args[1].pos):root.showqueue()
+                    queueshownow: False
+                    on_touch_up: if self.collide_point(*args[1].pos):root.showqueue("touch")
                 Slider:
                     id: slide_volume
                     min: 0
