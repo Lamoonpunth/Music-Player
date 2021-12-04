@@ -102,6 +102,17 @@ class MainGridLayout(Widget):
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
 
+    def showqueue(self):
+        self.ids.playlist_name.text='Queue'
+        self.ids.sn.clear_widgets()
+        for i in range(len(self.queue.musicqueue)):
+            t = self.queue.musicqueue[i].time
+            new_t = (t//60) + ((t%60)/100)
+            new_t = format(new_t,'.2f')
+            time_text = f'{new_t}'
+            lb = SongBox(i+1,self.queue.musicqueue[i].name,time_text)
+            self.ids.sn.add_widget(lb)
+
     def showsong(self,playlist): #spiderman
         self.ids.sn.clear_widgets()
         for i in range(len(playlist.playlist)):
