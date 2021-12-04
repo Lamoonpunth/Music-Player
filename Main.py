@@ -102,17 +102,6 @@ class MainGridLayout(Widget):
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
 
-    def showqueue(self):
-        self.ids.playlist_name.text='Queue'
-        self.ids.sn.clear_widgets()
-        for i in range(len(self.queue.musicqueue)):
-            t = self.queue.musicqueue[i].time
-            new_t = (t//60) + ((t%60)/100)
-            new_t = format(new_t,'.2f')
-            time_text = f'{new_t}'
-            lb = SongBox(i+1,self.queue.musicqueue[i].name,time_text)
-            self.ids.sn.add_widget(lb)
-
     def showsong(self,playlist): #spiderman
         self.ids.sn.clear_widgets()
         for i in range(len(playlist.playlist)):
@@ -165,6 +154,7 @@ class MainGridLayout(Widget):
                 self.play = Button(text='Play')
                 self.bool = True
                 self.sound.play()
+                self.sound.volume = self.volume+0.001
                 self.sound.volume = self.volume
             else:
                 self.play = Button(text='Stop')
@@ -184,6 +174,7 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
     
@@ -198,12 +189,14 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
     # Update ProgressBar in SongTime bar(แสดงผลช่วงเวลาในเพลง)
     def playtimeUpdate(self):        
-        self.sound.volume=self.volume
+        self.sound.volume = self.volume+0.001
+        self.sound.volume = self.volume       
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
@@ -264,6 +257,7 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool = True

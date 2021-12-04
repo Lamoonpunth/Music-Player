@@ -288,8 +288,7 @@
                     theme_text_color: "Custom"
                     pos_hint: {"center_x":0.5,"center_y":0.5}
                     text_color: [0.6,0.6,0.6,1]
-                    ripple_scale: 0
-                    size_hint: 0.1, None
+                    ripple_scale: 0                    
                     on_touch_up: if self.collide_point(*args[1].pos):root.showqueue()
                 Slider:
                     id: slide_volume
