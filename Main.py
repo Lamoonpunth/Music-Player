@@ -36,6 +36,7 @@ import PlayButton
 import NextPrevButton
 import ShuffleButton
 import RepeatButton
+import QueueButton
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -98,6 +99,22 @@ class MainGridLayout(Widget):
             lb = PlaylistBox(i,playlistlist[i].name)
             self.ids.playlistslide.add_widget(lb)
             lb.bind(on_press=self.selectplaylist)
+
+    def showqueue(self,source):
+        if source is "touch" and self.ids.queue_list.queueshownow is True:
+            return
+        else:   
+            self.ids.queue_list.queueshownow = True
+            self.ids.queue_list.text_color=(1,0.60,0.75,1)
+            self.ids.playlist_name.text='Queue'
+            self.ids.sn.clear_widgets()
+            for i in range(len(self.queue.musicqueue)):
+                t = self.queue.musicqueue[i].time
+                new_t = (t//60) + ((t%60)/100)
+                new_t = format(new_t,'.2f')
+                time_text = f'{new_t}'
+                lb = SongBox(i+1,self.queue.musicqueue[i].name,time_text)
+                self.ids.sn.add_widget(lb)
 
     def showsong(self,playlist): #spiderman
         self.ids.sn.clear_widgets()
