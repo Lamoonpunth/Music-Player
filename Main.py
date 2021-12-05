@@ -293,8 +293,7 @@ class MainGridLayout(Widget):
         for songg in self.playlistlist[self.playlistindex].playlist:
             val = nltk.edit_distance(text.casefold(),songg.name.casefold())       
             ListofSong.append(songg)
-            ListofSim.append(val)         
-                 
+            ListofSim.append(val)                          
         temp = list(zip(ListofSim,ListofSong))
         quick_sort(0,len(temp)-1,temp)
         for i in range(len(temp)):        
