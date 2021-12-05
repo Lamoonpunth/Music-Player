@@ -16,6 +16,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.uix.button import MDIconButton
 from kivy.clock import Clock
+from kivy.animation import Animation
 import threading 
 from playlist import playlist
 from playingqueue import playingqueue
@@ -72,6 +73,9 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'sf'
+        # anim = Animation(x=-100,duration=10)
+        # anim.repeat = True
+        # anim.start(self.ids.song_name)
         self.volume = 0.25
         #seek
         self.seekvalue = 0
@@ -117,6 +121,8 @@ class MainGridLayout(Widget):
                 self.ids.sn.add_widget(lb)
 
     def showsong(self,playlist): #spiderman
+        self.ids.queue_list.queueshownow = False
+        self.ids.queue_list.text_color=(0.6,0.6,0.6,1)
         self.ids.sn.clear_widgets()
         for i in range(len(playlist.playlist)):
             t = playlist.playlist[i].time
@@ -159,10 +165,6 @@ class MainGridLayout(Widget):
     # Play button(ปุ่มเปิด-ปิดเพลง)
     def press(self, instance):
             self.ids.play.user_font_size= 80
-            if self.ids.play.icon == 'play-circle':
-                self.ids.play.icon = 'pause-circle'
-            else:
-                self.ids.play.icon = 'play-circle'
 
             if self.bool is False:
                 self.play = Button(text='Play')
@@ -170,10 +172,12 @@ class MainGridLayout(Widget):
                 self.sound.play()
                 self.sound.volume = self.volume+0.001
                 self.sound.volume = self.volume
+                self.ids.play.icon = 'pause-circle'
             else:
                 self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
+                self.ids.play.icon = 'play-circle'
 
     # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
@@ -191,6 +195,10 @@ class MainGridLayout(Widget):
         self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
+        self.bool = True
+        self.ids.play.icon = 'pause-circle'
+        if self.ids.queue_list.queueshownow is True:
+            self.showqueue("auto")
     
     # Backward song(เปลี่ยนเพลงย้อนไปคิวก่อนหน้านี้)
     def prevpress(self,instance):
@@ -288,6 +296,7 @@ class MainGridLayout(Widget):
         print(self.playlistlist)
         print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
+
     def reload(self):
         fullpath=[]
         f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
