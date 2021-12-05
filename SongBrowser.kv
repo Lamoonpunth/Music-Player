@@ -18,9 +18,9 @@
     FileChooserListView:
         id:lv
         font_name:'sf'
-        font_size: '50'
+        font_size: '100'
         on_selection: sb.selected(lv.path,lv.selection)
-        # on_touch_up: sb.selected(lv.selection)
+        path:'C:\\'
 
 <AddSong>:
     id:addsong
@@ -29,3 +29,6 @@
         text: "ALERT DIALOG"
         pos_hint: {'center_x': .5, 'center_y': .5}
         on_release: root.show_songbrowser()
+
+<DriveBrowser>:
+    id:drive_list

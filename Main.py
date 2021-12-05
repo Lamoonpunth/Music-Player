@@ -51,8 +51,6 @@ Window.maximize()
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        print(f'Main width = {self.width}')
-        print(f'Main height = {self.height}')
         self.yoursong=[]
         self.playlistlist=[]
         self.reload()
@@ -68,7 +66,6 @@ class MainGridLayout(Widget):
         self.queue.addfromqueuefirstsong()
         #Load Song
         self.soundpath = self.queue.nowplaying.getpath()
-        print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'sf'
@@ -138,18 +135,13 @@ class MainGridLayout(Widget):
 
     # Not update song time when hold(ดักไว้ให้ค่าไม่เปลี่ยนตอนกำลังเลื่อนเวลาเพลง)
     def notupdate(self,*args):
-        print("ontouchdown")
         self.playtimeUpdateBool=False
 
     # Seek song time(เลื่อนเวลาในเพลง)
     def seek(self, *args):
         if self.playtimeUpdateBool is False:
             self.playtimeUpdateBool = True
-            print("ontouchup")
-            #print (sound.state)
-            #print (sound.length)
             if (self.sound.state=='play'):
-                print(self.seekvalue)
                 self.sound.seek(self.seekvalue*self.sound.length/10000)
             else:
                 self.sound.play()
@@ -179,7 +171,6 @@ class MainGridLayout(Widget):
         if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
             self.queue.chooseplaylist(self.queue.originalplaylist)
         elif self.queue.isEmpty():
-            print("QueueIsEmpty")
             return
         self.sound.stop()
         self.queue.addfromqueue()
@@ -193,7 +184,6 @@ class MainGridLayout(Widget):
     # Backward song(เปลี่ยนเพลงย้อนไปคิวก่อนหน้านี้)
     def prevpress(self,instance):
         if self.queue.isStackEmpty():
-            print("StackIsEmpty")
             return
         self.sound.stop()
         self.queue.addfromstack()
@@ -208,7 +198,6 @@ class MainGridLayout(Widget):
     def playtimeUpdate(self):        
         self.sound.volume=self.volume
         if self.playtimeUpdateBool is True:
-            #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
             if value>=9990:
                 if self.ids.repeat.repeatstate == "repeatsong":
@@ -222,11 +211,9 @@ class MainGridLayout(Widget):
     def shuffleState(self, instance):
         if self.ids.shuffle.state is 'down':
             self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
-            print(f'Shuffle is ON')
             random.shuffle(self.queue.musicqueue)
         else:
             self.ids.shuffle.text_color = [1,0.41,0.69,1]
-            print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
             self.queue.chooseplaylist(self.queue.originalplaylist)
             self.queue.addfromqueuefirstsong()
@@ -252,7 +239,6 @@ class MainGridLayout(Widget):
         self.playtimeUpdate()
         self.bool = True
         self.ids.play.icon = 'pause-circle'
-        #print(self.searchedShow,' ooo o oo ')
 
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
     def selectplaylist(self,*args):
@@ -264,13 +250,10 @@ class MainGridLayout(Widget):
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')             
         self.searchedPlaylist.clearSong()
         for songg in self.playlistlist[self.playlistindex].playlist:            
             if text in songg.name:
                 self.searchedPlaylist.addsong(songg)
-                print(songg.path)                        
-        print('------------')               
         self.showsong(self.searchedPlaylist)
         self.searchedShow = search
         if text =='':
@@ -280,8 +263,6 @@ class MainGridLayout(Widget):
         self.reload()
         self.showplaylist(self.playlistlist)
         self.showsong(self.yoursong)
-        print(self.playlistlist)
-        print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
     def reload(self):
         fullpath=[]
