@@ -175,14 +175,22 @@
             size_hint: (1,0.2)
             orientation: 'horizontal'
             size: root.width,root.height/4
-            canvas.before:
-                Color:
-                    rgba: (0,0,0,.9)
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            #canvas.before:
+            #    Color:
+            #        rgba: (0,0,0,.9)
+            #    Rectangle:
+            #        pos: self.pos
+            #        size: self.size
+
             BoxLayout:
                 size_hint: 0.33, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
                 # song name
                 Label:
                     id:song_name
@@ -194,6 +202,12 @@
             BoxLayout:
                 size_hint: 0.37, 1
                 orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
 
                 #========== ปุ่ม shuffle previous play next repeat ==============#
                 MDBoxLayout:
@@ -268,6 +282,13 @@
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint: 0.30, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
                 QueueButton:
                     id: queue_list
                     icon: 'playlist-edit'
@@ -292,3 +313,4 @@
     icon: 'refresh'
     pos_hint: {'center_x': .1, 'center_y': .28}
     padding: 20
+    #user_font_size: 40 

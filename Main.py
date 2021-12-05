@@ -97,7 +97,7 @@ class MainGridLayout(Widget):
         self.searchedShow = False
 
     class Refresh(MDIconButton):
-     pass
+        pass
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
