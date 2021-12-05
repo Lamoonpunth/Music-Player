@@ -36,11 +36,12 @@ import PlayButton
 import NextPrevButton
 import ShuffleButton
 import RepeatButton
+
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
 # Load KV File
-Builder.load_file('main.kv')
+# Builder.load_file('main.kv')
 # Get user screen display size
 user_width, user_height = pyautogui.size()
 # # Adjust Window size when start
@@ -90,7 +91,7 @@ class MainGridLayout(Widget):
         self.ids.playlist_name_box.add_widget(song_browser)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
-        self.searchedShow = False
+        self.searchedShow = False 
 
     class Refresh(MDIconButton):
      pass
@@ -316,6 +317,12 @@ class MainGridLayout(Widget):
                 index+=1
                 templist.append(s)
         f.close()
+
+    def EnterPlaylistName(self,name):
+        print(name)
+        
+
+
 # class Refresh(MDIconButton):
 #      pass
 # class MainWidget(Widget):
