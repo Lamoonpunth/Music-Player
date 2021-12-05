@@ -353,8 +353,12 @@ class MainGridLayout(Widget):
         f.close()
 
     def EnterPlaylistName(self,name):
-        print(name)
-        
+        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        for x in f:
+            continue
+        f.write("%"+name+"\n")
+        f.close()
+        self.refresh()
 
 # Main Application running Function
 class MainApp(MDApp):
