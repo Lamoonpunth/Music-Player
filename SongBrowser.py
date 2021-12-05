@@ -1,18 +1,15 @@
-from os import name
-from re import S
-import re
-from kivy.core import text
-from kivy.lang import Builder
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.boxlayout import BoxLayout
-from kivy.uix.scatter import Scatter
-from kivy.core.text import LabelBase
 import os
+import win32api
+from kivy.lang import Builder
+from kivy.utils import platform
+from kivy.core.text import LabelBase
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.boxlayout import BoxLayout
+from kivymd.uix.floatlayout import MDFloatLayout
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
-
+# Load .KV file
 Builder.load_file('SongBrowser.kv')
 
 class Browser():
@@ -21,12 +18,26 @@ class Browser():
     class SongBrowser(BoxLayout):  
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            # self.choosed = None
+            print(f'all drive = {self.get_win_drives()}')
 
         def selected(self,path,filename):
             Browser.choosed = filename
             Browser.path = path
-            print(f'one clicked = {Browser.choosed}')
+            print(f'Selected File = {Browser.choosed}')
+
+        def get_win_drives(self):
+            if platform == 'win':
+
+                drives = win32api.GetLogicalDriveStrings()
+                drives = drives.split('\000')[:-1]
+
+                return drives
+            else:    
+                return []
+
+        def drive_selection_changed(self, *args):
+            selected_item = args[0].selection[0].text
+            self.ids.lv.path = selected_item
 
     class AddSong(MDFloatLayout):   
         def __init__(self, **kwargs):
