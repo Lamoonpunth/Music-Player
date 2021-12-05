@@ -40,6 +40,7 @@ import RepeatButton
 import QueueButton
 import nltk
 from sort import quick_sort
+
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -284,8 +285,10 @@ class MainGridLayout(Widget):
         self.searchedShow = False
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
-    def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')             
+    def Searched_Song(self, text="", search=False):               
+        # t3 = threading.Thread(target=self.searchT3,args=(text,search,), name='t3')              
+        # t3.start()    
+        # print(f'Active Threads: {threading.active_count()}')                 
         self.searchedPlaylist.clearSong()
         ListofSong =[]
         ListofSim =[]
@@ -306,13 +309,45 @@ class MainGridLayout(Widget):
         quick_sort(0,len(temp)-1,temp)
         for i in range(len(temp)):        
             self.searchedPlaylist.addsong(temp[i][1])                                    
-        # print('------------')               
-        
-        self.showsong(self.searchedPlaylist)
+        # print('------------')           
         self.searchedShow = search
         if text =='':
-            self.searchedShow = False   
+            self.searchedShow = False
+        if self.searchedShow:
+            self.showsong(self.searchedPlaylist)
+        else:
+            self.showsong(self.playlistlist[self.playlistindex])
         
+    def searchT3(self,text,search):
+        self.searchedPlaylist.clearSong()
+        ListofSong =[]
+        ListofSim =[]
+        temp = None
+        for songg in self.playlistlist[self.playlistindex].playlist:
+            #slidingwindow
+            if range(len(songg.name.casefold())<len(text.casefold())):
+                val=999
+            else:
+                val=999
+                for i in range(len(songg.name.casefold())-len(text.casefold())):
+                    temp = nltk.edit_distance(text.casefold(),songg.name.casefold()[i:i+len(text.casefold())])
+                    if temp<val:
+                        val=temp
+            ListofSong.append(songg)
+            ListofSim.append(val)                          
+        temp = list(zip(ListofSim,ListofSong))
+        quick_sort(0,len(temp)-1,temp)
+        for i in range(len(temp)):        
+            self.searchedPlaylist.addsong(temp[i][1])                                    
+        # print('------------')           
+        self.searchedShow = search
+        if text =='':
+            self.searchedShow = False
+        if self.searchedShow:
+            self.showsong(self.searchedPlaylist)
+        else:
+            self.showsong(self.playlistlist[self.playlistindex])
+      
     def refresh(self):
         self.reload()
         self.showplaylist(self.playlistlist)
