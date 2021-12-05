@@ -16,6 +16,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.uix.button import MDIconButton
 from kivy.clock import Clock
+from kivy.animation import Animation
 import threading 
 from playlist import playlist
 from playingqueue import playingqueue
@@ -37,11 +38,14 @@ import NextPrevButton
 import ShuffleButton
 import RepeatButton
 import QueueButton
+import nltk
+from sort import quick_sort
+
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
 # Load KV File
-Builder.load_file('main.kv')
+# Builder.load_file('main.kv')
 # Get user screen display size
 user_width, user_height = pyautogui.size()
 # # Adjust Window size when start
@@ -69,6 +73,9 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'sf'
+        # anim = Animation(x=-100,duration=10)
+        # anim.repeat = True
+        # anim.start(self.ids.song_name)
         self.volume = 0.25
         #seek
         self.seekvalue = 0
@@ -85,10 +92,10 @@ class MainGridLayout(Widget):
         self.ids.playlist_name_box.add_widget(song_browser)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
-        self.searchedShow = False
+        self.searchedShow = False 
 
     class Refresh(MDIconButton):
-     pass
+        pass
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -114,6 +121,8 @@ class MainGridLayout(Widget):
                 self.ids.sn.add_widget(lb)
 
     def showsong(self,playlist): #spiderman
+        self.ids.queue_list.queueshownow = False
+        self.ids.queue_list.text_color=(0.6,0.6,0.6,1)
         self.ids.sn.clear_widgets()
         for i in range(len(playlist.playlist)):
             t = playlist.playlist[i].time
@@ -151,20 +160,21 @@ class MainGridLayout(Widget):
     # Play button(ปุ่มเปิด-ปิดเพลง)
     def press(self, instance):
             self.ids.play.user_font_size= 80
-            if self.ids.play.icon == 'play-circle':
-                self.ids.play.icon = 'pause-circle'
-            else:
-                self.ids.play.icon = 'play-circle'
 
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
-                self.sound.play()
+                self.sound.volume = self.volume+0.001
                 self.sound.volume = self.volume
+                self.sound.play()
+                self.sound.volume = self.volume+0.001
+                self.sound.volume = self.volume
+                self.ids.play.icon = 'pause-circle'
             else:
                 self.play = Button(text='Stop')
                 self.bool = False
                 self.sound.stop()
+                self.ids.play.icon = 'play-circle'
 
     # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
@@ -177,9 +187,16 @@ class MainGridLayout(Widget):
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.volume = self.volume+0.001
+        self.sound.volume = self.volume
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
+        self.bool = True
+        self.ids.play.icon = 'pause-circle'
+        if self.ids.queue_list.queueshownow is True:
+            self.showqueue("auto")
     
     # Backward song(เปลี่ยนเพลงย้อนไปคิวก่อนหน้านี้)
     def prevpress(self,instance):
@@ -191,12 +208,14 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
 
     # Update ProgressBar in SongTime bar(แสดงผลช่วงเวลาในเพลง)
     def playtimeUpdate(self):        
-        self.sound.volume=self.volume
+        self.sound.volume = self.volume+0.001
+        self.sound.volume = self.volume       
         if self.playtimeUpdateBool is True:
             value=int(self.sound.get_pos()*10000/self.sound.length)
             if value>=9990:
@@ -234,7 +253,10 @@ class MainGridLayout(Widget):
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.volume = self.volume+0.001
+        self.sound.volume=self.volume
         self.sound.play()
+        self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool = True
@@ -249,21 +271,82 @@ class MainGridLayout(Widget):
         self.searchedShow = False
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
-    def Searched_Song(self, text="", search=False):
+    # def Searched_Song(self, text="", search=False):
+    #     self.searchedPlaylist.clearSong()
+    #     for songg in self.playlistlist[self.playlistindex].playlist:            
+    #         if text in songg.name:
+    #             self.searchedPlaylist.addsong(songg)
+    #     self.showsong(self.searchedPlaylist)
+    def Searched_Song(self, text="", search=False):               
+        # t3 = threading.Thread(target=self.searchT3,args=(text,search,), name='t3')              
+        # t3.start()    
+        # print(f'Active Threads: {threading.active_count()}')                 
         self.searchedPlaylist.clearSong()
-        for songg in self.playlistlist[self.playlistindex].playlist:            
-            if text in songg.name:
-                self.searchedPlaylist.addsong(songg)
-        self.showsong(self.searchedPlaylist)
+        ListofSong =[]
+        ListofSim =[]
+        temp = None
+        for songg in self.playlistlist[self.playlistindex].playlist:
+            #slidingwindow
+            if range(len(songg.name.casefold())<len(text.casefold())):
+                val=999
+            else:
+                val=999
+                for i in range(len(songg.name.casefold())-len(text.casefold())):
+                    temp = nltk.edit_distance(text.casefold(),songg.name.casefold()[i:i+len(text.casefold())])
+                    if temp<val:
+                        val=temp
+            ListofSong.append(songg)
+            ListofSim.append(val)                          
+        temp = list(zip(ListofSim,ListofSong))
+        quick_sort(0,len(temp)-1,temp)
+        for i in range(len(temp)):        
+            self.searchedPlaylist.addsong(temp[i][1])                                    
+        # print('------------')           
         self.searchedShow = search
         if text =='':
-            self.searchedShow = False   
+            self.searchedShow = False
+        if self.searchedShow:
+            self.showsong(self.searchedPlaylist)
+        else:
+            self.showsong(self.playlistlist[self.playlistindex])
         
+    def searchT3(self,text,search):
+        self.searchedPlaylist.clearSong()
+        ListofSong =[]
+        ListofSim =[]
+        temp = None
+        for songg in self.playlistlist[self.playlistindex].playlist:
+            #slidingwindow
+            if range(len(songg.name.casefold())<len(text.casefold())):
+                val=999
+            else:
+                val=999
+                for i in range(len(songg.name.casefold())-len(text.casefold())):
+                    temp = nltk.edit_distance(text.casefold(),songg.name.casefold()[i:i+len(text.casefold())])
+                    if temp<val:
+                        val=temp
+            ListofSong.append(songg)
+            ListofSim.append(val)                          
+        temp = list(zip(ListofSim,ListofSong))
+        quick_sort(0,len(temp)-1,temp)
+        for i in range(len(temp)):        
+            self.searchedPlaylist.addsong(temp[i][1])                                    
+        # print('------------')           
+        self.searchedShow = search
+        if text =='':
+            self.searchedShow = False
+        if self.searchedShow:
+            self.showsong(self.searchedPlaylist)
+        else:
+            self.showsong(self.playlistlist[self.playlistindex])
+      
     def refresh(self):
         self.reload()
         self.showplaylist(self.playlistlist)
         self.showsong(self.yoursong)
         self.queue.chooseplaylist(self.yoursong)
+        
+
     def reload(self):
         fullpath=[]
         f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
@@ -292,6 +375,14 @@ class MainGridLayout(Widget):
                 index+=1
                 templist.append(s)
         f.close()
+
+    def EnterPlaylistName(self,name):
+        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        for x in f:
+            continue
+        f.write("%"+name+"\n")
+        f.close()
+        self.refresh()
 
 # Main Application running Function
 class MainApp(MDApp):

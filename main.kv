@@ -1,5 +1,6 @@
 #:kivy 2.0.0
 #:import images_path kivymd.images_path
+#:import Factory kivy.factory.Factory
 
 <MainGridLayout>
     size: '1024dp','768dp'
@@ -56,7 +57,7 @@
                             font_name: 'sf'
                     Label:
                         text: ''
-                        size_hint:(1,0.05)
+                        size_hint:(1,0.05)  
                 BoxLayout:
                     id:boxbox
                     orientation:'vertical'
@@ -79,6 +80,14 @@
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
+                    Button:
+                        text: 'AddPlaylist'
+                        size_hint: 1,.1
+                        on_release: Factory.MyPopup().open()     
+                        
+                
+                          
+                             
 
             # ช่องของ Song list
             BoxLayout:
@@ -175,14 +184,22 @@
             size_hint: (1,0.2)
             orientation: 'horizontal'
             size: root.width,root.height/4
-            canvas.before:
-                Color:
-                    rgba: (0,0,0,.9)
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            #canvas.before:
+            #    Color:
+            #        rgba: (0,0,0,.9)
+            #    Rectangle:
+            #        pos: self.pos
+            #        size: self.size
+
             BoxLayout:
                 size_hint: 0.33, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
                 # song name
                 Label:
                     id:song_name
@@ -194,11 +211,18 @@
             BoxLayout:
                 size_hint: 0.37, 1
                 orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
 
                 #========== ปุ่ม shuffle previous play next repeat ==============#
                 MDBoxLayout:
                     adaptive_height: True
                     pos_hint: {"center_x":0.5,"center_y":0.5}
+
                     Label:
                         text: ''
                         size_hint: 0.7,1
@@ -267,6 +291,12 @@
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint: 0.30, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,.9)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 QueueButton:
                     id: queue_list
                     icon: 'playlist-edit'
@@ -285,6 +315,25 @@
                     value: 25
                     orientation:"horizontal"
                     on_value: root.slide_it(*args)
+    #user_font_size: 40
+<MyPopup@Popup>
+    title: 'Enter your playlist name'
+    auto_dismiss: True
+    size_hint: .6 ,.2
+    pos_hint: {"x": .2 ,"top": .7}
+    BoxLayout:
+        orientation: 'vertical'
+        TextInput:
+            id: myTextInput
+            font_size: 24
+            multiline: False  
+        Button:
+            text: "Enter"
+            font_size: 20
+            size_hint: .2 , 1
+            pos_hint: {"center_x": .5}
+            on_release: Factory.MainGridLayout().EnterPlaylistName(myTextInput.text)
+            on_release: root.dismiss()
 
 <Refresh>:
     id: iButton
