@@ -38,6 +38,8 @@ import NextPrevButton
 import ShuffleButton
 import RepeatButton
 import QueueButton
+import nltk
+from sort import quick_sort
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
 
@@ -169,6 +171,8 @@ class MainGridLayout(Widget):
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
+                self.sound.volume = self.volume+0.001
+                self.sound.volume = self.volume
                 self.sound.play()
                 self.sound.volume = self.volume+0.001
                 self.sound.volume = self.volume
@@ -191,6 +195,8 @@ class MainGridLayout(Widget):
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.volume = self.volume+0.001
+        self.sound.volume = self.volume
         self.sound.play()
         self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
@@ -259,6 +265,8 @@ class MainGridLayout(Widget):
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
+        self.sound.volume = self.volume+0.001
+        self.sound.volume=self.volume
         self.sound.play()
         self.sound.volume = self.volume+0.001
         self.sound.volume=self.volume
@@ -278,12 +286,21 @@ class MainGridLayout(Widget):
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')             
-        self.searchedPlaylist.clearSong()
-        for songg in self.playlistlist[self.playlistindex].playlist:            
-            if text in songg.name:
-                self.searchedPlaylist.addsong(songg)
-                print(songg.path)                        
-        print('------------')               
+        self.searchedPlaylist.clearSong()            
+        ListofSong =[]
+        ListofSim =[]
+        temp = None
+        for songg in self.playlistlist[self.playlistindex].playlist:
+            val = nltk.edit_distance(text.casefold(),songg.name.casefold())       
+            ListofSong.append(songg)
+            ListofSim.append(val)         
+                 
+        temp = list(zip(ListofSim,ListofSong))
+        quick_sort(0,len(temp)-1,temp)
+        for i in range(len(temp)):        
+            self.searchedPlaylist.addsong(temp[i][1])                                    
+        # print('------------')               
+        
         self.showsong(self.searchedPlaylist)
         self.searchedShow = search
         if text =='':
@@ -296,6 +313,7 @@ class MainGridLayout(Widget):
         print(self.playlistlist)
         print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
+        
 
     def reload(self):
         fullpath=[]
