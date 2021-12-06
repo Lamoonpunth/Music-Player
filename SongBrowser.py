@@ -17,7 +17,7 @@ Builder.load_file('SongBrowser.kv')
 class Browser():
     # Variable 
     choosed = None #ไฟล์ที่เลือก
-    path = None #ตำแหน่งไฟล์ที่เลือก
+    path_file = None #ตำแหน่งไฟล์ที่เลือก
 
     class SongBrowser(BoxLayout):  
         # ตั้งค่าคลาส
@@ -27,7 +27,7 @@ class Browser():
         # ฟังก์ชันเลือกไฟล์
         def selected(self,path,filename):
             Browser.choosed = filename
-            Browser.path = path
+            Browser.path_file = path
             print(f'Selected File = {Browser.choosed}')
     # คลาสสำหรับเพิ่มเพลง
     class AddSong(MDFloatLayout):   
@@ -44,8 +44,7 @@ class Browser():
             self.drives = MDDialog(                
                     type="custom",
                     title="Choose Drive",
-                    buttons=[
-                    ],
+                    buttons = []
                 )
             # กล่องแจ้งเตือนสำหรับ Error
             self.warning = MDDialog(                
@@ -96,15 +95,20 @@ class Browser():
         # เลือกไดรฟ์อื่นๆ
         def browse_other(self,instance):
             current_drive = self.get_win_drives()
+            list = []
             for i in current_drive:
-                self.drives.add_widget(
-                    MDFlatButton(
-                            text=f"{i}",
-                            font_size = 24,
-                            font_name = 'sf',
-                            theme_text_color="Custom",
-                            on_release = self.drive_selection_changed
+                butt = MDFlatButton(
+                        text=f"{i}",
+                        font_size = 24,
+                        font_name = 'sf',
+                        theme_text_color="Custom",
+                        on_release = self.drive_selection_changed
                         )
+                list.append(butt)
+            self.drives = MDDialog(                
+                    type="custom",
+                    title="Choose Drive",
+                    buttons = list
                 )
             self.box.dismiss()
             self.drives.open()
@@ -123,7 +127,7 @@ class Browser():
                     check_mp3 = song[-(i+1)] + check_mp3
                 print(f'Choosed File type = --{check_mp3}--')
                 if check_mp3 == 'mp3':
-                    name = os.path.join(Browser.path, Browser.choosed[0])[len(Browser.path)+1:]
+                    name = os.path.join(Browser.path_file, Browser.choosed[0])[len(Browser.path_file)+1:]
                     #คัดลอกไฟล์เพลงไปยัง archive/song/
                     song = Browser.choosed[0]
                     import shutil
@@ -169,5 +173,5 @@ class Browser():
             print(selected_item)
             print(str(selected_change))
             self.drives.dismiss()
-            Browser().SongBrowser().ids.lv.path = selected_change
+            Browser().SongBrowser().ids.lv.path = str(selected_item)
             self.box.open()
