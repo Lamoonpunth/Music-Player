@@ -18,7 +18,6 @@ Builder.load_file('SongBrowser.kv')
 class Browser():
     # Variable 
     choosed = None #ไฟล์ที่เลือก
-    # choosed_drive = "C:\\" #เก็บชื่อไดรฟ์ที่เลือก
     path_file = None #ตำแหน่งไฟล์ที่เลือก
 
     class SongBrowser(BoxLayout):  
@@ -30,7 +29,6 @@ class Browser():
         def selected(self,path,filename):
             Browser.choosed = filename
             Browser.path_file = path
-            print(f'Selected File = {Browser.choosed}')
     # คลาสสำหรับเพิ่มเพลง
     class AddSong(MDFloatLayout):   
         def __init__(self, **kwargs):
@@ -38,7 +36,6 @@ class Browser():
             # ตั้งค่าคลาส 
             self.orientation='horizontal'
             self.size_hint=(None,None)
-            print(f'all drive = {self.get_win_drives()}')
             # สร้างออบเจกต์สำหรับเลือกไฟล์เพลง
             self.songbrowser = Browser().SongBrowser()
             # กล่องใส่ออบเจกต์เลือกไฟล์เพลง
@@ -127,7 +124,6 @@ class Browser():
                 check_mp3 = ''
                 for i in range(3):
                     check_mp3 = song[-(i+1)] + check_mp3
-                print(f'Choosed File type = --{check_mp3}--')
                 if check_mp3 == 'mp3':
                     name = os.path.join(Browser.path_file, Browser.choosed[0])[len(Browser.path_file)+1:]
                     #คัดลอกไฟล์เพลงไปยัง archive/song/
@@ -172,8 +168,6 @@ class Browser():
         def drive_selection_changed(self,instance):
             selected_item = instance.text
             selected_change = selected_item+'\\'
-            print(selected_item)
-            print(str(selected_change))
             self.drives.dismiss()
             self.songbrowser.ids.lv.path = selected_change
             self.box.open()
