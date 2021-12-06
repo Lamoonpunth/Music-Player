@@ -22,6 +22,8 @@ class PlaylistBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         self.orientation='horizontal'
         self.size_hint=(None,None)
         self.width = Window.width*0.19
+        self.height = Window.height*0.06
+        self.md_bg_color = (0, 0, 0, .1)
         self.index=i
         lb=Label(size_hint_x= .1,
         text_size= (self.width,None),
@@ -29,9 +31,9 @@ class PlaylistBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         text=name,
         font_name='sf',
         font_size=18,
-        color=(0,0,0,1))
+        color=(1,1,1,1))
         self.add_widget(lb)
     def on_enter(self, *args):
-        self.md_bg_color = (1, 1, 1, 1)
+        self.md_bg_color = (0, 0, 0, .4)
     def on_leave(self, *args):
-        self.md_bg_color = self.theme_cls.bg_darkest
+        self.md_bg_color = (0, 0, 0, .1)

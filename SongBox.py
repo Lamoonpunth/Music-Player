@@ -21,7 +21,8 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
     def __init__(self,i,name,time, **kwargs):
         super(SongBox, self).__init__(**kwargs)
         self.orientation='horizontal'
-        self.size_hint=(None,None)             
+        self.size_hint=(None,None)      
+        self.md_bg_color = (0, 0, 0, .1)       
         #print(width)
         self.width=Window.width*0.7
         Window.bind(mouse_pos=self.on_maximize)
@@ -34,7 +35,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         text=str(i),
         font_name='sf',
         font_size=18,
-        color=(0,0,0,1))
+        color=(1,1,1,1))
         self.add_widget(lb)
         #song name
         print(f'size = {self.size}')
@@ -45,7 +46,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         text=name,
         font_name='sf',
         font_size=18,
-        color=(0,0,0,1))
+        color=(1,1,1,1))
         self.add_widget(lb)
         #time
         lb=Label(size_hint_x= .25,
@@ -55,13 +56,13 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         text=str(time),
         font_name='sf',
         font_size=18,
-        color=(0,0,0,1))
+        color=(1,1,1,1))
         self.add_widget(lb)
         print(self.index)
     def on_enter(self, *args):
-        self.md_bg_color = (1, 1, 1, 1)
+        self.md_bg_color = (0, 0, 0, .3)
     def on_leave(self, *args):
-        self.md_bg_color = self.theme_cls.bg_darkest
+        self.md_bg_color = (0, 0, 0, .1)  
 
     # def on_touch_down(self, touch):
     #     if self.collide_point(touch.x, touch.y):

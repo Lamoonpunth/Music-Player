@@ -90,8 +90,8 @@ class MainGridLayout(Widget):
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
-        self.ids.playlist_name_box.add_widget(download_box)
-        self.ids.playlist_name_box.add_widget(song_browser)
+        self.ids.change_position1.add_widget(download_box)
+        self.ids.change_position2.add_widget(song_browser)
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False 
