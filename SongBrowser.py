@@ -18,14 +18,14 @@ Builder.load_file('SongBrowser.kv')
 class Browser():
     # Variable 
     choosed = None #ไฟล์ที่เลือก
-    choosed_drive = "C:\\" #เก็บชื่อไดรฟ์ที่เลือก
+    # choosed_drive = "C:\\" #เก็บชื่อไดรฟ์ที่เลือก
     path_file = None #ตำแหน่งไฟล์ที่เลือก
 
     class SongBrowser(BoxLayout):  
         # ตั้งค่าคลาส
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.ids.lv.path = Browser.choosed_drive
+            self.ids.lv.path = "C:\\"
         # ฟังก์ชันเลือกไฟล์
         def selected(self,path,filename):
             Browser.choosed = filename
@@ -68,7 +68,7 @@ class Browser():
             if not self.box:
                 self.box = MDDialog(                
                     type="custom",
-                    content_cls = Browser().SongBrowser(),
+                    content_cls = self.songbrowser,
                     buttons=[
                         MDFlatButton(
                             text="Browse from other drives",
@@ -175,5 +175,5 @@ class Browser():
             print(selected_item)
             print(str(selected_change))
             self.drives.dismiss()
-            Browser.SongBrowser().ids.lv.path = selected_item
+            self.songbrowser.ids.lv.path = selected_change
             self.box.open()
