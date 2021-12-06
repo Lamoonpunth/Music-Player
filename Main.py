@@ -27,7 +27,7 @@ from kivymd.app import MDApp
 from SongBox import SongBox
 import pyautogui
 from PlaylistBox import PlaylistBox
-from kivy.core.text import LabelBase
+from kivy.core.text import Label, LabelBase
 from DownLoadButton import DownloadURL
 # from SongBrowser import AddSong
 from SongBrowser import Browser
@@ -38,6 +38,7 @@ import NextPrevButton
 import ShuffleButton
 import RepeatButton
 import QueueButton
+from AddSongBox import AddSongBox
 import nltk
 from sort import quick_sort
 # Add Font
@@ -134,6 +135,23 @@ class MainGridLayout(Widget):
             lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.ids.sn.add_widget(lb)
             lb.bind(on_press=self.selectsong)
+        lb = AddSongBox()
+        self.ids.sn.add_widget(lb)
+    
+    def addsongtoplaylist(self,songpath,playlistindex):
+        self.playlistlist[playlistindex].addsong(songpath)
+        #write
+        self.updateplaylistfile()
+    
+    def updateplaylistfile(self):
+        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        for i in range(len(self.playlistlist)): 
+            if i ==0:
+                continue
+            else:
+                for j in range(len(self.playlistlist[i].playlist)):
+                    f.write(self.playlistlist[i].playlist[j]+"\n")
+                f.write("%"+self.playlistlist[i].name+"\n")
 
     # Volume Bar(เพิ่มลดเสียง)
     def slide_it(self, *args):
