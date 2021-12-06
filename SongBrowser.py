@@ -8,6 +8,7 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.gridlayout import GridLayout
 
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
@@ -23,7 +24,7 @@ class Browser():
         # ตั้งค่าคลาส
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.ids.lv.path = 'C:\\'
+            self.ids.lv.path = 'D:\\'
         # ฟังก์ชันเลือกไฟล์
         def selected(self,path,filename):
             Browser.choosed = filename
@@ -46,6 +47,11 @@ class Browser():
                     title="Choose Drive",
                     buttons = []
                 )
+            self.gd = GridLayout()
+            self.gd.rows=1
+            self.gd.padding=10
+            self.gd.spacing=10
+            self.drives.add_widget(self.gd)
             # กล่องแจ้งเตือนสำหรับ Error
             self.warning = MDDialog(                
                     type="custom",
