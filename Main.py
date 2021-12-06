@@ -38,6 +38,7 @@ import NextPrevButton
 import ShuffleButton
 import RepeatButton
 import QueueButton
+import AddPlaylistButton
 from AddSongBox import AddSongBox
 import nltk
 from sort import quick_sort

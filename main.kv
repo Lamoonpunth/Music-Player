@@ -95,9 +95,12 @@
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
-                    #====================== needed class ==============================#        
-                    Button:
+                    #====================== needed class ==============================# เขียนให้แล้วนะไอ้หน้าหี      
+                    AddPlaylistButton:
                         text: 'AddPlaylist'
+                        theme_text_color: "Custom"
+                        font_name: 'sf'
+                        text_color: (1,1,1,1)
                         size_hint: 1,.1
                         on_release: Factory.MyPopup().open()
                              
