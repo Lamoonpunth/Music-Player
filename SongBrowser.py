@@ -18,13 +18,14 @@ Builder.load_file('SongBrowser.kv')
 class Browser():
     # Variable 
     choosed = None #ไฟล์ที่เลือก
+    choosed_drive = "C:\\" #เก็บชื่อไดรฟ์ที่เลือก
     path_file = None #ตำแหน่งไฟล์ที่เลือก
 
     class SongBrowser(BoxLayout):  
         # ตั้งค่าคลาส
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.ids.lv.path = 'D:\\'
+            self.ids.lv.path = Browser.choosed_drive
         # ฟังก์ชันเลือกไฟล์
         def selected(self,path,filename):
             Browser.choosed = filename
@@ -47,11 +48,6 @@ class Browser():
                     title="Choose Drive",
                     buttons = []
                 )
-            self.gd = GridLayout()
-            self.gd.rows=1
-            self.gd.padding=10
-            self.gd.spacing=10
-            self.drives.add_widget(self.gd)
             # กล่องแจ้งเตือนสำหรับ Error
             self.warning = MDDialog(                
                     type="custom",
@@ -179,5 +175,5 @@ class Browser():
             print(selected_item)
             print(str(selected_change))
             self.drives.dismiss()
-            Browser().SongBrowser().ids.lv.path = str(selected_item)
+            Browser.SongBrowser().ids.lv.path = selected_item
             self.box.open()
