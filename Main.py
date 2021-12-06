@@ -137,6 +137,21 @@ class MainGridLayout(Widget):
             lb.bind(on_press=self.selectsong)
         lb = AddSongBox()
         self.ids.sn.add_widget(lb)
+    
+    def addsongtoplaylist(self,songpath,playlistindex):
+        self.playlistlist[playlistindex].addsong(songpath)
+        #write
+        self.updateplaylistfile()
+    
+    def updateplaylistfile(self):
+        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        for i in range(len(self.playlistlist)): 
+            if i ==0:
+                continue
+            else:
+                for j in range(len(self.playlistlist[i].playlist)):
+                    f.write(self.playlistlist[i].playlist[j]+"\n")
+                f.write("%"+self.playlistlist[i].name+"\n")
 
     # Volume Bar(เพิ่มลดเสียง)
     def slide_it(self, *args):
