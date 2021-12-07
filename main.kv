@@ -108,8 +108,19 @@
                         
 
                           
-                             
-
+            #=========== เส้นแบ่ง ==============#                 
+            BoxLayout:
+                size_hint: (None,None)
+                size:self.parent.width*0.001,self.parent.height
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            #=========== เส้นแบ่ง ==============#              
+            
+              
             # ช่องของ Song list
             BoxLayout:
                 orientation: 'vertical'
@@ -168,7 +179,7 @@
                         padding: (self.parent.width*0.125,-27)
 
 
-
+                #=========== เส้นแบ่ง ==============#  
                 BoxLayout:
                     orientation: 'horizontal'
                     size_hint: (None,None)
@@ -179,7 +190,7 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
-
+                #=========== เส้นแบ่ง ==============#  
 
 
 
