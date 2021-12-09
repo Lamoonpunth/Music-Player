@@ -345,7 +345,7 @@ class MainGridLayout(Widget):
                  
         temp = list(zip(ListofSim,ListofSong))
         quick_sort(0,len(temp)-1,temp)
-        for i in range(len(temp)):        
+        for i in range(5):        
             self.searchedPlaylist.addsong(temp[i][1])                               
         
         self.searchedShow = True   
