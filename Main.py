@@ -99,6 +99,7 @@ class MainGridLayout(Widget):
         self.searchedShow = False 
         self.searchThread = False
         self.searchQueue = []
+        
     class Refresh(MDIconButton):
         pass
 
@@ -245,8 +246,7 @@ class MainGridLayout(Widget):
     def playtimeUpdate(self):      
         if self.searchQueue != [] and self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
-            t3.start()  
-              
+            t3.start()                
         self.sound.volume = self.volume+0.001
         self.sound.volume = self.volume       
         if self.playtimeUpdateBool is True:
@@ -341,11 +341,11 @@ class MainGridLayout(Widget):
                     if temp<val:
                         val=temp
             ListofSong.append(songg)
-            ListofSim.append(val)         
+            ListofSim.append(val)        
                  
         temp = list(zip(ListofSim,ListofSong))
         quick_sort(0,len(temp)-1,temp)
-        for i in range(5):        
+        for i in range(len(temp)):        
             self.searchedPlaylist.addsong(temp[i][1])                               
         
         self.searchedShow = True   
