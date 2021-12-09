@@ -109,7 +109,6 @@ class Browser():
                     title="Choose Drive",
                     buttons = list
                 )
-            self.box.dismiss()
             self.drives.open()
         # ยกเลิกการเลือกไฟล์
         def clickCancel(self,instance):

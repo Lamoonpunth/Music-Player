@@ -102,18 +102,25 @@
                         font_name: 'sf'
                         text_color: (1,1,1,1)
                         size_hint: 1,.1
-                        on_release: Factory.MyPopup().open()           
+                        on_release: Factory.MyPopup().open()
+                             
+
+                        
+
+                          
             #=========== เส้นแบ่ง ==============#                 
-            # BoxLayout:
-            #     size_hint: (None,None)
-            #     size:self.parent.width*0.001,self.parent.height
-            #     canvas.before:
-            #         Color:
-            #             rgba: (0,0,0,1)
-            #         Rectangle:
-            #             pos: self.pos
-            #             size: self.size
+            BoxLayout:
+                size_hint: (None,None)
+                size:self.parent.width*0.001,self.parent.height
+                canvas.before:
+                    Color:
+                        rgba: (0,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             #=========== เส้นแบ่ง ==============#              
+            
+              
             # ช่องของ Song list
             BoxLayout:
                 orientation: 'vertical'
