@@ -34,7 +34,7 @@
                 size:self.parent.width*0.2,self.parent.height
                 canvas.before:
                     Color:
-                        rgba: (0,0,0,.7)
+                        rgba: (0,0,0,.9)
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -44,17 +44,32 @@
                     size: self.parent.width,self.parent.height*0.15
                     Label:
                         text:''
-                        size_hint: 1,0.05
+                        size_hint: 1,0.07
 
                     MDBoxLayout:
                         adaptive_height: True
-                        MDIconButton:
-                            icon: 'magnify'
+                        Label:
+                            text: ''
+                            size_hint:(.1,1)
                         MDTextField:
                             id: search_song
+                            icon_right: 'magnify'
+                            icon_right_color: 1,1,1,1
                             hint_text: 'Search Song'
-                            on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
                             font_name: 'sf'
+                            color_mode: 'custom'
+                            helper_text_mode: "on_focus"
+                            line_color_normal: 1,.41,.69,1
+                            line_color_focus: 1,.41,.69,1
+                            current_hint_text_color: 1,1,1,1
+                            on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
+                        
+                        Label:
+                            text: ''
+                            size_hint:(.1,1)
+                            
+                            
+
                     Label:
                         text: ''
                         size_hint:(1,0.05)  
@@ -80,10 +95,25 @@
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
-                    Button:
+                    #====================== needed class ==============================# เขียนให้แล้วนะไอ้หน้าหี      
+                    AddPlaylistButton:
                         text: 'AddPlaylist'
+                        theme_text_color: "Custom"
+                        font_name: 'sf'
+                        text_color: (1,1,1,1)
                         size_hint: 1,.1
-                        on_release: Factory.MyPopup().open()
+                        on_release: Factory.MyPopup().open()           
+            #=========== เส้นแบ่ง ==============#                 
+            # BoxLayout:
+            #     size_hint: (None,None)
+            #     size:self.parent.width*0.001,self.parent.height
+            #     canvas.before:
+            #         Color:
+            #             rgba: (0,0,0,1)
+            #         Rectangle:
+            #             pos: self.pos
+            #             size: self.size
+            #=========== เส้นแบ่ง ==============#              
             # ช่องของ Song list
             BoxLayout:
                 orientation: 'vertical'
@@ -92,31 +122,83 @@
                     id: playlist_name_box
                     orientation:'horizontal'
                     size_hint: (None,None)
-                    size:self.parent.width,self.parent.height*0.2
+                    size:self.parent.width,self.parent.height*0.15
                     canvas.before:
                         Color:
-                            rgba: (0,0,0,.7)
+                            rgba: (0,0,0,.85)
                         Rectangle:
                             pos: self.pos
                             size: self.size
                     Label:
                         id:playlist_name
                         text:'Playlist Name'
-                        color: 0 , 0 , 0 , 1
+                        color: 1 , 1 , 1 , 1
                         font_size: 42
                         font_name: 'sf'
+
+                    
+
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: (None,None)
+                    size:self.parent.width,self.parent.height*0.05
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.85)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
                     Refresh:
                         on_release: root.refresh()
+                        size_hint: (None,None)
+                        size:self.parent.width*0.2,self.parent.height
+
+                    Label:
+                        text: ''
+
+                    BoxLayout:
+                        id:change_position1
+                        orientation: 'horizontal'
+                        padding: (self.parent.width*0.5,-27)
+
+                    #Label:
+                    #    text: ''   
+                    
+                    BoxLayout:
+                        id:change_position2
+                        orientation: 'horizontal'
+                        padding: (self.parent.width*0.125,-27)
+
+
+                #=========== เส้นแบ่ง ==============#  
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: (None,None)
+                    size:self.parent.width,self.parent.height*0.002
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,1)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                #=========== เส้นแบ่ง ==============#  
+
+
+
+
+
 
                 # รายละเอียดเพลงใน Playlist
                 BoxLayout:
                     orientation:'horizontal'
-                    padding:25,10
+                    padding:25
                     size_hint: (None,None)
                     size:self.parent.width,self.parent.height*0.1
                     canvas.before:
                         Color:
-                            rgba: (0,0,0,.5)
+                            rgba: (0,0,0,.7)
                         Rectangle:
                             pos: self.pos
                             size: self.size
@@ -126,7 +208,7 @@
                         size:self.parent.width*0.1,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
-                        color: 0 , 0 , 0 , 1
+                        color: 1 , 1 , 1 , 1
                         font_name: 'sf'
                         font_size:16
                     Label:
@@ -135,7 +217,7 @@
                         size:self.parent.width*0.7,self.parent.height
                         text_size:self.width,self.height
                         halign:'left'
-                        color: 0 , 0 , 0 , 1
+                        color: 1 , 1 , 1 , 1
                         font_name: 'sf'
                         font_size:16
                     Label:
@@ -145,7 +227,7 @@
                         size:self.parent.width*0.2,self.parent.height
                         text_size:self.width,self.height
                         halign:'center'
-                        color: 0 , 0 , 0 , 1
+                        color: 1 , 1 , 1 , 1
                         font_name: 'sf'
                         font_size:16
                 BoxLayout:
@@ -154,7 +236,7 @@
                     size: self.parent.width,self.parent.height*0.7
                     canvas.before:
                         Color:
-                            rgba: (0,0,0,.5)
+                            rgba: (0,0,0,.7)
                         Rectangle:
                             pos: self.pos
                             size: self.size
@@ -333,5 +415,7 @@
 <Refresh>:
     id: iButton
     icon: 'refresh'
-    pos_hint: {'center_x': .1, 'center_y': .28}
+    pos_hint: {'center_x': .5, 'center_y': .5}
     padding: 20
+    theme_text_color: "Custom"
+    text_color: 1,1,1,1

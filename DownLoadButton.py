@@ -26,7 +26,7 @@ KV = '''
     
     MDIconButton:       
         id: iButton 
-        icon: 'youtube'             
+        icon: 'youtube'      
         pos_hint: {'center_x': .5, 'center_y': .5}
         theme_text_color: "Custom"
         on_release: root.show_enterURL()        
