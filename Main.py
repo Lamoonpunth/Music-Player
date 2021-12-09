@@ -97,7 +97,8 @@ class MainGridLayout(Widget):
         #search
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False 
-
+        self.searchThread = False
+        self.searchQueue = []
     class Refresh(MDIconButton):
         pass
 
@@ -241,7 +242,11 @@ class MainGridLayout(Widget):
         self.playtimeUpdate()
 
     # Update ProgressBar in SongTime bar(แสดงผลช่วงเวลาในเพลง)
-    def playtimeUpdate(self):        
+    def playtimeUpdate(self):      
+        if self.searchQueue != [] and self.searchThread is False:
+            t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
+            t3.start()  
+              
         self.sound.volume = self.volume+0.001
         self.sound.volume = self.volume       
         if self.playtimeUpdateBool is True:
@@ -304,7 +309,23 @@ class MainGridLayout(Widget):
     
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')             
+        # print(f'{type(yoursong)}')        
+        self.searchQueue.append(text) 
+        print(text,'this is text')                           
+        if self.searchThread is False:
+            t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
+            t3.start()      
+            if text == '':
+                self.searchQueue =[]
+            return                   
+        elif self.searchThread is True:
+            if self.searchQueue != []:
+                self.searchQueue.pop(0)
+            self.searchQueue.append(text)               
+     
+        
+    def StartSearchThread(self,text,search):
+        self.searchThread = True
         self.searchedPlaylist.clearSong()
         ListofSong =[]
         ListofSim =[]
@@ -325,13 +346,15 @@ class MainGridLayout(Widget):
         temp = list(zip(ListofSim,ListofSong))
         quick_sort(0,len(temp)-1,temp)
         for i in range(len(temp)):        
-            self.searchedPlaylist.addsong(temp[i][1])                                    
-        # print('------------')               
+            self.searchedPlaylist.addsong(temp[i][1])                               
         
-        self.showsong(self.searchedPlaylist)
-        self.searchedShow = search
+        self.searchedShow = True   
         if text =='':
-            self.searchedShow = False   
+            self.searchedShow = False  
+            self.showsong(self.playlistlist[self.playlistindex])     
+        elif self.searchedShow is True:   
+            self.showsong(self.searchedPlaylist)             
+        self.searchThread = False
         
     def refresh(self):
         self.reload()
