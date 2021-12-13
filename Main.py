@@ -290,7 +290,7 @@ class MainGridLayout(Widget):
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
-            if self.sound.length-self.sound.get_pos()<=0.1:
+            if self.sound.length-self.sound.get_pos()<=0.2:
                 if self.ids.repeat.repeatstate == "repeatsong":
                     self.sound.seek(0)
                 else:
@@ -431,10 +431,11 @@ class MainGridLayout(Widget):
                 self.searchedShow = False
 
     def removeplaylist(self, playlistindex):
-        print(f'Remove playlist name = {self.playlistlist[playlistindex].name}')
-        print(f'All playlist = {self.playlistlist.pop(playlistindex)}')
+        self.playlistlist.pop(playlistindex)
         self.updateplaylistfile()
         self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
+        self.showsong(self.playlistlist[0])
+        self.showplaylist(self.playlistlist)
         self.dropdownplaylist.dismiss()
 
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
@@ -534,6 +535,10 @@ class MainGridLayout(Widget):
             continue
         f.write("%"+name+"\n")
         f.close()
+        
+        self.refresh()
+        self.updateplaylistfile()
+        self.showplaylist(self.playlistlist)
 # Main Application running Function
 class MainApp(MDApp):
     def build(self):
