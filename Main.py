@@ -288,7 +288,7 @@ class MainGridLayout(Widget):
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
-            if value>=9990:
+            if self.sound.length-self.sound.get_pos()<=0.1:
                 if self.ids.repeat.repeatstate == "repeatsong":
                     self.sound.seek(0)
                 else:
