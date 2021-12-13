@@ -6,6 +6,8 @@ class playlist(list):
         self.playlist.append(path)
     def clearSong(self):
         self.playlist = []
+    def removesong(self,index):
+        self.playlist.pop(index)
     def __str__(self):
         str = ""
         for i in self.playlist:

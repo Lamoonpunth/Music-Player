@@ -1,10 +1,14 @@
 from re import search
 from kivy.config import Config
+from kivymd.uix import boxlayout
+#from kivymd.uix.button.button import MDFlatButton
+from PlaylistDialogBox import PlaylistDialogBox
 Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
 from kivy.core import text
+from kivymd.uix.dialog import MDDialog
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
@@ -14,9 +18,15 @@ from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix import boxlayout
+#from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.slider import MDSlider
 from kivy.clock import Clock
 from kivy.animation import Animation
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 import threading 
 from playlist import playlist
 from playingqueue import playingqueue
@@ -39,12 +49,13 @@ import ShuffleButton
 import RepeatButton
 import QueueButton
 import AddPlaylistButton
+from PlaylistDialogBox import PlaylistDialogBox
 from AddSongBox import AddSongBox
 import nltk
 from sort import quick_sort
 # Add Font
 LabelBase.register(name='sf',fn_regular='archive/finalFontV2.ttf')
-
+Config.set('input', 'mouse', 'mouse,disable_multitouch')
 # Load KV File
 # Builder.load_file('main.kv')
 # Get user screen display size
@@ -56,10 +67,13 @@ Window.maximize()
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        print(f'Main width = {self.width}')
-        print(f'Main height = {self.height}')
+        #print(f'Main width = {self.width}')
+        #print(f'Main height = {self.height}')
+        # Window.bind(on_maximize=self.fixscroll)
+        # Window.bind(on_minimize=self.fixscroll)
         self.yoursong=[]
         self.playlistlist=[]
+        self.menu_playlist=[]
         self.reload()
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
@@ -73,7 +87,7 @@ class MainGridLayout(Widget):
         self.queue.addfromqueuefirstsong()
         #Load Song
         self.soundpath = self.queue.nowplaying.getpath()
-        print(self.queue.nowplaying)
+        #print(self.queue.nowplaying)
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.ids.song_name.font_name = 'sf'
@@ -84,11 +98,6 @@ class MainGridLayout(Widget):
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
-        #slidenorninit
-        self.playlistindex=0
-        self.showsong(self.yoursong)
-        self.showplaylist(self.playlistlist)
-        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
@@ -99,7 +108,41 @@ class MainGridLayout(Widget):
         self.searchedShow = False 
         self.searchThread = False
         self.searchQueue = []
-        
+        #dropdownmenu
+        self.menu = MDDropdownMenu(
+            width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
+            hor_growth = 'right',
+
+        )
+        self.dropdownplaylist = MDDropdownMenu(
+            width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
+        )
+        #addsongtoplaylist
+        self.selectedsongpath=""
+        self.dialogitems=[]
+        for i in range(len(self.playlistlist)):
+            if i==0:
+                continue
+            else:
+                lb=PlaylistDialogBox(i,self.playlistlist[i].name)
+                lb.index=i
+                self.dialogitems.append(lb)
+        self.dialog=MDDialog(
+                title="Choose Playlist",
+                type="simple",
+                items=self.dialogitems,
+                radius=[20, 7, 20, 7],
+                
+            )
+        Window.maximize()
+        #slidenorninit
+        self.playlistindex=0
+        self.showsong(self.yoursong)
+        self.showplaylist(self.playlistlist)
+        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
+
     class Refresh(MDIconButton):
         pass
 
@@ -108,7 +151,7 @@ class MainGridLayout(Widget):
         for i in range(len(playlistlist)):
             lb = PlaylistBox(i,playlistlist[i].name)
             self.ids.playlistslide.add_widget(lb)
-            lb.bind(on_press=self.selectplaylist)
+            lb.bind(on_touch_down=self.selectplaylist)
 
     def showqueue(self,source):
         if source is "touch" and self.ids.queue_list.queueshownow is True:
@@ -137,25 +180,29 @@ class MainGridLayout(Widget):
             time_text = f'{new_t}'
             lb = SongBox(i+1,playlist.playlist[i].name,time_text)
             self.ids.sn.add_widget(lb)
-            lb.bind(on_press=self.selectsong)
+            lb.bind(on_touch_down=self.selectsong)
+            #dropdown
         lb = AddSongBox()
         self.ids.sn.add_widget(lb)
     
-    def addsongtoplaylist(self,songpath,playlistindex):
-        self.playlistlist[playlistindex].addsong(songpath)
-        #write
-        self.updateplaylistfile()
+    def addsongtoplaylist(self,instance,touch):
+        if instance.collide_point(touch.x,touch.y):
+            self.dialog.dismiss()
+            playlistindex=instance.index
+            self.playlistlist[playlistindex].addsong(self.selectedsongpath)
+            #write
+            self.updateplaylistfile()
     
     def updateplaylistfile(self):
-        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
+        f = open("archive/song/playlist.txt", "w",encoding='utf-8')
         for i in range(len(self.playlistlist)): 
             if i ==0:
                 continue
             else:
                 for j in range(len(self.playlistlist[i].playlist)):
-                    f.write(self.playlistlist[i].playlist[j]+"\n")
+                    f.write(self.playlistlist[i].playlist[j].path+"\n")
                 f.write("%"+self.playlistlist[i].name+"\n")
-
+        f.close()
     # Volume Bar(เพิ่มลดเสียง)
     def slide_it(self, *args):
         self.volume = float(args[1]/100)
@@ -167,18 +214,18 @@ class MainGridLayout(Widget):
 
     # Not update song time when hold(ดักไว้ให้ค่าไม่เปลี่ยนตอนกำลังเลื่อนเวลาเพลง)
     def notupdate(self,*args):
-        print("ontouchdown")
+        #print("ontouchdown")
         self.playtimeUpdateBool=False
 
     # Seek song time(เลื่อนเวลาในเพลง)
     def seek(self, *args):
         if self.playtimeUpdateBool is False:
             self.playtimeUpdateBool = True
-            print("ontouchup")
+            #print("ontouchup")
             #print (sound.state)
             #print (sound.length)
             if (self.sound.state=='play'):
-                print(self.seekvalue)
+                #print(self.seekvalue)
                 self.sound.seek(self.seekvalue*self.sound.length/10000)
             else:
                 self.sound.play()
@@ -206,13 +253,17 @@ class MainGridLayout(Widget):
 
     # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
+        added=False
         if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
             self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.addfromqueuefirstsong()
+            added=True
         elif self.queue.isEmpty():
             print("QueueIsEmpty")
             return
         self.sound.stop()
-        self.queue.addfromqueue()
+        if added is False:
+            self.queue.addfromqueue()
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
@@ -252,7 +303,7 @@ class MainGridLayout(Widget):
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
-            if value>=9990:
+            if self.sound.length-self.sound.get_pos()<=0.2:
                 if self.ids.repeat.repeatstate == "repeatsong":
                     self.sound.seek(0)
                 else:
@@ -275,43 +326,155 @@ class MainGridLayout(Widget):
             for i in range(index):
                 self.queue.addfromqueue()   
 
+    def addtoqueue(self):
+        self.queue.enqueue(self.playlistlist[self.playlistindex].playlist[self.menu.caller.index])
+        self.menu.dismiss()
+    def removesongfromplaylist(self):
+        for i in self.playlistlist:
+            print(i.name,end=" ")
+        self.playlistlist[self.playlistindex].removesong(self.menu.caller.index)
+        print("")
+        for i in self.playlistlist:
+            print(i.name,end=" ")
+        #write
+        self.menu.dismiss()
+        self.updateplaylistfile()
+        self.showsong(self.playlistlist[self.playlistindex])
     # Choose song from songlist(ฟังก์ชันเมื่อกดเลือกเพลงจากในเพลย์ลิสต์)
-    def selectsong(self,*args):
-        self.sound.stop()
-        index=args[0].index
-        if self.searchedShow is True:
-            self.queue.chooseplaylist(self.searchedPlaylist)
-        else:
-            self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
-        self.queue.addfromqueuefirstsong()
-        for i in range(index):
-            self.queue.addfromqueue()
-        self.soundpath = self.queue.nowplaying.getpath()
-        self.sound = SoundLoader.load(self.soundpath)
-        self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.sound.volume = self.volume+0.001
-        self.sound.volume=self.volume
-        self.sound.play()
-        self.sound.volume = self.volume+0.001
-        self.sound.volume=self.volume
-        self.playtimeUpdate()
-        self.bool = True
-        self.ids.play.icon = 'pause-circle'
-        #print(self.searchedShow,' ooo o oo ')
+    def selectsong(self,instance,touch):
+        #print("instance {}".format(instance))
+        #print("touch {}".format(touch))
+        if instance.collide_point(touch.x,touch.y):
+            if touch.button == 'right':
+                self.selectedsongpath=self.playlistlist[self.playlistindex].playlist[instance.index]
+                if self.playlistindex == 0:
+                    self.menu_items = [
+                        {
+                            "text": f"Add to queue",
+                            "viewclass": "OneLineListItem",
+                            "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
 
+                        },
+                        {
+                            "text": f"Add to playlist",
+                            "viewclass": "OneLineListItem",
+                            "on_release": self.show_confirmation_dialog,
+                            #"on_release": lambda x=0:self.show_confirmation_dialog(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+
+                            # "on_leave": lambda x=0:self.dropdownplaylist.dismiss(),
+                        },
+
+                    ]
+                else:
+                    self.menu_items = [
+                        {
+                            "text": f"Add to queue",
+                            "viewclass": "OneLineListItem",
+                            "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+                        },
+                        {
+                            "text": f"Remove from playlist",
+                            "viewclass": "OneLineListItem",
+                            "on_release": lambda x=0:self.removesongfromplaylist(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+                        },
+                    ]
+                print("open")
+                print(instance)
+                self.menu.caller = instance
+                self.menu.items = self.menu_items
+                self.menu.open()
+            else:
+                self.sound.stop()
+                index=instance.index
+                if self.searchedShow is True:
+                    self.queue.chooseplaylist(self.searchedPlaylist)
+                else:
+                    self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
+                self.queue.addfromqueuefirstsong()
+                for i in range(index):
+                    self.queue.addfromqueue()
+                self.soundpath = self.queue.nowplaying.getpath()
+                self.sound = SoundLoader.load(self.soundpath)
+                self.ids.song_name.text=self.queue.nowplaying.getname()
+                self.sound.volume = self.volume+0.001
+                self.sound.volume=self.volume
+                self.sound.play()
+                self.sound.volume = self.volume+0.001
+                self.sound.volume=self.volume
+                self.playtimeUpdate()
+                self.bool = True
+                self.ids.play.icon = 'pause-circle'
+        #print(self.searchedShow,' ooo o oo ')
+    def show_confirmation_dialog(self):
+        self.dialogitems=[]
+        for i in range(len(self.playlistlist)):
+            if i==0:
+                continue
+            else:
+                lb=PlaylistDialogBox(i,self.playlistlist[i].name)
+                lb.index=i
+                self.dialogitems.append(lb)
+                lb.bind(on_touch_down=self.addsongtoplaylist)
+        self.dialog=MDDialog(
+                title="Choose Playlist",
+                type="simple",
+                items=self.dialogitems,
+                radius=[20, 7, 20, 7],
+                md_bg_color=(.85,.85,.85,1),
+                
+            )
+        self.dialog.open()
+
+    def close_dialog(self,*args):
+        self.dialog.dismiss()
+
+    def changeselectedplaylist(self,index):
+        self.playlistindextoaddsong=index
+        print(index)
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
-    def selectplaylist(self,*args):
-        index=args[0].index 
-        self.playlistindex=index
-        self.showsong(self.playlistlist[index])
-        self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
-        self.searchedShow = False
-    
+    def selectplaylist(self,instance,touch):
+        if instance.collide_point(touch.x,touch.y):
+            if touch.button == 'right':
+                self.playlistoption = [
+                    {
+                        "text": f"Remove playlist",
+                        "viewclass": "OneLineListItem",
+                        "on_release": lambda x=0:self.removeplaylist(instance.index),
+                        "theme_text_color" : "Custom",
+                        "text_color" : (1,.41,.69,1),
+                    },
+                ]
+                self.dropdownplaylist.caller = instance
+                self.dropdownplaylist.items = self.playlistoption
+                self.dropdownplaylist.open()
+            else:
+                index=instance.index 
+                self.playlistindex=index
+                self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
+                self.showsong(self.playlistlist[index])
+                self.searchedShow = False
+
+    def removeplaylist(self, playlistindex):
+        self.playlistlist.pop(playlistindex)
+        self.updateplaylistfile()
+        self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
+        self.showsong(self.playlistlist[0])
+        self.showplaylist(self.playlistlist)
+        self.dropdownplaylist.dismiss()
+
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')        
-        self.searchQueue.append(text) 
-        print(text,'this is text')                           
+        self.searchQueue.append(text)
+        #print(text,'this is text')                           
         if self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
             t3.start()      
@@ -323,7 +486,6 @@ class MainGridLayout(Widget):
                 self.searchQueue.pop(0)
             self.searchQueue.append(text)               
      
-        
     def StartSearchThread(self,text,search):
         self.searchThread = True
         self.searchedPlaylist.clearSong()
@@ -360,10 +522,10 @@ class MainGridLayout(Widget):
         self.reload()
         self.showplaylist(self.playlistlist)
         self.showsong(self.yoursong)
-        print(self.playlistlist)
-        print(self.playlistlist[0])
+        #print(self.playlistlist)
+        #print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
-        
+        self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
 
     def reload(self):
         fullpath=[]
@@ -393,13 +555,25 @@ class MainGridLayout(Widget):
                 index+=1
                 templist.append(s)
         f.close()
-
+        self.menu_playlist=[
+                        {
+                            "text": self.playlistlist[i].name,
+                            "viewclass": "OneLineListItem",
+                        }for i in range(len(self.playlistlist))
+                    ]
     def EnterPlaylistName(self,name):
         f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
         for x in f:
             continue
         f.write("%"+name+"\n")
         f.close()
+        self.playlistlist.append(playlist(name))
+        self.updateplaylistfile()
+        self.showplaylist(self.playlistlist)
+        
+    # def fixscroll(self,*args):
+    #     self.showplaylist(self.playlistlist)
+    #     self.showsong(self.playlistlist[self.playlistindex])
 # Main Application running Function
 class MainApp(MDApp):
     def build(self):
