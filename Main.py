@@ -239,13 +239,17 @@ class MainGridLayout(Widget):
 
     # Forward song(เปลี่ยนเพลงไปคิวถัดไป)
     def nextpress(self,instance):
+        added=False
         if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
             self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.addfromqueuefirstsong()
+            added=True
         elif self.queue.isEmpty():
             print("QueueIsEmpty")
             return
         self.sound.stop()
-        self.queue.addfromqueue()
+        if added is False:
+            self.queue.addfromqueue()
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
