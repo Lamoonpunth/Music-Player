@@ -412,7 +412,8 @@ class MainGridLayout(Widget):
                 self.playlistoption = [
                     {
                         "text": f"Remove playlist",
-                        "viewclass": "OneLineListItem"
+                        "viewclass": "OneLineListItem",
+                        "on_release": lambda x=0:self.removeplaylist(instance.index),
                     },
                 ]
                 self.dropdownplaylist.caller = instance
@@ -425,8 +426,12 @@ class MainGridLayout(Widget):
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
     
-    def removeplaylist():
-        pass
+    def removeplaylist(self, playlistindex):
+        # print(f'Remove playlist name = {self.playlistlist[playlistindex].name}')
+        # print(f'All playlist = {self.playlistlist.pop(playlistindex)}')
+        self.updateplaylistfile()
+        self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
+        self.dropdownplaylist.dismiss()
 
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
