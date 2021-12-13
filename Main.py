@@ -1,6 +1,9 @@
 from re import search
 from kivy.config import Config
-# Config.set('graphics','resizable', False)
+from kivymd.uix import boxlayout
+#from kivymd.uix.button.button import MDFlatButton
+from PlaylistDialogBox import PlaylistDialogBox
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -16,7 +19,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.uix import boxlayout
-from kivymd.uix.button.button import MDFlatButton
+#from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.clock import Clock
@@ -107,9 +110,12 @@ class MainGridLayout(Widget):
         #dropdownmenu
         self.menu = MDDropdownMenu(
             width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
+            hor_growth = 'right',
         )
         self.dropdownplaylist = MDDropdownMenu(
             width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
         )
         #addsongtoplaylist
         self.selectedsongpath=""
@@ -125,6 +131,8 @@ class MainGridLayout(Widget):
                 title="Choose Playlist",
                 type="simple",
                 items=self.dialogitems,
+                radius=[20, 7, 20, 7],
+                
             )
         Window.maximize()
         #slidenorninit
@@ -344,11 +352,19 @@ class MainGridLayout(Widget):
                             "text": f"Add to queue",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+
                         },
                         {
                             "text": f"Add to playlist",
                             "viewclass": "OneLineListItem",
-                            "on_release": self.show_confirmation_dialog
+                            "on_release": self.show_confirmation_dialog,
+                            #"on_release": lambda x=0:self.show_confirmation_dialog(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+
+                            # "on_leave": lambda x=0:self.dropdownplaylist.dismiss(),
                         },
 
                     ]
@@ -358,11 +374,15 @@ class MainGridLayout(Widget):
                             "text": f"Add to queue",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
                         },
                         {
                             "text": f"Remove from playlist",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.removesongfromplaylist(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
                         },
                     ]
                 print("open")
@@ -406,6 +426,7 @@ class MainGridLayout(Widget):
                 title="Choose Playlist",
                 type="simple",
                 items=self.dialogitems,
+                md_bg_color=(1,1,1,1),
             )
         self.dialog.open()
     def close_dialog(self,*args):
