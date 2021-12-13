@@ -458,6 +458,7 @@ class MainGridLayout(Widget):
             else:
                 index=instance.index 
                 self.playlistindex=index
+                
                 self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
@@ -469,7 +470,22 @@ class MainGridLayout(Widget):
         self.showsong(self.playlistlist[0])
         self.showplaylist(self.playlistlist)
         self.dropdownplaylist.dismiss()
-
+    def IsPressEnter(self,text=''):   
+        search = True       
+         # print(f'{type(yoursong)}')        
+        self.searchQueue.append(text)
+        #print(text,'this is text')                           
+        if self.searchThread is False:
+            t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
+            t3.start()      
+            if text == '':
+                self.searchQueue =[]
+            return                   
+        elif self.searchThread is True:
+            if self.searchQueue != []:
+                self.searchQueue.pop(0)
+            self.searchQueue.append(text)               
+        
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')        

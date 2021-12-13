@@ -62,7 +62,9 @@
                             line_color_normal: 1,.41,.69,1
                             line_color_focus: 1,.41,.69,1
                             current_hint_text_color: 1,1,1,1
-                            on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
+                            on_text_validate: 'on_enter'
+                            on_text_validate: root.IsPressEnter(self.text)
+                            # on_text: root.Searched_Song(self.text, True)  #รับข้อมูล
                         
                         Label:
                             text: ''
