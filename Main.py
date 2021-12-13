@@ -1,9 +1,6 @@
 from re import search
 from kivy.config import Config
-from kivymd.uix import boxlayout
-from kivymd.uix.button.button import MDFlatButton
-from PlaylistDialogBox import PlaylistDialogBox
-Config.set('graphics','resizable', False)
+# Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -17,6 +14,8 @@ from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix import boxlayout
+from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.clock import Clock
@@ -45,6 +44,7 @@ import ShuffleButton
 import RepeatButton
 import QueueButton
 import AddPlaylistButton
+from PlaylistDialogBox import PlaylistDialogBox
 from AddSongBox import AddSongBox
 import nltk
 from sort import quick_sort
@@ -64,6 +64,8 @@ class MainGridLayout(Widget):
         super().__init__(**kwargs)
         #print(f'Main width = {self.width}')
         #print(f'Main height = {self.height}')
+        # Window.bind(on_maximize=self.fixscroll)
+        # Window.bind(on_minimize=self.fixscroll)
         self.yoursong=[]
         self.playlistlist=[]
         self.menu_playlist=[]
@@ -91,11 +93,6 @@ class MainGridLayout(Widget):
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
-        #slidenorninit
-        self.playlistindex=0
-        self.showsong(self.yoursong)
-        self.showplaylist(self.playlistlist)
-        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
@@ -128,6 +125,12 @@ class MainGridLayout(Widget):
                 type="simple",
                 items=self.dialogitems,
             )
+        Window.maximize()
+        #slidenorninit
+        self.playlistindex=0
+        self.showsong(self.yoursong)
+        self.showplaylist(self.playlistlist)
+        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
 
     class Refresh(MDIconButton):
         pass
@@ -535,10 +538,13 @@ class MainGridLayout(Widget):
             continue
         f.write("%"+name+"\n")
         f.close()
-        
-        self.refresh()
+        self.playlistlist.append(playlist(name))
         self.updateplaylistfile()
         self.showplaylist(self.playlistlist)
+        
+    # def fixscroll(self,*args):
+    #     self.showplaylist(self.playlistlist)
+    #     self.showsong(self.playlistlist[self.playlistindex])
 # Main Application running Function
 class MainApp(MDApp):
     def build(self):
