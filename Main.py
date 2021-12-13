@@ -22,6 +22,7 @@ from kivymd.uix import boxlayout
 #from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.slider import MDSlider
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivymd.uix.dialog import MDDialog
@@ -112,6 +113,7 @@ class MainGridLayout(Widget):
             width_mult=4,
             background_color=(0.2,0.2,0.2,1),
             hor_growth = 'right',
+
         )
         self.dropdownplaylist = MDDropdownMenu(
             width_mult=4,
@@ -426,9 +428,12 @@ class MainGridLayout(Widget):
                 title="Choose Playlist",
                 type="simple",
                 items=self.dialogitems,
-                md_bg_color=(1,1,1,1),
+                radius=[20, 7, 20, 7],
+                md_bg_color=(.85,.85,.85,1),
+                
             )
         self.dialog.open()
+
     def close_dialog(self,*args):
         self.dialog.dismiss()
 
@@ -444,6 +449,8 @@ class MainGridLayout(Widget):
                         "text": f"Remove playlist",
                         "viewclass": "OneLineListItem",
                         "on_release": lambda x=0:self.removeplaylist(instance.index),
+                        "theme_text_color" : "Custom",
+                        "text_color" : (1,.41,.69,1),
                     },
                 ]
                 self.dropdownplaylist.caller = instance
