@@ -131,15 +131,13 @@ class MainGridLayout(Widget):
 
     class Refresh(MDIconButton):
         pass
-    class Remove(MDIconButton):
-        pass
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
             lb = PlaylistBox(i,playlistlist[i].name)
             self.ids.playlistslide.add_widget(lb)
-            lb.bind(on_press=self.selectplaylist)
+            lb.bind(on_touch_down=self.selectplaylist)
 
     def showqueue(self,source):
         if source is "touch" and self.ids.queue_list.queueshownow is True:
@@ -342,8 +340,6 @@ class MainGridLayout(Widget):
                         {
                             "text": f"Add to playlist",
                             "viewclass": "OneLineListItem",
-                            "on_release": lambda x=0:self.show_confirmation_dialog(),
-                            # "on_leave": lambda x=0:self.dropdownplaylist.dismiss(),
                         },
 
                     ]
@@ -410,13 +406,28 @@ class MainGridLayout(Widget):
         self.playlistindextoaddsong=index
         print(index)
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
-    def selectplaylist(self,*args):
-        index=args[0].index 
-        self.playlistindex=index
-        self.showsong(self.playlistlist[index])
-        self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
-        self.searchedShow = False
+    def selectplaylist(self,instance,touch):
+        if instance.collide_point(touch.x,touch.y):
+            if touch.button == 'right':
+                self.playlistoption = [
+                    {
+                        "text": f"Remove playlist",
+                        "viewclass": "OneLineListItem"
+                    },
+                ]
+                self.dropdownplaylist.caller = instance
+                self.dropdownplaylist.items = self.playlistoption
+                self.dropdownplaylist.open()
+            else:
+                index=instance.index 
+                self.playlistindex=index
+                self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
+                self.showsong(self.playlistlist[index])
+                self.searchedShow = False
     
+    def removeplaylist():
+        pass
+
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')        
@@ -472,7 +483,7 @@ class MainGridLayout(Widget):
         #print(self.playlistlist)
         #print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
-        
+        self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
 
     def reload(self):
         fullpath=[]
