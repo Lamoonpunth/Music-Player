@@ -5,6 +5,7 @@ from os import stat
 from kivy import clock
 from kivy.app import App
 from kivy.core import text
+from kivymd.uix.dialog import MDDialog
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.lang.builder import Builder
