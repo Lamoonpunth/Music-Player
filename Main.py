@@ -112,6 +112,8 @@ class MainGridLayout(Widget):
         )
     class Refresh(MDIconButton):
         pass
+    class Remove(MDIconButton):
+        pass
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -371,7 +373,6 @@ class MainGridLayout(Widget):
                 self.searchQueue.pop(0)
             self.searchQueue.append(text)               
      
-        
     def StartSearchThread(self,text,search):
         self.searchThread = True
         self.searchedPlaylist.clearSong()
@@ -411,7 +412,6 @@ class MainGridLayout(Widget):
         #print(self.playlistlist)
         #print(self.playlistlist[0])
         self.queue.chooseplaylist(self.yoursong)
-        
 
     def reload(self):
         fullpath=[]

@@ -95,20 +95,22 @@
                             size:self.parent.width,self.parent.height
                             height:self.minimum_height
                             width:self.minimum_width
-                    #====================== needed class ==============================# เขียนให้แล้วนะไอ้หน้าหี      
-                    AddPlaylistButton:
-                        text: 'AddPlaylist'
-                        theme_text_color: "Custom"
-                        font_name: 'sf'
-                        text_color: (1,1,1,1)
-                        size_hint: 1,.1
-                        on_release: Factory.MyPopup().open()
-                             
+                    #====================== needed class ==============================# เขียนให้แล้วนะไอ้หน้าหี
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: None, None
+                        size: self.parent.width, self.parent.height*1/10
+                        AddPlaylistButton:
+                            text: 'AddPlaylist'
+                            theme_text_color: "Custom"
+                            font_name: 'sf'
+                            font_size: 18
+                            text_color: (1,1,1,1)
+                            size_hint: 1,1
+                            on_release: Factory.MyPopup().open()
+                        Remove:
 
-                        
-
-                          
-            #=========== เส้นแบ่ง ==============#                 
+            #=========== เส้นแบ่ง ==============#
             BoxLayout:
                 size_hint: (None,None)
                 size:self.parent.width*0.001,self.parent.height
@@ -424,5 +426,12 @@
     icon: 'refresh'
     pos_hint: {'center_x': .5, 'center_y': .5}
     padding: 20
+    theme_text_color: "Custom"
+    text_color: 1,1,1,1
+<Remove>:
+    id: removeButton
+    icon: 'playlist-remove'
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    padding: 10
     theme_text_color: "Custom"
     text_color: 1,1,1,1

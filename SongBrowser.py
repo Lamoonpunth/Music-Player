@@ -123,6 +123,7 @@ class Browser():
                 check_mp3 = ''
                 for i in range(3):
                     check_mp3 = song[-(i+1)] + check_mp3
+                # print(f'File type = {check_mp3}')
                 if check_mp3 == 'mp3':
                     name = os.path.join(Browser.path_file, Browser.choosed[0])[len(Browser.path_file)+1:]
                     #คัดลอกไฟล์เพลงไปยัง archive/song/
