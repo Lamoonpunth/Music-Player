@@ -1,6 +1,6 @@
 from re import search
 from kivy.config import Config
-Config.set('graphics','resizable', False)
+# Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -93,11 +93,6 @@ class MainGridLayout(Widget):
         #seek
         self.seekvalue = 0
         self.playtimeUpdateBool = True
-        #slidenorninit
-        self.playlistindex=0
-        self.showsong(self.yoursong)
-        self.showplaylist(self.playlistlist)
-        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
         #Add file and Download Components
         download_box = DownloadURL()
         song_browser = Browser().AddSong()
@@ -130,6 +125,12 @@ class MainGridLayout(Widget):
                 type="simple",
                 items=self.dialogitems,
             )
+        Window.maximize()
+        #slidenorninit
+        self.playlistindex=0
+        self.showsong(self.yoursong)
+        self.showplaylist(self.playlistlist)
+        self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
 
     class Refresh(MDIconButton):
         pass
