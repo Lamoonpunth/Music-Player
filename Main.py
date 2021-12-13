@@ -1,8 +1,5 @@
 from re import search
 from kivy.config import Config
-from kivymd.uix import boxlayout
-from kivymd.uix.button.button import MDFlatButton
-from PlaylistDialogBox import PlaylistDialogBox
 Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
@@ -17,6 +14,8 @@ from kivy.uix.button import Button
 from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix import boxlayout
+from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.clock import Clock
@@ -45,6 +44,7 @@ import ShuffleButton
 import RepeatButton
 import QueueButton
 import AddPlaylistButton
+from PlaylistDialogBox import PlaylistDialogBox
 from AddSongBox import AddSongBox
 import nltk
 from sort import quick_sort
@@ -64,6 +64,8 @@ class MainGridLayout(Widget):
         super().__init__(**kwargs)
         #print(f'Main width = {self.width}')
         #print(f'Main height = {self.height}')
+        # Window.bind(on_maximize=self.fixscroll)
+        # Window.bind(on_minimize=self.fixscroll)
         self.yoursong=[]
         self.playlistlist=[]
         self.menu_playlist=[]
@@ -530,11 +532,13 @@ class MainGridLayout(Widget):
                         }for i in range(len(self.playlistlist))
                     ]
     def EnterPlaylistName(self,name):
-        f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
-        for x in f:
-            continue
-        f.write("%"+name+"\n")
-        f.close()
+        self.playlistlist.append(playlist(name))
+        self.updateplaylistfile()
+        self.showplaylist(self.playlistlist)
+        
+    # def fixscroll(self,*args):
+    #     self.showplaylist(self.playlistlist)
+    #     self.showsong(self.playlistlist[self.playlistindex])
 # Main Application running Function
 class MainApp(MDApp):
     def build(self):
