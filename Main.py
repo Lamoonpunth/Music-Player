@@ -348,6 +348,7 @@ class MainGridLayout(Widget):
                         {
                             "text": f"Add to playlist",
                             "viewclass": "OneLineListItem",
+                            "on_release": self.show_confirmation_dialog
                         },
 
                     ]
