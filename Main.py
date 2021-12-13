@@ -429,10 +429,10 @@ class MainGridLayout(Widget):
                 self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
-    
+
     def removeplaylist(self, playlistindex):
-        # print(f'Remove playlist name = {self.playlistlist[playlistindex].name}')
-        # print(f'All playlist = {self.playlistlist.pop(playlistindex)}')
+        print(f'Remove playlist name = {self.playlistlist[playlistindex].name}')
+        print(f'All playlist = {self.playlistlist.pop(playlistindex)}')
         self.updateplaylistfile()
         self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
         self.dropdownplaylist.dismiss()
