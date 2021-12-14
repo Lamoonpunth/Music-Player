@@ -10,6 +10,8 @@ class playingqueue(list):
         self.Loop=False
     def clearqueue(self):
         self.musicqueue=[]
+    def clearonesong(self,index):
+        self.musicqueue.pop(index)
     def dequeue(self):
         if self.isEmpty():
             return ""
