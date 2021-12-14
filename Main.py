@@ -1,6 +1,7 @@
 from re import search
 from kivy.config import Config
 from kivymd.uix import boxlayout
+from ClearQueueBox import ClearQueueBox
 #from kivymd.uix.button.button import MDFlatButton
 from PlaylistDialogBox import PlaylistDialogBox
 Config.set('graphics','resizable', False)
@@ -162,6 +163,9 @@ class MainGridLayout(Widget):
             self.ids.queue_list.text_color=(1,0.60,0.75,1)
             self.ids.playlist_name.text='Queue'
             self.ids.sn.clear_widgets()
+            lb =ClearQueueBox()
+            self.ids.sn.add_widget(lb)
+            lb.bind(on_touch_down=self.clearqueue)
             for i in range(len(self.queue.musicqueue)):
                 t = self.queue.musicqueue[i].time
                 new_t = (t//60) + ((t%60)/100)
@@ -186,6 +190,10 @@ class MainGridLayout(Widget):
         lb = AddSongBox()
         self.ids.sn.add_widget(lb)
     
+    def clearqueue(self,instance,touch):
+        if instance.collide_point(touch.x,touch.y):
+            self.queue.clearqueue()
+            self.showqueue("auto")
     def addsongtoplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
             self.dialog.dismiss()
