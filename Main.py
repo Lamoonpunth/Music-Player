@@ -135,8 +135,7 @@ class MainGridLayout(Widget):
                 title="Choose Playlist",
                 type="simple",
                 items=self.dialogitems,
-                radius=[20, 7, 20, 7],
-                
+                radius=[20, 7, 20, 7],                
             )
         Window.maximize()
         #slidenorninit
@@ -442,6 +441,7 @@ class MainGridLayout(Widget):
                 self.playtimeUpdate()
                 self.bool = True
                 self.ids.play.icon = 'pause-circle'
+                
         #print(self.searchedShow,' ooo o oo ')
     def show_confirmation_dialog(self):
         self.dialogitems=[]
