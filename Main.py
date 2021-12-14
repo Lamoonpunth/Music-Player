@@ -67,6 +67,8 @@ user_width, user_height = pyautogui.size()
 Window.maximize()
 class ContentRename(BoxLayout):
     pass
+class ContentAddPlaylist(BoxLayout):
+    pass
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -555,7 +557,6 @@ class MainGridLayout(Widget):
         self.dialog.open()
         
     def getRename(self, inst):
-        self.menu.dismiss()
         for obj in self.dialog.content_cls.children:
             if isinstance(obj, MDTextField):
                 newName = obj.text
@@ -699,6 +700,37 @@ class MainGridLayout(Widget):
     # def fixscroll(self,*args):
     #     self.showplaylist(self.playlistlist)
     #     self.showsong(self.playlistlist[self.playlistindex])
+    def addplaylist(self,instance):
+        for obj in self.dialog.content_cls.children:
+            if isinstance(obj, MDTextField):
+                NewPlaylistName = obj.text
+                print(obj.text)  
+                obj.text =''
+        self.playlistlist.append(playlist(NewPlaylistName))
+        self.updateplaylistfile()
+        self.showplaylist(self.playlistlist)
+        self.dialog.dismiss()
+    def AddPlaylistDialog(self):
+        self.dialog=MDDialog(                                 
+                type="custom",                     
+                md_bg_color =  (.85,.85,.85,1),
+                content_cls = ContentAddPlaylist(),                                              
+                buttons=[
+                            MDFlatButton(
+                                    text="Confirm",
+                                    font_name= 'sf',
+                                    theme_text_color="Custom",
+                                    on_release = self.addplaylist
+                                ),
+                            MDFlatButton(
+                                    text="Cancel",
+                                    font_name= 'sf',
+                                    theme_text_color="Custom",              
+                                    on_release = self.close_dialog                           
+                                ),                        
+                        ],           
+        )
+        self.dialog.open()
 # Main Application running Function
 
 class MainApp(MDApp):
