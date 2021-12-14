@@ -200,11 +200,11 @@ class MainGridLayout(Widget):
             self.dialog.dismiss()
             playlistindex=instance.index
             alreadyhavecheck=False
-            for i in self.playlistlist[playlistindex].playlist:
-                print(i.name)
-                print(self.selectedsongpath.name)
-                if i.name == self.selectedsongpath.name:
-                    alreadyhavecheck=True
+            # for i in self.playlistlist[playlistindex].playlist:
+            #     print(i.name)
+            #     print(self.selectedsongpath.name)
+            #     if i.name == self.selectedsongpath.name:
+            #         alreadyhavecheck=True
             if alreadyhavecheck is False:
                 self.playlistlist[playlistindex].addsong(self.selectedsongpath)
                 #write
@@ -452,15 +452,21 @@ class MainGridLayout(Widget):
                 self.ids.play.icon = 'pause-circle'
         #print(self.searchedShow,' ooo o oo ')
     def show_confirmation_dialog(self):
+        self.menu.dismiss()
         self.dialogitems=[]
         for i in range(len(self.playlistlist)):
             if i==0:
                 continue
             else:
-                lb=PlaylistDialogBox(i,self.playlistlist[i].name)
-                lb.index=i
-                self.dialogitems.append(lb)
-                lb.bind(on_touch_down=self.addsongtoplaylist)
+                show=True
+                for j in self.playlistlist[i].playlist:
+                    if j.path==self.selectedsongpath.path:
+                        show=False
+                if show is True:
+                    lb=PlaylistDialogBox(i,self.playlistlist[i].name)
+                    lb.index=i
+                    self.dialogitems.append(lb)
+                    lb.bind(on_touch_down=self.addsongtoplaylist)
         self.dialog=MDDialog(
                 title="Choose Playlist",               
                 type="simple",

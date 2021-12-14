@@ -1,4 +1,3 @@
-archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
 %555+
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
 archive/song/Hey Ya!.mp3
@@ -7,4 +6,5 @@ archive/song/KANA-BOON - Silhouette.mp3
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
 archive/song/Hey Ya!.mp3
 archive/song/Hey Ya!.mp3
+archive/song/the peggies「センチメートル」Music Video.mp3
 %asdasd
