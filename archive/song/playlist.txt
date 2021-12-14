@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 %dddd
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
 archive/song/Hey Ya!.mp3
@@ -13,5 +12,3 @@ archive/song/Hey Ya!.mp3
 %fuck you
 %why
 %fffff
-=======
->>>>>>> 39faf7c4e2f75cfd3628d7ecde16f449327768ec
