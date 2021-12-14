@@ -1,6 +1,9 @@
 from re import search
 from kivy.config import Config
-# Config.set('graphics','resizable', False)
+from kivymd.uix import boxlayout
+#from kivymd.uix.button.button import MDFlatButton
+from PlaylistDialogBox import PlaylistDialogBox
+Config.set('graphics','resizable', False)
 from os import stat
 from kivy import clock
 from kivy.app import App
@@ -16,9 +19,10 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.textinput import TextInput
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.uix import boxlayout
-from kivymd.uix.button.button import MDFlatButton
+#from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.slider import MDSlider
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivymd.uix.dialog import MDDialog
@@ -103,13 +107,18 @@ class MainGridLayout(Widget):
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False 
         self.searchThread = False
+        self.isSearched = False
         self.searchQueue = []
         #dropdownmenu
         self.menu = MDDropdownMenu(
             width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
+            hor_growth = 'right',
+
         )
         self.dropdownplaylist = MDDropdownMenu(
             width_mult=4,
+            background_color=(0.2,0.2,0.2,1),
         )
         #addsongtoplaylist
         self.selectedsongpath=""
@@ -125,6 +134,8 @@ class MainGridLayout(Widget):
                 title="Choose Playlist",
                 type="simple",
                 items=self.dialogitems,
+                radius=[20, 7, 20, 7],
+                
             )
         Window.maximize()
         #slidenorninit
@@ -287,8 +298,7 @@ class MainGridLayout(Widget):
     def playtimeUpdate(self):      
         if self.searchQueue != [] and self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
-            t3.start()  
-              
+            t3.start()                
         self.sound.volume = self.volume+0.001
         self.sound.volume = self.volume       
         if self.playtimeUpdateBool is True:
@@ -344,11 +354,19 @@ class MainGridLayout(Widget):
                             "text": f"Add to queue",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+                           
                         },
                         {
                             "text": f"Add to playlist",
                             "viewclass": "OneLineListItem",
-                            "on_release": self.show_confirmation_dialog
+                            "on_release": self.show_confirmation_dialog,
+                            #"on_release": lambda x=0:self.show_confirmation_dialog(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+                            
+                            # "on_leave": lambda x=0:self.dropdownplaylist.dismiss(),
                         },
 
                     ]
@@ -358,11 +376,15 @@ class MainGridLayout(Widget):
                             "text": f"Add to queue",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.addtoqueue(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
                         },
                         {
                             "text": f"Remove from playlist",
                             "viewclass": "OneLineListItem",
                             "on_release": lambda x=0:self.removesongfromplaylist(),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
                         },
                     ]
                 print("open")
@@ -403,11 +425,14 @@ class MainGridLayout(Widget):
                 self.dialogitems.append(lb)
                 lb.bind(on_touch_down=self.addsongtoplaylist)
         self.dialog=MDDialog(
-                title="Choose Playlist",
+                title="Choose Playlist",               
                 type="simple",
                 items=self.dialogitems,
+                radius=[20, 7, 20, 7],
+                md_bg_color=(.85,.85,.85,1),                
             )
         self.dialog.open()
+
     def close_dialog(self,*args):
         self.dialog.dismiss()
 
@@ -423,6 +448,8 @@ class MainGridLayout(Widget):
                         "text": f"Remove playlist",
                         "viewclass": "OneLineListItem",
                         "on_release": lambda x=0:self.removeplaylist(instance.index),
+                        "theme_text_color" : "Custom",
+                        "text_color" : (1,.41,.69,1),
                     },
                 ]
                 self.dropdownplaylist.caller = instance
@@ -431,6 +458,7 @@ class MainGridLayout(Widget):
             else:
                 index=instance.index 
                 self.playlistindex=index
+                
                 self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
@@ -442,11 +470,12 @@ class MainGridLayout(Widget):
         self.showsong(self.playlistlist[0])
         self.showplaylist(self.playlistlist)
         self.dropdownplaylist.dismiss()
-
-    # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
-    def Searched_Song(self, text="", search=False):
-        # print(f'{type(yoursong)}')        
+        
+    def IsPressEnter(self,text=''):   
+        search = True       
+         # print(f'{type(yoursong)}')        
         self.searchQueue.append(text)
+        self.isSearched = True
         #print(text,'this is text')                           
         if self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
@@ -458,6 +487,25 @@ class MainGridLayout(Widget):
             if self.searchQueue != []:
                 self.searchQueue.pop(0)
             self.searchQueue.append(text)               
+        
+    # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
+    def Searched_Song(self, text="", search=False):
+        # print(f'{type(yoursong)}')   
+        if text =='' and self.isSearched:
+            self.searchQueue.append(text)
+            self.isSearched = False
+            #print(text,'this is text')                           
+            if self.searchThread is False:
+                t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
+                t3.start()      
+                if text == '':
+                    self.searchQueue =[]
+                return                   
+            elif self.searchThread is True:
+                if self.searchQueue != []:
+                    self.searchQueue.pop(0)
+                self.searchQueue.append(text)         
+            
      
     def StartSearchThread(self,text,search):
         self.searchThread = True
@@ -476,11 +524,11 @@ class MainGridLayout(Widget):
                     if temp<val:
                         val=temp
             ListofSong.append(songg)
-            ListofSim.append(val)         
+            ListofSim.append(val)        
                  
         temp = list(zip(ListofSim,ListofSong))
         quick_sort(0,len(temp)-1,temp)
-        for i in range(5):        
+        for i in range(len(temp)):        
             self.searchedPlaylist.addsong(temp[i][1])                               
         
         self.searchedShow = True   
@@ -500,7 +548,7 @@ class MainGridLayout(Widget):
         self.queue.chooseplaylist(self.yoursong)
         self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
 
-    def reload(self):
+    def reload(self):               
         fullpath=[]
         f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
         index=0
@@ -534,6 +582,7 @@ class MainGridLayout(Widget):
                             "viewclass": "OneLineListItem",
                         }for i in range(len(self.playlistlist))
                     ]
+    
     def EnterPlaylistName(self,name):
         f = open("archive/song/playlist.txt", "r+",encoding='utf-8')
         for x in f:

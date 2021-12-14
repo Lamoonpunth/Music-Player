@@ -13,6 +13,8 @@ class PlaylistDialogBox(OneLineAvatarListItem, ThemableBehavior, HoverBehavior):
         self.index=i
         self.name=name
         self.text=name
+        self.text_color = (1,0,0,1)
+        
 
     def on_enter(self, *args):
         self.md_bg_color = (0, 0, 0, .4)
