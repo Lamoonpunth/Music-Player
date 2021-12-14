@@ -272,7 +272,7 @@ class MainGridLayout(Widget):
     def nextpress(self,instance):
         added=False
         if self.queue.isEmpty() and self.ids.repeat.repeatstate == "repeatplaylist":
-            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.copyOriginal()
             self.queue.addfromqueuefirstsong()
             added=True
         elif self.queue.isEmpty():
