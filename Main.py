@@ -147,6 +147,9 @@ class MainGridLayout(Widget):
     class Refresh(MDIconButton):
         pass
 
+    class ToggleVolume(MDIconButton):
+        pass
+
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
         for i in range(len(playlistlist)):
