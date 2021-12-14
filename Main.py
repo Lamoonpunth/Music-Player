@@ -476,15 +476,23 @@ class MainGridLayout(Widget):
                     return
                 self.playlistoption = [
                     {
-                        "text": f"Remove playlist",
+                        "text": f"Remove Playlist",
                         "viewclass": "OneLineListItem",
                         "on_release": lambda x=0:self.removeplaylist(instance.index),
                         "theme_text_color" : "Custom",
                         "text_color" : (1,.41,.69,1),
                     },
-                ]
+                    {
+                        "text": f"Rename Playlist",
+                        "viewclass": "OneLineListItem",
+                        "on_release": lambda x=0:self.removeplaylist(instance.index),
+                        "theme_text_color" : "Custom",
+                        "text_color" : (1,.41,.69,1),
+                    },
+                ]                                            
+                
                 self.dropdownplaylist.caller = instance
-                self.dropdownplaylist.items = self.playlistoption
+                self.dropdownplaylist.items = self.playlistoption         
                 self.dropdownplaylist.open()
             else:
                 index=instance.index 
@@ -628,6 +636,7 @@ class MainGridLayout(Widget):
     #     self.showplaylist(self.playlistlist)
     #     self.showsong(self.playlistlist[self.playlistindex])
 # Main Application running Function
+
 class MainApp(MDApp):
     def build(self):
         self.title = 'Wanwai Player'
