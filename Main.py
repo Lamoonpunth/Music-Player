@@ -472,6 +472,8 @@ class MainGridLayout(Widget):
     def selectplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
             if touch.button == 'right':
+                if instance.index==0:
+                    return
                 self.playlistoption = [
                     {
                         "text": f"Remove playlist",
