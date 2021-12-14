@@ -173,6 +173,7 @@ class MainGridLayout(Widget):
                 time_text = f'{new_t}'
                 lb = SongBox(i+1,self.queue.musicqueue[i].name,time_text)
                 self.ids.sn.add_widget(lb)
+                lb.bind(on_touch_down=self.selectsonginqueue)
 
     def showsong(self,playlist): #spiderman
         self.ids.queue_list.queueshownow = False
@@ -349,6 +350,26 @@ class MainGridLayout(Widget):
         self.menu.dismiss()
         self.updateplaylistfile()
         self.showsong(self.playlistlist[self.playlistindex])
+    def removefromqueue(self,instance):
+        self.queue.clearonesong(instance.index)
+        self.showqueue("auto")
+        self.menu.dismiss()
+
+    def selectsonginqueue(self,instance,touch):
+        if instance.collide_point(touch.x,touch.y):
+            if touch.button == 'right':
+                self.menu_items = [{
+                            "text": f"Remove from queue",
+                            "viewclass": "OneLineListItem",
+                            "on_release": lambda x=0:self.removefromqueue(instance),
+                            "theme_text_color" : "Custom",
+                            "text_color" : (1,.41,.69,1),
+                           
+                        },]
+                self.menu.caller = instance
+                self.menu.items = self.menu_items
+                self.menu.open()
+
     # Choose song from songlist(ฟังก์ชันเมื่อกดเลือกเพลงจากในเพลย์ลิสต์)
     def selectsong(self,instance,touch):
         #print("instance {}".format(instance))
