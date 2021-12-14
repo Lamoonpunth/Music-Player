@@ -1,6 +1,7 @@
 from re import search
 from kivy.config import Config
 from kivymd.uix import boxlayout
+from kivymd.uix.textfield.textfield import MDTextField
 from ClearQueueBox import ClearQueueBox
 #from kivymd.uix.button.button import MDFlatButton
 from PlaylistDialogBox import PlaylistDialogBox
@@ -39,7 +40,7 @@ from SongBox import SongBox
 import pyautogui
 from PlaylistBox import PlaylistBox
 from kivy.core.text import Label, LabelBase
-from DownLoadButton import DownloadURL
+from DownLoadButton import Content, DownloadURL
 # from SongBrowser import AddSong
 from SongBrowser import Browser
 import time
@@ -64,7 +65,8 @@ user_width, user_height = pyautogui.size()
 # # Adjust Window size when start
 
 Window.maximize()
-
+class ContentRename(BoxLayout):
+    pass
 class MainGridLayout(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -75,7 +77,7 @@ class MainGridLayout(Widget):
         self.yoursong=[]
         self.playlistlist=[]
         self.menu_playlist=[]
-        self.reload()
+        self.reloadd()
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
         self.next.bind(on_press=self.nextpress)
@@ -194,6 +196,7 @@ class MainGridLayout(Widget):
         if instance.collide_point(touch.x,touch.y):
             self.queue.clearqueue()
             self.showqueue("auto")
+            
     def addsongtoplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
             self.dialog.dismiss()
@@ -252,7 +255,6 @@ class MainGridLayout(Widget):
     # Play button(ปุ่มเปิด-ปิดเพลง)
     def press(self, instance):
             self.ids.play.user_font_size= 80
-
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
@@ -510,7 +512,7 @@ class MainGridLayout(Widget):
                     {
                         "text": f"Rename Playlist",
                         "viewclass": "OneLineListItem",
-                        "on_release": lambda x=0:self.removeplaylist(instance.index),
+                        "on_release": lambda x=0:self.renamePlaylist(),
                         "theme_text_color" : "Custom",
                         "text_color" : (1,.41,.69,1),
                     },
@@ -526,7 +528,36 @@ class MainGridLayout(Widget):
                 self.ids.playlist_name.text = f'{self.playlistlist[index].name}'
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
-
+    
+    def renamePlaylist(self):              
+        self.dialog=MDDialog(                                 
+                type="custom",                     
+                md_bg_color =  (.85,.85,.85,1),
+                content_cls = ContentRename(),                                              
+                buttons=[
+                            MDFlatButton(
+                                    text="Rename",
+                                    font_name= 'sf',
+                                    theme_text_color="Custom",
+                                    on_release = self.getRename
+                                ),
+                            MDFlatButton(
+                                    text="Cancel",
+                                    font_name= 'sf',
+                                    theme_text_color="Custom",              
+                                    on_release = self.close_dialog                           
+                                ),                        
+                        ],           
+        )
+        self.dialog.open()
+        
+    def getRename(self, inst):                   
+        for obj in self.dialog.content_cls.children:
+            if isinstance(obj, MDTextField):
+                newName = obj.text
+                print(obj.text)  
+                obj.text =''                    
+        
     def removeplaylist(self, playlistindex):
         self.playlistlist.pop(playlistindex)
         self.updateplaylistfile()
@@ -604,7 +635,7 @@ class MainGridLayout(Widget):
         self.searchThread = False
         
     def refresh(self):
-        self.reload()
+        self.reloadd()
         self.showplaylist(self.playlistlist)
         self.showsong(self.yoursong)
         #print(self.playlistlist)
@@ -612,7 +643,7 @@ class MainGridLayout(Widget):
         self.queue.chooseplaylist(self.yoursong)
         self.ids.playlist_name.text = f'{self.playlistlist[0].name}'
 
-    def reload(self):               
+    def reloadd(self):               
         fullpath=[]
         f = open("archive/song/yoursongpath.txt", "r+",encoding='utf-8')
         index=0
@@ -656,7 +687,7 @@ class MainGridLayout(Widget):
         self.playlistlist.append(playlist(name))
         self.updateplaylistfile()
         self.showplaylist(self.playlistlist)
-        
+        self.refresh()
     # def fixscroll(self,*args):
     #     self.showplaylist(self.playlistlist)
     #     self.showsong(self.playlistlist[self.playlistindex])

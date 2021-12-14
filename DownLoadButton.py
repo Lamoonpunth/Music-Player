@@ -66,13 +66,16 @@ class DownloadURL(BoxLayout):
                     buttons=[
                         MDFlatButton(
                             text="CANCEL",
+                            font_name= 'sf',
                             theme_text_color="Custom",              
-                            on_release = self.clickCancel                           
+                            on_release = self.clickCancel  ,
+                                                     
                         ),
                         MDFlatButton(
                             text="OK",
+                            font_name= 'sf',
                             theme_text_color="Custom",
-                            on_release = self.grabText
+                            on_release = self.grabText,                            
                         ),
                     ],
                 )
