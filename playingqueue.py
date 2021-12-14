@@ -8,6 +8,8 @@ class playingqueue(list):
         self.playedstack=[]
         self.random=False
         self.Loop=False
+    def clearqueue(self):
+        self.musicqueue=[]
     def dequeue(self):
         if self.isEmpty():
             return ""
