@@ -188,8 +188,8 @@ class MainGridLayout(Widget):
             self.ids.sn.add_widget(lb)
             lb.bind(on_touch_down=self.selectsong)
             #dropdown
-        lb = AddSongBox()
-        self.ids.sn.add_widget(lb)
+        # lb = AddSongBox()
+        # self.ids.sn.add_widget(lb)
     
     def clearqueue(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
@@ -334,15 +334,20 @@ class MainGridLayout(Widget):
         if self.ids.shuffle.state is 'down':
             self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is ON')
+            self.queue.copyOriginal()
             random.shuffle(self.queue.musicqueue)
+            if self.ids.queue_list.queueshownow is True:
+                self.showqueue("auto")
         else:
             self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
-            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.copyOriginal()
             self.queue.addfromqueuefirstsong()
             for i in range(index):
-                self.queue.addfromqueue()   
+                self.queue.addfromqueue()
+            if self.ids.queue_list.queueshownow is True:
+                self.showqueue("auto")
 
     def addtoqueue(self):
         self.queue.enqueue(self.playlistlist[self.playlistindex].playlist[self.menu.caller.index])
@@ -436,9 +441,15 @@ class MainGridLayout(Widget):
                     self.queue.chooseplaylist(self.searchedPlaylist)
                 else:
                     self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
-                self.queue.addfromqueuefirstsong()
-                for i in range(index):
-                    self.queue.addfromqueue()
+                if self.ids.shuffle.state is 'down':
+                    self.queue.copyOriginal()
+                    self.queue.clearonesong(index)
+                    self.queue.nowplaying=self.playlistlist[self.playlistindex].playlist[index]
+                    random.shuffle(self.queue.musicqueue)
+                else:
+                    self.queue.addfromqueuefirstsong()
+                    for i in range(index):
+                        self.queue.addfromqueue()
                 self.soundpath = self.queue.nowplaying.getpath()
                 self.sound = SoundLoader.load(self.soundpath)
                 self.ids.song_name.text=self.queue.nowplaying.getname()

@@ -40,7 +40,7 @@ class playingqueue(list):
         return len(self.playedstack)==0
     def chooseplaylist(self,playlist):
         self.musicqueue=playlist.playlist.copy()
-        self.originalplaylist=playlist
+        self.originalplaylist=playlist.playlist.copy()
         self.nowplaying=""
         self.playedstack=[]
     def isEmpty(self):
