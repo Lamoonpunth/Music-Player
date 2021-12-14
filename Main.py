@@ -77,6 +77,7 @@ class MainGridLayout(Widget):
         self.yoursong=[]
         self.playlistlist=[]
         self.menu_playlist=[]
+        self.selectedplaylistindex=0
         self.reloadd()
         # self.start_stop.bind(on_press=self.press)
         self.play.bind(on_press=self.press)
@@ -499,6 +500,7 @@ class MainGridLayout(Widget):
     def selectplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
             if touch.button == 'right':
+                self.selectedplaylistindex=instance.index
                 if instance.index==0:
                     return
                 self.playlistoption = [
@@ -529,7 +531,8 @@ class MainGridLayout(Widget):
                 self.showsong(self.playlistlist[index])
                 self.searchedShow = False
     
-    def renamePlaylist(self):              
+    def renamePlaylist(self):
+        self.menu.dismiss()    
         self.dialog=MDDialog(                                 
                 type="custom",                     
                 md_bg_color =  (.85,.85,.85,1),
@@ -551,12 +554,17 @@ class MainGridLayout(Widget):
         )
         self.dialog.open()
         
-    def getRename(self, inst):                   
+    def getRename(self, inst):
+        self.menu.dismiss()
         for obj in self.dialog.content_cls.children:
             if isinstance(obj, MDTextField):
                 newName = obj.text
                 print(obj.text)  
-                obj.text =''                    
+                obj.text =''
+        self.playlistlist[self.selectedplaylistindex].name=newName
+        self.updateplaylistfile()
+        self.showplaylist(self.playlistlist)
+        self.dialog.dismiss()   
         
     def removeplaylist(self, playlistindex):
         self.playlistlist.pop(playlistindex)
