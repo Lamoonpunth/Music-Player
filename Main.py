@@ -202,6 +202,7 @@ class MainGridLayout(Widget):
             self.playlistlist[playlistindex].addsong(self.selectedsongpath)
             #write
             self.updateplaylistfile()
+            self.refresh()
     
     def updateplaylistfile(self):
         f = open("archive/song/playlist.txt", "w",encoding='utf-8')
