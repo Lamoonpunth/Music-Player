@@ -39,7 +39,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         color=(1,1,1,1))
         self.add_widget(lb)
         #song name
-        print(f'size = {self.size}')
+        # print(f'size = {self.size}')
         lb=Label(size_hint_x= .7,
         halign= 'left',
         text_size= (0.7*self.width,None),
@@ -59,7 +59,7 @@ class SongBox(ButtonBehavior,MDBoxLayout, ThemableBehavior, HoverBehavior):
         font_size=18,
         color=(1,1,1,1))
         self.add_widget(lb)
-        print(self.index)
+        # print(self.index)
     def on_enter(self, *args):
         self.md_bg_color = (0, 0, 0, .3)
     def on_leave(self, *args):

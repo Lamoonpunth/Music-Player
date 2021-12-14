@@ -187,8 +187,8 @@ class MainGridLayout(Widget):
             self.ids.sn.add_widget(lb)
             lb.bind(on_touch_down=self.selectsong)
             #dropdown
-        lb = AddSongBox()
-        self.ids.sn.add_widget(lb)
+        # lb = AddSongBox()
+        # self.ids.sn.add_widget(lb)
     
     def clearqueue(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
@@ -198,9 +198,17 @@ class MainGridLayout(Widget):
         if instance.collide_point(touch.x,touch.y):
             self.dialog.dismiss()
             playlistindex=instance.index
-            self.playlistlist[playlistindex].addsong(self.selectedsongpath)
-            #write
-            self.updateplaylistfile()
+            alreadyhavecheck=False
+            # for i in self.playlistlist[playlistindex].playlist:
+            #     print(i.name)
+            #     print(self.selectedsongpath.name)
+            #     if i.name == self.selectedsongpath.name:
+            #         alreadyhavecheck=True
+            if alreadyhavecheck is False:
+                self.playlistlist[playlistindex].addsong(self.selectedsongpath)
+                #write
+                self.updateplaylistfile()
+                self.refresh()
     
     def updateplaylistfile(self):
         f = open("archive/song/playlist.txt", "w",encoding='utf-8')
@@ -325,15 +333,20 @@ class MainGridLayout(Widget):
         if self.ids.shuffle.state is 'down':
             self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is ON')
+            self.queue.copyOriginal()
             random.shuffle(self.queue.musicqueue)
+            if self.ids.queue_list.queueshownow is True:
+                self.showqueue("auto")
         else:
             self.ids.shuffle.text_color = [1,0.41,0.69,1]
             print(f'Shuffle is OFF')
             index=self.queue.nowplayingindex
-            self.queue.chooseplaylist(self.queue.originalplaylist)
+            self.queue.copyOriginal()
             self.queue.addfromqueuefirstsong()
             for i in range(index):
-                self.queue.addfromqueue()   
+                self.queue.addfromqueue()
+            if self.ids.queue_list.queueshownow is True:
+                self.showqueue("auto")
 
     def addtoqueue(self):
         self.queue.enqueue(self.playlistlist[self.playlistindex].playlist[self.menu.caller.index])
@@ -415,8 +428,8 @@ class MainGridLayout(Widget):
                             "text_color" : (1,.41,.69,1),
                         },
                     ]
-                print("open")
-                print(instance)
+                # print("open")
+                # print(instance)
                 self.menu.caller = instance
                 self.menu.items = self.menu_items
                 self.menu.open()
@@ -427,9 +440,15 @@ class MainGridLayout(Widget):
                     self.queue.chooseplaylist(self.searchedPlaylist)
                 else:
                     self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
-                self.queue.addfromqueuefirstsong()
-                for i in range(index):
-                    self.queue.addfromqueue()
+                if self.ids.shuffle.state is 'down':
+                    self.queue.copyOriginal()
+                    self.queue.clearonesong(index)
+                    self.queue.nowplaying=self.playlistlist[self.playlistindex].playlist[index]
+                    random.shuffle(self.queue.musicqueue)
+                else:
+                    self.queue.addfromqueuefirstsong()
+                    for i in range(index):
+                        self.queue.addfromqueue()
                 self.soundpath = self.queue.nowplaying.getpath()
                 self.sound = SoundLoader.load(self.soundpath)
                 self.ids.song_name.text=self.queue.nowplaying.getname()
@@ -444,15 +463,21 @@ class MainGridLayout(Widget):
                 
         #print(self.searchedShow,' ooo o oo ')
     def show_confirmation_dialog(self):
+        self.menu.dismiss()
         self.dialogitems=[]
         for i in range(len(self.playlistlist)):
             if i==0:
                 continue
             else:
-                lb=PlaylistDialogBox(i,self.playlistlist[i].name)
-                lb.index=i
-                self.dialogitems.append(lb)
-                lb.bind(on_touch_down=self.addsongtoplaylist)
+                show=True
+                for j in self.playlistlist[i].playlist:
+                    if j.path==self.selectedsongpath.path:
+                        show=False
+                if show is True:
+                    lb=PlaylistDialogBox(i,self.playlistlist[i].name)
+                    lb.index=i
+                    self.dialogitems.append(lb)
+                    lb.bind(on_touch_down=self.addsongtoplaylist)
         self.dialog=MDDialog(
                 title="Choose Playlist",               
                 type="simple",
@@ -467,7 +492,7 @@ class MainGridLayout(Widget):
 
     def changeselectedplaylist(self,index):
         self.playlistindextoaddsong=index
-        print(index)
+        # print(index)
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
     def selectplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
