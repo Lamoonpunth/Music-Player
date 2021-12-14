@@ -199,10 +199,17 @@ class MainGridLayout(Widget):
         if instance.collide_point(touch.x,touch.y):
             self.dialog.dismiss()
             playlistindex=instance.index
-            self.playlistlist[playlistindex].addsong(self.selectedsongpath)
-            #write
-            self.updateplaylistfile()
-            self.refresh()
+            alreadyhavecheck=False
+            for i in self.playlistlist[playlistindex].playlist:
+                print(i.name)
+                print(self.selectedsongpath.name)
+                if i.name == self.selectedsongpath.name:
+                    alreadyhavecheck=True
+            if alreadyhavecheck is False:
+                self.playlistlist[playlistindex].addsong(self.selectedsongpath)
+                #write
+                self.updateplaylistfile()
+                self.refresh()
     
     def updateplaylistfile(self):
         f = open("archive/song/playlist.txt", "w",encoding='utf-8')
@@ -417,8 +424,8 @@ class MainGridLayout(Widget):
                             "text_color" : (1,.41,.69,1),
                         },
                     ]
-                print("open")
-                print(instance)
+                # print("open")
+                # print(instance)
                 self.menu.caller = instance
                 self.menu.items = self.menu_items
                 self.menu.open()
@@ -468,7 +475,7 @@ class MainGridLayout(Widget):
 
     def changeselectedplaylist(self,index):
         self.playlistindextoaddsong=index
-        print(index)
+        # print(index)
     # Choose playlist(ฟังก์ชันสำหรับเลือกเพลย์ลิสต์)
     def selectplaylist(self,instance,touch):
         if instance.collide_point(touch.x,touch.y):
