@@ -107,6 +107,7 @@ class MainGridLayout(Widget):
         self.searchedPlaylist = playlist('sPlaylist')       
         self.searchedShow = False 
         self.searchThread = False
+        self.isSearched = False
         self.searchQueue = []
         #dropdownmenu
         self.menu = MDDropdownMenu(
@@ -474,6 +475,7 @@ class MainGridLayout(Widget):
         search = True       
          # print(f'{type(yoursong)}')        
         self.searchQueue.append(text)
+        self.isSearched = True
         #print(text,'this is text')                           
         if self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
@@ -489,8 +491,9 @@ class MainGridLayout(Widget):
     # Search song in Playlist(ค้นหาเพลงในเพลย์ลิสต์)
     def Searched_Song(self, text="", search=False):
         # print(f'{type(yoursong)}')   
-        if text =='':
+        if text =='' and self.isSearched:
             self.searchQueue.append(text)
+            self.isSearched = False
             #print(text,'this is text')                           
             if self.searchThread is False:
                 t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
@@ -502,7 +505,7 @@ class MainGridLayout(Widget):
                 if self.searchQueue != []:
                     self.searchQueue.pop(0)
                 self.searchQueue.append(text)         
-        
+            
      
     def StartSearchThread(self,text,search):
         self.searchThread = True
