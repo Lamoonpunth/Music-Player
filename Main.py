@@ -532,7 +532,7 @@ class MainGridLayout(Widget):
                 self.searchedShow = False
     
     def renamePlaylist(self):
-        self.menu.dismiss()    
+        self.dropdownplaylist.dismiss()    
         self.dialog=MDDialog(                                 
                 type="custom",                     
                 md_bg_color =  (.85,.85,.85,1),
