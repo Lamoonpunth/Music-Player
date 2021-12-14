@@ -540,9 +540,9 @@ class MainGridLayout(Widget):
             continue
         f.write("%"+name+"\n")
         f.close()
-        self.playlistlist.append(playlist(name))
-        self.updateplaylistfile()
-        self.showplaylist(self.playlistlist)
+        # self.playlistlist.append(playlist(name))
+        # self.updateplaylistfile()
+        # self.showplaylist(self.playlistlist)
         
     # def fixscroll(self,*args):
     #     self.showplaylist(self.playlistlist)

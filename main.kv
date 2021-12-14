@@ -419,7 +419,7 @@
             pos_hint: {"center_x": .5}
             on_release: Factory.MainGridLayout().EnterPlaylistName(myTextInput.text)
             on_release: root.dismiss()
-
+            on_release: Factory.MainGridLayout().refresh()
 
 <Refresh>:
     id: iButton
