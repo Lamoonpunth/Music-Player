@@ -487,7 +487,7 @@ class MainGridLayout(Widget):
                     self.dialogitems.append(lb)
                     lb.bind(on_touch_down=self.addsongtoplaylist)
         self.dialog=MDDialog(
-                title="Choose Playlist",               
+                title="[color=ffffff]Choose Playlist",               
                 type="simple",
                 items=self.dialogitems,
                 radius=[20, 7, 20, 7],
