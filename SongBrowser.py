@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.utils import platform
 from kivy.core.text import LabelBase
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.boxlayout import BoxLayout
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.gridlayout import GridLayout
@@ -43,19 +43,22 @@ class Browser():
             self.drives = MDDialog(                
                     type="custom",
                     title="Choose Drive",
+                    md_bg_color =  (.2,.2,.2,1),
                     buttons = []
                 )
             # กล่องแจ้งเตือนสำหรับ Error
             self.warning = MDDialog(                
                     type="custom",
                     title="Please choose .MP3 file",
+                    md_bg_color =  (.2,.2,.2,1),
                     buttons=[
-                        MDFlatButton(
+                        MDRectangleFlatButton(
                             text="OK",
                             font_size = 18,
                             font_name = 'sf',
                             theme_text_color="Custom",
-                            text_color = (0,0,0,1),
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1), 
                             on_release = self.warningConfirm
                         ),
                     ],
@@ -65,27 +68,34 @@ class Browser():
             if not self.box:
                 self.box = MDDialog(                
                     type="custom",
+                    md_bg_color =  (.2,.2,.2,1),
                     content_cls = self.songbrowser,
                     buttons=[
-                        MDFlatButton(
+                        MDRectangleFlatButton(
                             text="Browse from other drives",
                             font_size = 18,
                             font_name = 'sf',
                             theme_text_color="Custom",
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1), 
                             on_release = self.browse_other
                         ),
-                        MDFlatButton(
+                        MDRectangleFlatButton(
                             text="OK",
                             font_size = 18,
                             font_name = 'sf',
                             theme_text_color="Custom",
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1), 
                             on_release = self.clickConfirm
                         ),
-                        MDFlatButton(
+                        MDRectangleFlatButton(
                             text="CANCEL",
                             font_size = 18,
                             font_name = 'sf',
-                            theme_text_color="Custom",              
+                            theme_text_color="Custom",   
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1),            
                             on_release = self.clickCancel                           
                         ),
                     ],
@@ -96,17 +106,20 @@ class Browser():
             current_drive = self.get_win_drives()
             list = []
             for i in current_drive:
-                butt = MDFlatButton(
+                butt = MDRectangleFlatButton(
                         text=f"{i}",
                         font_size = 24,
                         font_name = 'sf',
                         theme_text_color="Custom",
+                        text_color = (1,1,1,1),
+                        line_color = (1,.41,.69,1), 
                         on_release = self.drive_selection_changed
                         )
                 list.append(butt)
             self.drives = MDDialog(                
                     type="custom",
                     title="Choose Drive",
+                    md_bg_color =  (.2,.2,.2,1),
                     buttons = list
                 )
             self.drives.open()

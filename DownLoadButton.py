@@ -1,7 +1,7 @@
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.textfield import MDTextField
@@ -20,6 +20,11 @@ KV = '''
     MDTextField:
         hint_text: "Enter Youtube URL"  
         font_name: 'sf'
+        color_mode: 'custom'
+        helper_text_mode: "on_focus"
+        line_color_normal: 1,.41,.69,1
+        line_color_focus: 1,.41,.69,1
+        current_hint_text_color: 1,1,1,1
 <DownloadURL>   
     size_hint_y: None      
     orientation: "horizontal"    
@@ -62,20 +67,25 @@ class DownloadURL(BoxLayout):
             if not self.dialog:
                 self.dialog = MDDialog(                
                     type="custom",                
+                    md_bg_color =  (.2,.2,.2,1),
                     content_cls=Content(),
                     buttons=[
-                        MDFlatButton(
-                            text="CANCEL",
-                            font_name= 'sf',
-                            theme_text_color="Custom",              
-                            on_release = self.clickCancel  ,
-                                                     
-                        ),
-                        MDFlatButton(
+                        MDRectangleFlatButton(
                             text="OK",
                             font_name= 'sf',
                             theme_text_color="Custom",
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1),   
                             on_release = self.grabText,                            
+                        ),
+                        MDRectangleFlatButton(
+                            text="CANCEL",
+                            font_name= 'sf',
+                            theme_text_color="Custom",    
+                            text_color = (1,1,1,1),
+                            line_color = (1,.41,.69,1),          
+                            on_release = self.clickCancel  ,
+                                                     
                         ),
                     ],
                 )
