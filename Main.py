@@ -52,6 +52,7 @@ import ShuffleButton
 import RepeatButton
 import QueueButton
 import AddPlaylistButton
+import ToggleVolume
 from PlaylistDialogBox import PlaylistDialogBox
 from AddSongBox import AddSongBox
 import nltk
@@ -87,6 +88,7 @@ class MainGridLayout(Widget):
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.shuffle.bind(on_press=self.shuffleState)
+        self.toggVol.bind(on_press=self.toggleVolumeState)
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
@@ -155,8 +157,7 @@ class MainGridLayout(Widget):
     class Refresh(MDIconButton):
         pass
 
-    class ToggleVolume(MDIconButton):
-        pass
+    
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -338,6 +339,13 @@ class MainGridLayout(Widget):
                     self.nextpress("instance")
                 value=0
             self.ids.playtime.value=value
+
+    def toggleVolumeState(self, instance):
+        if self.ids.toggVol.state is 'down':
+            self.ids.toggVol.text_color = [0.6,0.6,0.6,1]
+        else:
+            self.ids.toggVol.text_color = [1,0.41,0.69,1]
+
 
     # Shuffle song toggle button(เลือกเพื่อสุ่มเพลง)
     def shuffleState(self, instance):
@@ -576,6 +584,10 @@ class MainGridLayout(Widget):
             if isinstance(obj, MDTextField):
                 newName = obj.text
                 print(obj.text)  
+                if obj.text == '':
+                    obj.error = True
+                else:
+                    obj.error = False                    
                 obj.text =''
         if newName is not obj.text:
             self.playlistlist[self.selectedplaylistindex].name=newName
@@ -721,7 +733,11 @@ class MainGridLayout(Widget):
             if isinstance(obj, MDTextField):
                 NewPlaylistName = obj.text
                 print(obj.text)  
-                obj.text =''
+                if obj.text == '':
+                    obj.error = True
+                else:
+                    obj.error = False            
+                    obj.text =''
         if NewPlaylistName is not obj.text:
             self.playlistlist.append(playlist(NewPlaylistName))
             self.updateplaylistfile()
