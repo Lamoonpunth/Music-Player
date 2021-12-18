@@ -471,12 +471,21 @@
     padding: 20
     theme_text_color: "Custom"
     text_color: 1,1,1,1
-<ContentRename>    
+
+<ToggleVolume>:
+    id: toggVol
+    icon: 'volume-high'
+    user_font_size: 35
+    theme_text_color: "Custom"
+    pos_hint: {"center_x":0.5,"center_y":0.5}
+    text_color: [0.6,0.6,0.6,1]
+    ripple_scale: 0
+<ContentRename>
     orientation: "horizontal"
-    size_hint_y: None    
-    height: "50dp"    
+    size_hint_y: None
+    height: "50dp"
     MDTextField:
-        hint_text: "Rename"  
+        hint_text: "Rename"
         font_name: 'sf'
         color_mode: 'custom'
         helper_text_mode: "on_focus"
@@ -484,12 +493,12 @@
         line_color_focus: 1,.41,.69,1
         current_hint_text_color: 1,1,1,1
 
-<ContentAddPlaylist>    
+<ContentAddPlaylist>
     orientation: "horizontal"
-    size_hint_y: None    
-    height: "50dp"    
+    size_hint_y: None
+    height: "50dp"
     MDTextField:
-        hint_text: "Enter Your Playlist Name"  
+        hint_text: "Enter Your Playlist Name"
         font_name: 'sf'
         color_mode: 'custom'
         helper_text_mode: "on_focus"
