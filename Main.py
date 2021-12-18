@@ -30,7 +30,7 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
-import threading 
+import threading
 from playlist import playlist
 from playingqueue import playingqueue
 from song import song
