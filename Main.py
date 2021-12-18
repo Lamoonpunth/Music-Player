@@ -574,6 +574,10 @@ class MainGridLayout(Widget):
             if isinstance(obj, MDTextField):
                 newName = obj.text
                 print(obj.text)  
+                if obj.text == '':
+                    obj.error = True
+                else:
+                    obj.error = False                    
                 obj.text =''
         if newName is not obj.text:
             self.playlistlist[self.selectedplaylistindex].name=newName
@@ -719,7 +723,11 @@ class MainGridLayout(Widget):
             if isinstance(obj, MDTextField):
                 NewPlaylistName = obj.text
                 print(obj.text)  
-                obj.text =''
+                if obj.text == '':
+                    obj.error = True
+                else:
+                    obj.error = False            
+                    obj.text =''
         if NewPlaylistName is not obj.text:
             self.playlistlist.append(playlist(NewPlaylistName))
             self.updateplaylistfile()
