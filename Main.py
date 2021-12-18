@@ -575,10 +575,11 @@ class MainGridLayout(Widget):
                 newName = obj.text
                 print(obj.text)  
                 obj.text =''
-        self.playlistlist[self.selectedplaylistindex].name=newName
-        self.updateplaylistfile()
-        self.showplaylist(self.playlistlist)
-        self.dialog.dismiss()   
+        if newName is not obj.text:
+            self.playlistlist[self.selectedplaylistindex].name=newName
+            self.updateplaylistfile()
+            self.showplaylist(self.playlistlist)
+            self.dialog.dismiss()   
         
     def removeplaylist(self, playlistindex):
         self.playlistlist.pop(playlistindex)
@@ -719,10 +720,11 @@ class MainGridLayout(Widget):
                 NewPlaylistName = obj.text
                 print(obj.text)  
                 obj.text =''
-        self.playlistlist.append(playlist(NewPlaylistName))
-        self.updateplaylistfile()
-        self.showplaylist(self.playlistlist)
-        self.dialog.dismiss()
+        if NewPlaylistName is not obj.text:
+            self.playlistlist.append(playlist(NewPlaylistName))
+            self.updateplaylistfile()
+            self.showplaylist(self.playlistlist)
+            self.dialog.dismiss()
     def AddPlaylistDialog(self):
         self.dialog=MDDialog(                                 
                 type="custom",                     
