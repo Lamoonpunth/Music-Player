@@ -488,11 +488,12 @@
     MDTextField:
         hint_text: "Rename"
         font_name: 'sf'
-        color_mode: 'custom'
-        helper_text_mode: "on_focus"
+        color_mode: 'custom'                    
         line_color_normal: 1,.41,.69,1
         line_color_focus: 1,.41,.69,1
-        current_hint_text_color: 1,1,1,1
+        current_hint_text_color: 1,1,1,1        
+        helper_text_mode: "on_error"
+        helper_text: "Enter new name"
 
 <ContentAddPlaylist>
     orientation: "horizontal"
@@ -501,8 +502,9 @@
     MDTextField:
         hint_text: "Enter Your Playlist Name"
         font_name: 'sf'
-        color_mode: 'custom'
-        helper_text_mode: "on_focus"
+        color_mode: 'custom'   
         line_color_normal: 1,.41,.69,1
         line_color_focus: 1,.41,.69,1
-        current_hint_text_color: 1,1,1,1
+        current_hint_text_color: 1,1,1,1        
+        helper_text_mode: "on_error"
+        helper_text: "Enter playlist name"
