@@ -104,7 +104,7 @@
                             font_size: 18
                             text_color: (1,1,1,1)
                             size_hint: 1,1
-                            on_release: Factory.MyPopup().open()
+                            on_release: root.AddPlaylistDialog()
 
                         Label:
                             text: ''
@@ -473,4 +473,12 @@
     height: "50dp"    
     MDTextField:
         hint_text: "Rename"  
+        font_name: 'sf'
+
+<ContentAddPlaylist>    
+    orientation: "horizontal"
+    size_hint_y: None    
+    height: "50dp"    
+    MDTextField:
+        hint_text: "Enter Your Playlist Name"  
         font_name: 'sf'

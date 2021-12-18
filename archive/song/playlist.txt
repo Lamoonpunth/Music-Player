@@ -14,3 +14,6 @@ archive/song/Hey Ya!.mp3
 %why
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
 %isGod
+%fffff
+%hey
+%หล่อเท่
