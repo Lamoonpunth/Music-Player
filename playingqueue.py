@@ -1,4 +1,4 @@
-import playlist
+from playlist import playlist
 class playingqueue(list):
     def __init__(self):
         self.originalplaylist=[]

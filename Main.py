@@ -344,7 +344,9 @@ class MainGridLayout(Widget):
         if self.ids.shuffle.state is 'down':
             self.ids.shuffle.text_color = [0.6,0.6,0.6,1]
             print(f'Shuffle is ON')
+            temp=self.queue.nowplaying
             self.queue.copyOriginal()
+            self.queue.nowplaying=temp
             random.shuffle(self.queue.musicqueue)
             if self.ids.queue_list.queueshownow is True:
                 self.showqueue("auto")
