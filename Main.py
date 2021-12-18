@@ -719,10 +719,11 @@ class MainGridLayout(Widget):
                 NewPlaylistName = obj.text
                 print(obj.text)  
                 obj.text =''
-        self.playlistlist.append(playlist(NewPlaylistName))
-        self.updateplaylistfile()
-        self.showplaylist(self.playlistlist)
-        self.dialog.dismiss()
+        if NewPlaylistName is not obj.text:
+            self.playlistlist.append(playlist(NewPlaylistName))
+            self.updateplaylistfile()
+            self.showplaylist(self.playlistlist)
+            self.dialog.dismiss()
     def AddPlaylistDialog(self):
         self.dialog=MDDialog(                                 
                 type="custom",                     
