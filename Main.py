@@ -52,6 +52,7 @@ import ShuffleButton
 import RepeatButton
 import QueueButton
 import AddPlaylistButton
+import ToggleVolume
 from PlaylistDialogBox import PlaylistDialogBox
 from AddSongBox import AddSongBox
 import nltk
@@ -87,6 +88,7 @@ class MainGridLayout(Widget):
         self.next.bind(on_press=self.nextpress)
         self.prev.bind(on_press=self.prevpress)
         self.shuffle.bind(on_press=self.shuffleState)
+        self.toggVol.bind(on_press=self.toggleVolumeState)
         self.bool = False
         Clock.schedule_interval(lambda dt: self.playtimeUpdate(), 0.1)
         self.queue = playingqueue()
@@ -155,8 +157,7 @@ class MainGridLayout(Widget):
     class Refresh(MDIconButton):
         pass
 
-    class ToggleVolume(MDIconButton):
-        pass
+    
 
     def showplaylist(self,playlistlist):
         self.ids.playlistslide.clear_widgets()
@@ -234,8 +235,9 @@ class MainGridLayout(Widget):
         f.close()
     # Volume Bar(เพิ่มลดเสียง)
     def slide_it(self, *args):
-        self.volume = float(args[1]/100)
-        self.sound.volume = self.volume
+        if self.ids.toggVol.state is not 'down':
+            self.volume = float(args[1]/100)
+            self.sound.volume = self.volume
 
     # Update ProgressBar in Volume bar(แสดงผลระดับเสียง)
     def valuechange(self,*args):
@@ -267,11 +269,14 @@ class MainGridLayout(Widget):
             if self.bool is False:
                 self.play = Button(text='Play')
                 self.bool = True
-                self.sound.volume = self.volume+0.001
-                self.sound.volume = self.volume
+                if self.ids.toggVol.state is 'down':
+                    self.sound.volume = 0
+                else:
+                    self.sound.volume = self.volume+0.001
+                    self.sound.volume = self.volume
                 self.sound.play()
-                self.sound.volume = self.volume+0.001
-                self.sound.volume = self.volume
+                # self.sound.volume = self.volume+0.001
+                # self.sound.volume = self.volume
                 self.ids.play.icon = 'pause-circle'
             else:
                 self.play = Button(text='Stop')
@@ -295,11 +300,14 @@ class MainGridLayout(Widget):
         self.soundpath = self.queue.nowplaying.getpath()
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
-        self.sound.volume = self.volume+0.001
-        self.sound.volume = self.volume
+        if self.ids.toggVol.state is 'down':
+            self.sound.volume=0
+        else:
+            self.sound.volume = self.volume+0.001
+            self.sound.volume = self.volume
         self.sound.play()
-        self.sound.volume = self.volume+0.001
-        self.sound.volume=self.volume
+        # self.sound.volume = self.volume+0.001
+        # self.sound.volume=self.volume
         self.playtimeUpdate()
         self.bool = True
         self.ids.play.icon = 'pause-circle'
@@ -317,17 +325,23 @@ class MainGridLayout(Widget):
         self.sound = SoundLoader.load(self.soundpath)
         self.ids.song_name.text=self.queue.nowplaying.getname()
         self.sound.play()
-        self.sound.volume = self.volume+0.001
-        self.sound.volume=self.volume
+        if self.ids.toggVol.state is 'down':
+            self.sound.volume=0
+        else:
+            self.sound.volume = self.volume+0.001
+            self.sound.volume=self.volume
         self.playtimeUpdate()
 
     # Update ProgressBar in SongTime bar(แสดงผลช่วงเวลาในเพลง)
     def playtimeUpdate(self):      
         if self.searchQueue != [] and self.searchThread is False:
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
-            t3.start()                
-        self.sound.volume = self.volume+0.001
-        self.sound.volume = self.volume       
+            t3.start()
+        if self.ids.toggVol.state is 'down':
+            self.sound.volume=0
+        else:
+            self.sound.volume = self.volume+0.001
+            self.sound.volume = self.volume
         if self.playtimeUpdateBool is True:
             #print(self.ids.playtime.value_pos)
             value=int(self.sound.get_pos()*10000/self.sound.length)
@@ -339,6 +353,13 @@ class MainGridLayout(Widget):
                 value=0
             self.ids.playtime.value=value
 
+    def toggleVolumeState(self, instance):
+        if self.ids.toggVol.state is 'down':
+            self.ids.toggVol.text_color = [0.6,0.6,0.6,1]
+        else:
+            self.ids.toggVol.text_color = [1,0.41,0.69,1]
+
+
     # Shuffle song toggle button(เลือกเพื่อสุ่มเพลง)
     def shuffleState(self, instance):
         if self.ids.shuffle.state is 'down':
@@ -346,8 +367,10 @@ class MainGridLayout(Widget):
             print(f'Shuffle is ON')
             temp=self.queue.nowplaying
             self.queue.copyOriginal()
-            self.queue.nowplaying=temp
             random.shuffle(self.queue.musicqueue)
+            self.queue.originalplaylist=self.queue.musicqueue.copy()
+            self.queue.originalplaylist.insert(0,temp)
+            self.queue.nowplaying=temp
             if self.ids.queue_list.queueshownow is True:
                 self.showqueue("auto")
         else:
@@ -454,10 +477,11 @@ class MainGridLayout(Widget):
                 else:
                     self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
                 if self.ids.shuffle.state is 'down':
-                    self.queue.copyOriginal()
                     self.queue.clearonesong(index)
                     self.queue.nowplaying=self.playlistlist[self.playlistindex].playlist[index]
                     random.shuffle(self.queue.musicqueue)
+                    self.queue.originalplaylist=self.queue.musicqueue.copy()
+                    self.queue.originalplaylist.insert(0,self.queue.nowplaying)
                 else:
                     self.queue.addfromqueuefirstsong()
                     for i in range(index):
@@ -465,11 +489,14 @@ class MainGridLayout(Widget):
                 self.soundpath = self.queue.nowplaying.getpath()
                 self.sound = SoundLoader.load(self.soundpath)
                 self.ids.song_name.text=self.queue.nowplaying.getname()
-                self.sound.volume = self.volume+0.001
-                self.sound.volume=self.volume
+                if self.ids.toggVol.state is 'down':
+                    self.sound.volume=0
+                else:    
+                    self.sound.volume = self.volume+0.001
+                    self.sound.volume=self.volume
                 self.sound.play()
-                self.sound.volume = self.volume+0.001
-                self.sound.volume=self.volume
+                # self.sound.volume = self.volume+0.001
+                # self.sound.volume=self.volume
                 self.playtimeUpdate()
                 self.bool = True
                 self.ids.play.icon = 'pause-circle'
@@ -729,7 +756,9 @@ class MainGridLayout(Widget):
                     obj.error = False            
                     obj.text =''
         if NewPlaylistName is not obj.text:
-            self.playlistlist.append(playlist(NewPlaylistName))
+            tempplaylist=playlist(NewPlaylistName)
+            tempplaylist.clearSong()
+            self.playlistlist.append(tempplaylist)
             self.updateplaylistfile()
             self.showplaylist(self.playlistlist)
             self.dialog.dismiss()
