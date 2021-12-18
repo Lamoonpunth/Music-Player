@@ -104,7 +104,7 @@
                             font_size: 18
                             text_color: (1,1,1,1)
                             size_hint: 1,1
-                            on_release: Factory.MyPopup().open()
+                            on_release: root.AddPlaylistDialog()
 
                         Label:
                             text: ''
@@ -449,9 +449,11 @@
     pos_hint: {"x": .2 ,"top": .7}
     BoxLayout:
         orientation: 'vertical'
-        TextInput:
+        MDTextField:
             id: myTextInput
-            font_size: 24
+            font_size: 24                  
+            font_name: 'sf'      
+            theme_text_color: "Custom"
             multiline: False  
         Button:
             text: "Enter"
@@ -469,12 +471,28 @@
     padding: 20
     theme_text_color: "Custom"
     text_color: 1,1,1,1
+<ContentRename>    
+    orientation: "horizontal"
+    size_hint_y: None    
+    height: "50dp"    
+    MDTextField:
+        hint_text: "Rename"  
+        font_name: 'sf'
+        color_mode: 'custom'
+        helper_text_mode: "on_focus"
+        line_color_normal: 1,.41,.69,1
+        line_color_focus: 1,.41,.69,1
+        current_hint_text_color: 1,1,1,1
 
-<ToggleVolume>:
-    id: toggVol
-    icon: 'volume-high'
-    user_font_size: 35
-    theme_text_color: "Custom"
-    pos_hint: {"center_x":0.5,"center_y":0.5}
-    text_color: [0.6,0.6,0.6,1]
-    ripple_scale: 0
+<ContentAddPlaylist>    
+    orientation: "horizontal"
+    size_hint_y: None    
+    height: "50dp"    
+    MDTextField:
+        hint_text: "Enter Your Playlist Name"  
+        font_name: 'sf'
+        color_mode: 'custom'
+        helper_text_mode: "on_focus"
+        line_color_normal: 1,.41,.69,1
+        line_color_focus: 1,.41,.69,1
+        current_hint_text_color: 1,1,1,1
