@@ -55,10 +55,10 @@
                         MDTextField:
                             id: search_song
                             icon_right: 'magnify'
+                            color_mode: 'custom'
                             icon_right_color: 1,1,1,1
                             hint_text: 'Search Song'
                             font_name: 'sf'
-                            color_mode: 'custom'
                             helper_text_mode: "on_focus"
                             line_color_normal: 1,.41,.69,1
                             line_color_focus: 1,.41,.69,1
@@ -438,6 +438,7 @@
                         user_font_size: 35
                         theme_text_color: "Custom"
                         pos_hint: {"center_x":0.5,"center_y":0.5}
+                        ripple_scale: 0
                         text_color: [0.6,0.6,0.6,1]
                         on_state: root.toggleVolumeState
                     MDSlider:

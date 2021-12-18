@@ -3,5 +3,8 @@
 %why
 %what
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
+archive/song/do re mi.mp3
+archive/song/スパークル [original ver.] -Your name. Music Video edition- 予告編 from new album「人間開花」初回盤DVD.mp3
 %e
+archive/song/Hey Ya!.mp3
 %fff
