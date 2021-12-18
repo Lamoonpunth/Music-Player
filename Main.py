@@ -346,8 +346,9 @@ class MainGridLayout(Widget):
             print(f'Shuffle is ON')
             temp=self.queue.nowplaying
             self.queue.copyOriginal()
-            self.queue.nowplaying=temp
             random.shuffle(self.queue.musicqueue)
+            self.queue.originalplaylist=self.queue.musicqueue.copy()
+            self.queue.originalplaylist.insert(0,temp)
             if self.ids.queue_list.queueshownow is True:
                 self.showqueue("auto")
         else:
@@ -454,10 +455,11 @@ class MainGridLayout(Widget):
                 else:
                     self.queue.chooseplaylist(self.playlistlist[self.playlistindex])
                 if self.ids.shuffle.state is 'down':
-                    self.queue.copyOriginal()
                     self.queue.clearonesong(index)
                     self.queue.nowplaying=self.playlistlist[self.playlistindex].playlist[index]
                     random.shuffle(self.queue.musicqueue)
+                    self.queue.originalplaylist=self.queue.musicqueue.copy()
+                    self.queue.originalplaylist.insert(0,self.queue.nowplaying)
                 else:
                     self.queue.addfromqueuefirstsong()
                     for i in range(index):
