@@ -1,9 +1,10 @@
 from re import search
 from kivy.config import Config
 from kivymd.uix import boxlayout
-from kivymd.uix.textfield.textfield import MDTextField
+from kivymd.uix.textfield import MDTextField
 from ClearQueueBox import ClearQueueBox
 #from kivymd.uix.button.button import MDFlatButton
+from kivymd.uix.button import MDRectangleFlatButton
 from PlaylistDialogBox import PlaylistDialogBox
 Config.set('graphics','resizable', False)
 from os import stat
@@ -139,8 +140,10 @@ class MainGridLayout(Widget):
         self.dialog=MDDialog(
                 title="Choose Playlist",
                 type="simple",
+                md_bg_color =  (.2,.2,.2,1),   
                 items=self.dialogitems,
-                radius=[20, 7, 20, 7],                
+                radius=[20, 7, 20, 7],      
+                      
             )
         Window.maximize()
         #slidenorninit
@@ -150,6 +153,9 @@ class MainGridLayout(Widget):
         self.ids.playlist_name.text = f'{self.playlistlist[self.playlistindex].name}'
 
     class Refresh(MDIconButton):
+        pass
+
+    class ToggleVolume(MDIconButton):
         pass
 
     def showplaylist(self,playlistlist):
@@ -484,11 +490,12 @@ class MainGridLayout(Widget):
                     self.dialogitems.append(lb)
                     lb.bind(on_touch_down=self.addsongtoplaylist)
         self.dialog=MDDialog(
-                title="Choose Playlist",               
+                title="[color=ffffff]Choose Playlist",               
                 type="simple",
                 items=self.dialogitems,
                 radius=[20, 7, 20, 7],
-                md_bg_color=(.85,.85,.85,1),                
+                md_bg_color=(.2,.2,.2,1),
+                #md_bg_color=(.85,.85,.85,1),                
             )
         self.dialog.open()
 
@@ -537,19 +544,23 @@ class MainGridLayout(Widget):
         self.dropdownplaylist.dismiss()    
         self.dialog=MDDialog(                                 
                 type="custom",                     
-                md_bg_color =  (.85,.85,.85,1),
+                md_bg_color =  (.2,.2,.2,1),
                 content_cls = ContentRename(),                                              
                 buttons=[
-                            MDFlatButton(
+                            MDRectangleFlatButton(
                                     text="Rename",
                                     font_name= 'sf',
                                     theme_text_color="Custom",
+                                    text_color = (1,1,1,1),
+                                    line_color = (1,.41,.69,1),
                                     on_release = self.getRename
                                 ),
-                            MDFlatButton(
+                            MDRectangleFlatButton(
                                     text="Cancel",
                                     font_name= 'sf',
-                                    theme_text_color="Custom",              
+                                    theme_text_color="Custom",   
+                                    text_color = (1,1,1,1),
+                                    line_color = (1,.41,.69,1),           
                                     on_release = self.close_dialog                           
                                 ),                        
                         ],           
@@ -713,19 +724,23 @@ class MainGridLayout(Widget):
     def AddPlaylistDialog(self):
         self.dialog=MDDialog(                                 
                 type="custom",                     
-                md_bg_color =  (.85,.85,.85,1),
+                md_bg_color =  (.2,.2,.2,1),
                 content_cls = ContentAddPlaylist(),                                              
                 buttons=[
-                            MDFlatButton(
+                            MDRectangleFlatButton(
                                     text="Confirm",
                                     font_name= 'sf',
                                     theme_text_color="Custom",
+                                    text_color = (1,1,1,1),
+                                    line_color = (1,.41,.69,1),
                                     on_release = self.addplaylist
                                 ),
-                            MDFlatButton(
+                            MDRectangleFlatButton(
                                     text="Cancel",
                                     font_name= 'sf',
-                                    theme_text_color="Custom",              
+                                    theme_text_color="Custom", 
+                                    text_color = (1,1,1,1),
+                                    line_color = (1,.41,.69,1),             
                                     on_release = self.close_dialog                           
                                 ),                        
                         ],           
