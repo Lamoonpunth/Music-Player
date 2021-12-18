@@ -357,6 +357,7 @@ class MainGridLayout(Widget):
             random.shuffle(self.queue.musicqueue)
             self.queue.originalplaylist=self.queue.musicqueue.copy()
             self.queue.originalplaylist.insert(0,temp)
+            self.queue.nowplaying=temp
             if self.ids.queue_list.queueshownow is True:
                 self.showqueue("auto")
         else:
