@@ -575,10 +575,11 @@ class MainGridLayout(Widget):
                 newName = obj.text
                 print(obj.text)  
                 obj.text =''
-        self.playlistlist[self.selectedplaylistindex].name=newName
-        self.updateplaylistfile()
-        self.showplaylist(self.playlistlist)
-        self.dialog.dismiss()   
+        if newName is not obj.text:
+            self.playlistlist[self.selectedplaylistindex].name=newName
+            self.updateplaylistfile()
+            self.showplaylist(self.playlistlist)
+            self.dialog.dismiss()   
         
     def removeplaylist(self, playlistindex):
         self.playlistlist.pop(playlistindex)
