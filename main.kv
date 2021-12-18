@@ -10,6 +10,7 @@
     next:next
     shuffle:shuffle
     repeat:repeat
+    toggVol:toggVol
     canvas:
         Rectangle:
             size:self.size
@@ -431,7 +432,14 @@
                 BoxLayout:
                     orientation: 'horizontal'
                     padding: 50
-                    ToggleVolume:
+                    ToggleVolumeButton:
+                        id: toggVol
+                        icon: 'volume-high'
+                        user_font_size: 35
+                        theme_text_color: "Custom"
+                        pos_hint: {"center_x":0.5,"center_y":0.5}
+                        text_color: [0.6,0.6,0.6,1]
+                        on_state: root.toggleVolumeState
                     MDSlider:
                         id: slide_volume
                         min: 0
@@ -472,14 +480,7 @@
     theme_text_color: "Custom"
     text_color: 1,1,1,1
 
-<ToggleVolume>:
-    id: toggVol
-    icon: 'volume-high'
-    user_font_size: 35
-    theme_text_color: "Custom"
-    pos_hint: {"center_x":0.5,"center_y":0.5}
-    text_color: [0.6,0.6,0.6,1]
-    ripple_scale: 0
+
 <ContentRename>
     orientation: "horizontal"
     size_hint_y: None
