@@ -9,9 +9,8 @@ def partition(start, end, array):
         if(start < end):
             array[start], array[end] = array[end], array[start]         
     array[end], array[pivot_index] = array[pivot_index], array[end]         
-    return end
-      
-# The main function that implements QuickSort 
+    return end      
+
 def quick_sort(start, end, array):      
     if (start < end):        
         p = partition(start, end, array)       

@@ -3,7 +3,6 @@ from kivy.config import Config
 from kivymd.uix import boxlayout
 from kivymd.uix.textfield import MDTextField
 from ClearQueueBox import ClearQueueBox
-#from kivymd.uix.button.button import MDFlatButton
 from kivymd.uix.button import MDRectangleFlatButton
 from PlaylistDialogBox import PlaylistDialogBox
 Config.set('graphics','resizable', False)
@@ -44,7 +43,6 @@ from kivy.core.text import Label, LabelBase
 from DownLoadButton import Content, DownloadURL
 # from SongBrowser import AddSong
 from SongBrowser import Browser
-import time
 import random
 import PlayButton
 import NextPrevButton
