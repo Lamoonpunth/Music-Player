@@ -165,5 +165,3 @@ def run():
 if __name__ == "__main__":
     t1 = threading.Thread(target=run(), name='t1')
     t1.start() 
-  
-    

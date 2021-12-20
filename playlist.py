@@ -2,8 +2,8 @@ class playlist(list):
     def __init__(self,name,playlist=[]):
         self.playlist=playlist
         self.name=name
-    def addsong(self,path):
-        self.playlist.append(path)
+    def addsong(self,song):
+        self.playlist.append(song)
     def clearSong(self):
         self.playlist = []
     def removesong(self,index):

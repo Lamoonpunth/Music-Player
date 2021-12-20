@@ -1,16 +1,33 @@
-%asdfasdf
+archive/song/[MV] 가호 - Running [스타트업 OST Part.5 (START-UP OST Part.5)].mp3
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
-archive/song/Hey Ya!.mp3
 archive/song/do re mi.mp3
+archive/song/スパークル [original ver.] -Your name. Music Video edition- 予告編 from new album「人間開花」初回盤DVD.mp3
+archive/song/วังวน - SERIOUS BACON ( ORIGINAL by ONEONE ).mp3
+archive/song/DAOKO × 米津玄師『打上花火』MUSIC VIDEO.mp3
+archive/song/【中日歌詞】陰陽眼見子 OP Full - 見えないからね! -「雨宮天」.mp3
+%Oat playlist
+archive/song/スパークル [original ver.] -Your name. Music Video edition- 予告編 from new album「人間開花」初回盤DVD.mp3
+archive/song/the peggies「センチメートル」Music Video.mp3
 archive/song/KANA-BOON - Silhouette.mp3
+archive/song/DAOKO × 米津玄師『打上花火』MUSIC VIDEO.mp3
+archive/song/【中日歌詞】陰陽眼見子 OP Full - 見えないからね! -「雨宮天」.mp3
+archive/song/DISH - No.1 [Official Video] (TVアニメ「僕のヒーローアカデミア」第5期OPテーマMY HERO ACADEMIA OPENING THEME).mp3
+archive/song/Official髭男dism - Cry Baby［Official Video］.mp3
+archive/song/たぶん.mp3
+archive/song/Demon Slayer Season 2 - Opening 2 Full『Zankyou Sanka』by Aimer.mp3
+archive/song/三原色.mp3
+%Jpop
+archive/song/วังวน - SERIOUS BACON ( ORIGINAL by ONEONE ).mp3
+archive/song/สายตาหลอกกันไม่ได้ (Eyes don't lie) - INK WARUNTORN [ Official MV ].mp3
+archive/song/ลืมเขาได้ยัง - SERIOUS BACON [Official MV].mp3
+archive/song/1001 (You’re Lovely) - SERIOUS BACON [ Official Lyrics ].mp3
+archive/song/อาวเล็ท เลาจ์ Owlet Lounge ft.UrboyTJ - ฟ้าสีจาง (Time Lapse) [Official Lyrics Video].mp3
+%ThaiPop
+archive/song/[MV] 가호 - Running [스타트업 OST Part.5 (START-UP OST Part.5)].mp3
+archive/song/Runy (러니) – [True] My ID is Gangnam Beauty ( 내 아이디는 강남미인) OST Part 1 Lyrics.mp3
+%Kpop
 archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
+archive/song/do re mi.mp3
 archive/song/Hey Ya!.mp3
-%asdf
-%dddd
-%qwer
-%123123
-%fuck you
-%why
-archive/song/Arizona Zervas - ROXANNE (Official Video).mp3
-%fffff
-%hey
+archive/song/Sad Machine.mp3
+%EN
