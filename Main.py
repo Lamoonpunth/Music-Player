@@ -336,6 +336,7 @@ class MainGridLayout(Widget):
             t3 = threading.Thread(target=self.StartSearchThread,args=(self.searchQueue.pop(0),search,), name='SearchingThread')              
             t3.start()
         if self.ids.toggVol.state is 'down':
+            self.sound.volume=0+0.000000001
             self.sound.volume=0
         else:
             self.sound.volume = self.volume+0.001
@@ -651,8 +652,7 @@ class MainGridLayout(Widget):
             elif self.searchThread is True:
                 if self.searchQueue != []:
                     self.searchQueue.pop(0)
-                self.searchQueue.append(text)         
-            
+                self.searchQueue.append(text)                    
      
     def StartSearchThread(self,text,search):
         self.searchThread = True
